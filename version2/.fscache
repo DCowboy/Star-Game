@@ -1,0 +1,26 @@
+::res://::1446878853
+Player.scn::PackedScene::1446668958::
+client.gd::GDScript::1446878853::
+client.scn::PackedScene::1446855439::
+created_nebula.scn::PackedScene::1446876685::
+hud.fnt::Font::1446848687::font<>../../../../../usr/share/fonts/truetype/freefont/FreeMonoBold.ttf<>0ddf086b566ac8cd68d5d28aaf25ebe7<>1392830445
+icon.png::ImageTexture::1445623934::
+map_edges.gd::GDScript::1446878853::
+movement.gd::GDScript::1446878853::
+player.gd::GDScript::1446855439::
+::res://resources::1446588993
+Nebula1.png::ImageTexture::1371515316::
+Nebula2.png::ImageTexture::1371515416::
+Nebula3.png::ImageTexture::1371515490::
+Planet6.png::ImageTexture::1397053754::
+Stars.png::ImageTexture::1371515002::
+Stars_x2.png::ImageTexture::1446575071::
+WB_baseu3_d0.png::ImageTexture::1394840136::
+engine_flame.png::ImageTexture::1424631921::
+mousepointer4_0.png::ImageTexture::1445224840::
+nebula1_beta.jpg::ImageTexture::1444164056::
+nebula1_beta.png::ImageTexture::1444164459::
+seamless space-x2.png::ImageTexture::1445624749::
+seamless space.PNG::ImageTexture::1445534646::
+seamless space_modified.png::ImageTexture::1445540677::
+security_ship.png::ImageTexture::1427219223::

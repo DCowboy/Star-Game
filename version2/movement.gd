@@ -1,39 +1,21 @@
 
 extends Node2D
-var map_size 
+var map_size
 var outer
 var outer_adj
 var inner
 var inner_adj
 var pos_adj
-var objects
-	
-func boundries():
-		for obj in objects:
-			var pos = obj.get_pos()
-			var new_pos = obj.get_pos()
-			if pos.x < -map_size.size.width / 2:
-				new_pos.x = map_size.size.width / 2
-			elif pos.x > map_size.size.width / 2:
-				new_pos.x = -map_size.size.width / 2
-			if pos.y < -map_size.size.height / 2:
-				new_pos.y = map_size.size.height / 2
-			elif pos.y > map_size.size.height / 2:
-				new_pos.y = -map_size.size.height / 2
-			
-			if pos != new_pos:
-				obj.set_pos(new_pos)
-		
 
-func movement():
+
+func move_bg():
 	var pos = get_parent().get_node("Player").get_pos()
 	inner.set_pos(-pos / inner_adj + pos_adj)
 	outer.set_pos(-pos / outer_adj + pos_adj)
-
+	
 
 func _process(delta):
-	movement()
-	boundries()
+	move_bg()
 	
 	
 func _ready():
@@ -63,6 +45,4 @@ func _ready():
 	get_viewport_rect().size.width / 2,\
 	get_viewport_rect().size.height / 2)
 	
-	objects = get_tree().get_nodes_in_group('object')
-
 	set_process(true)

@@ -29,8 +29,8 @@ func _input(event):
 
 func _fixed_process(delta):
 	if (engage == true):
-		velocity.x += -cos(rotate + deg2rad(90)) * thrust * delta
-		velocity.y += sin(rotate + deg2rad(90)) * thrust * delta
+		velocity.x += cos(rotate + deg2rad(90)) * thrust * delta
+		velocity.y += -sin(rotate + deg2rad(90)) * thrust * delta
 		get_node("Sprite/burner_left").set_emitting(true)
 		get_node("Sprite/burner_right").set_emitting(true)
 	else:
@@ -49,7 +49,7 @@ func _fixed_process(delta):
 			velocity.y = -max_velocity.y
 
 
-	move(-velocity)
+	move(velocity)
 	
 
 func _ready():

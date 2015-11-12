@@ -1,8 +1,6 @@
 
 extends ReferenceFrame
-#notes:
-#find issues with bounds. and see why things aren't lining up (thought as writing this: rect values might have been right the first time.)
-#alternatively, see about playing with Area2D to make edges
+
 var map_size 
 var objects
 var fixed

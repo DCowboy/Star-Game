@@ -57,13 +57,13 @@ func check_bounds():
 		if not obj in fixed:
 			var pos = obj.get_pos()
 			var new_pos = obj.get_pos()
-			if pos.x < -map_size.size.width / 2:
+			if pos.x <= -map_size.size.width / 2 - obj.get_item_rect().size.width / 2:
 				new_pos.x = map_size.size.width / 2
-			elif pos.x > map_size.size.width / 2:
+			elif pos.x >= map_size.size.width / 2 + obj.get_item_rect().size.width / 2:
 				new_pos.x = -map_size.size.width / 2
-			if pos.y < -map_size.size.height / 2:
+			if pos.y <= -map_size.size.height / 2 - obj.get_item_rect().size.height / 2:
 				new_pos.y = map_size.size.height / 2
-			elif pos.y > map_size.size.height / 2:
+			elif pos.y >= map_size.size.height / 2 + obj.get_item_rect().size.height / 2:
 				new_pos.y = -map_size.size.height / 2
 
 			if pos != new_pos:

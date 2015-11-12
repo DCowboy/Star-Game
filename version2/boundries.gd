@@ -1,8 +1,7 @@
 
 extends ReferenceFrame
 #notes:
-#find issues with bounds. and see why things aren't lining up (thought as writing this: rect values might have been right the first time.)
-#alternatively, see about playing with Area2D to make edges
+#this is one of the possible places to find the mysterious flicker
 var map_size 
 var objects
 var fixed
@@ -47,9 +46,9 @@ func check_edges():
 
 					for n in mirrors[obj.get_name() + edge]:
 						n.free()
-						print('freed')
+#						print('freed')
 					mirrors.erase(obj.get_name() + edge)
-					print('stopped freeing')
+#					print('stopped freeing')
 
 
 func check_bounds():
@@ -57,22 +56,23 @@ func check_bounds():
 		if not obj in fixed:
 			var pos = obj.get_pos()
 			var new_pos = obj.get_pos()
-			if pos.x <= -map_size.size.width / 2 - obj.get_item_rect().size.width / 2:
+			if pos.x <= -map_size.size.width / 2:
 				new_pos.x = map_size.size.width / 2
-			elif pos.x >= map_size.size.width / 2 + obj.get_item_rect().size.width / 2:
+			elif pos.x >= map_size.size.width / 2:
 				new_pos.x = -map_size.size.width / 2
-			if pos.y <= -map_size.size.height / 2 - obj.get_item_rect().size.height / 2:
+			if pos.y <= -map_size.size.height / 2:
 				new_pos.y = map_size.size.height / 2
-			elif pos.y >= map_size.size.height / 2 + obj.get_item_rect().size.height / 2:
+			elif pos.y >= map_size.size.height / 2:
 				new_pos.y = -map_size.size.height / 2
 
 			if pos != new_pos:
 				obj.set_pos(new_pos)
 
 
-func _process(delta):
-	check_bounds()
+func _fixed_process(delta):
 	check_edges()
+	check_bounds()
+
 	
 	
 func make_edge(loc):
@@ -139,4 +139,4 @@ func _ready():
 		edges[edge] = make_edge(edge)
 #		print(edge + ' :' + str(edges[edge].rect))
 #	print(objects)
-	set_process(true)
+	set_fixed_process(true)

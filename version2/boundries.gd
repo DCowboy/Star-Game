@@ -23,11 +23,7 @@ func add_mirrors(edge_name, edge_info, object):
 		new_sprite.set_rot(object.get_rot())
 		get_parent().add_child(new_sprite)
 		copies.append(new_sprite)
-#		print(new_sprite.get_pos())
 	mirrors[object.get_name() + edge_name] = copies
-#	print(mirrors)
-			
-	pass
 
 
 func check_edges():
@@ -36,18 +32,14 @@ func check_edges():
 		obj_rect.pos = obj.get_pos()
 		for edge in edges:
 			if edges[edge].rect.intersects(obj_rect):
-				print(obj.get_name() + ' intersects ' + edge)
 				if not mirrors.has(obj.get_name() + edge):
 					add_mirrors(edge, edges[edge], obj)
-					print('created: ' + obj.get_name() + edge + str(mirrors[obj.get_name() + edge]))
 			else:
 				if mirrors.has(obj.get_name() + edge):
 
 					for n in mirrors[obj.get_name() + edge]:
 						n.free()
-						print('freed')
 					mirrors.erase(obj.get_name() + edge)
-					print('stopped freeing')
 
 
 func check_bounds():
@@ -55,14 +47,14 @@ func check_bounds():
 		if not obj in fixed:
 			var pos = obj.get_pos()
 			var new_pos = obj.get_pos()
-			if pos.x <= -map_size.size.width / 2:
-				new_pos.x = map_size.size.width / 2
-			elif pos.x >= map_size.size.width / 2:
-				new_pos.x = -map_size.size.width / 2
-			if pos.y <= -map_size.size.height / 2:
-				new_pos.y = map_size.size.height / 2
-			elif pos.y >= map_size.size.height / 2:
-				new_pos.y = -map_size.size.height / 2
+			if pos.x <= -map_size.size.width / 2 + 1:
+				new_pos.x = map_size.size.width / 2 - 1
+			elif pos.x >= map_size.size.width / 2 - 1:
+				new_pos.x = -map_size.size.width / 2 + 1
+			if pos.y <= -map_size.size.height / 2 + 1:
+				new_pos.y = map_size.size.height / 2 - 1
+			elif pos.y >= map_size.size.height / 2 - 1:
+				new_pos.y = -map_size.size.height / 2 + 1
 
 			if pos != new_pos:
 				obj.set_pos(new_pos)
@@ -135,6 +127,4 @@ func _ready():
 	'center_left', 'center_right',
 	'bottom_left', 'bottom_center', 'bottom_right']:
 		edges[edge] = make_edge(edge)
-#		print(edge + ' :' + str(edges[edge].rect))
-#	print(objects)
 	set_fixed_process(true)

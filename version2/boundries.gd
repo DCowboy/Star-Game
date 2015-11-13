@@ -1,7 +1,6 @@
 
 extends ReferenceFrame
 
-
 var map_size 
 var objects
 var fixed
@@ -37,7 +36,7 @@ func check_edges():
 		obj_rect.pos = obj.get_pos()
 		for edge in edges:
 			if edges[edge].rect.intersects(obj_rect):
-#				print(obj.get_name() + ' intersects ' + edge)
+				print(obj.get_name() + ' intersects ' + edge)
 				if not mirrors.has(obj.get_name() + edge):
 					add_mirrors(edge, edges[edge], obj)
 					print('created: ' + obj.get_name() + edge + str(mirrors[obj.get_name() + edge]))
@@ -46,9 +45,9 @@ func check_edges():
 
 					for n in mirrors[obj.get_name() + edge]:
 						n.free()
-#						print('freed')
+						print('freed')
 					mirrors.erase(obj.get_name() + edge)
-#					print('stopped freeing')
+					print('stopped freeing')
 
 
 func check_bounds():
@@ -70,9 +69,8 @@ func check_bounds():
 
 
 func _fixed_process(delta):
-	check_edges()
 	check_bounds()
-
+	check_edges()
 	
 	
 func make_edge(loc):

@@ -1,0 +1,36 @@
+::res://::1447685790
+Player.scn::PackedScene::1447685587::
+asteroid.gd::GDScript::1447685455::
+boundries.gd::GDScript::1447685595::
+client.gd::GDScript::1447685455::
+client.scn::PackedScene::1447685455::
+created_nebula.scn::PackedScene::1447640434::
+cursor.gd::GDScript::1447685455::
+icon.png::ImageTexture::1445623934::
+large_asteroid.scn::PackedScene::1447639601::
+laser_shot.gd::GDScript::1447685595::
+laser_shot.scn::PackedScene::1447653203::
+medium_asteroid.scn::PackedScene::1447637924::
+movement.gd::GDScript::1447685455::
+player.gd::GDScript::1447685595::
+small_asteroid.scn::PackedScene::1447637809::
+::res://media::1447684837
+Nebula1.png::ImageTexture::1371515316::
+Nebula2.png::ImageTexture::1371515416::
+Nebula3.png::ImageTexture::1371515490::
+Planet6.png::ImageTexture::1397053754::
+Stars.png::ImageTexture::1371515002::
+Stars_x2.png::ImageTexture::1446575071::
+WB_baseu3_d0.png::ImageTexture::1394840136::
+beams.png::ImageTexture::1447607437::
+hud.fnt::Font::1446848687::font<>../../../../../usr/share/fonts/truetype/freefont/FreeMonoBold.ttf<>0ddf086b566ac8cd68d5d28aaf25ebe7<>0
+large-asteroid-sheet.png::ImageTexture::1447441388::
+medium-asteroid-sheet.png::ImageTexture::1447438420::
+mousepointer4_0.png::ImageTexture::1445224840::
+nebula1_beta.jpg::ImageTexture::1444164056::
+nebula1_beta.png::ImageTexture::1444164459::
+seamless space-x2.png::ImageTexture::1445624749::
+seamless space.PNG::ImageTexture::1445534646::
+seamless space_modified.png::ImageTexture::1445540677::
+security_ship.png::ImageTexture::1427219223::
+small-asteroid-sheet.png::ImageTexture::1447435659::

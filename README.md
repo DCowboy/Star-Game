@@ -14,8 +14,8 @@ so, unless you are using this for your own use. please offer advice instead.
 - [ ] Whatever else I have not thought of yet.
 
 ####On Project:
-- [ ] Finish map illusion
-- [ ] Add player sub-sprites
+- [x] Finish map illusion
+- [x] Add player sub-sprites
 - [ ] Create and implement other objects (like asteriods to start)
 - [ ] Create propper GUI
 - [ ] Anything else that will make me feel satisfied with the project's first stage.

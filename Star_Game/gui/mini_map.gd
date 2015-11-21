@@ -38,4 +38,4 @@ func get_pings():
 			dot.set_region_rect(Rect2(0, 0, 8, 8))
 			dot.set_rot(ping.get_rot())
 		get_node("Viewport").add_child(dot)
-		print(get_node("Viewport").get_child_count())
+	

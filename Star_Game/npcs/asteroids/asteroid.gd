@@ -13,8 +13,18 @@ var health
 
 
 func death():
-	queue_free()
-	pass
+	
+	var crumble
+	for child in range(get_child_count() -1):
+		get_child(child).free()
+	if str(get_name()).find('small_asteroid') != -1:
+		crumble = get_node("/root/globals").explosions.small_rock.instance()
+	elif str(get_name()).find('medium_asteroid') != -1:
+		crumble = get_node("/root/globals").explosions.med_rock.instance()
+	else:
+		crumble = get_node("/root/globals").explosions.large_rock.instance()
+	crumble.set_pos(get_pos())
+	self.replace_by(crumble)
 
 
 func hit_by(obj):

@@ -5,13 +5,11 @@ var direction
 var acceleration
 var shot_acceleration = 250
 var payload = 25
-var explosion
 var exploding = false
 var live = true
 
 
 func _ready():
-	explosion = preload('res://shared/small_explosion.scn')
 	acceleration += shot_acceleration
 	set_fixed_process(true)
 
@@ -28,7 +26,7 @@ func _fixed_process(delta):
 
 	if exploding or not live:
 		get_node("Sprite").hide()
-		var explode = explosion.instance()
+		var explode = get_node("/root/globals").explosions.small_normal.instance()
 		explode.set_pos(get_pos())
 		self.replace_by(explode)
 

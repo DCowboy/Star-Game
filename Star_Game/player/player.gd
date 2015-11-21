@@ -5,14 +5,14 @@ var max_health = 0
 var health = 0
 var engage = false
 var brake = false
-export var thrust = 10
+var thrust = 10
 var inertial_dampener = 0
+var rotation = Vector2(0, 0)
 var direction = Vector2(0, 0)
 var acceleration = 0
 var velocity = Vector2(0, 0)
-export var max_acceleration = 50
+var max_acceleration = 25
 var rotate = 0
-var ammo
 var shot_count = 0
 var fire = false
 var fired = false
@@ -25,6 +25,9 @@ func _input(event):
 		var mouse_pos = Vector2(event.pos.x - get_viewport_rect().size.width / 2, event.pos.y - get_viewport_rect().size.height / 2)
 		rotate = get_viewport_rect().pos.angle_to_point(mouse_pos)
 		get_child(0).set_rot(rotate)
+		rotation.x = cos(rotate + deg2rad(90))
+		rotation.y = -sin(rotate + deg2rad(90))
+		
 		
 	if event.is_action("accelerate"):
 		if event.is_pressed():
@@ -46,25 +49,13 @@ func _input(event):
 			
 func _ready():
 	mass = self.get_mass()
-	ammo = preload('res://npcs/projectiles/laser_shot.scn')
-	set_process(true)
 	set_fixed_process(true)
 	set_process_input(true)
-	
-	
-func _process(delta):
-	direction.x = cos(rotate + deg2rad(90))
-	direction.y = -sin(rotate + deg2rad(90))
-	
-	if fire and not fired:
-		fire()
-		fire = false
+
 
 func _fixed_process(delta):
-	if (engage == true):
-		if get_linear_damp() != 0:
-			inertial_dampener = 0
-
+	if engage:
+		direction = rotation
 		if acceleration < max_acceleration:
 			acceleration += thrust * delta
 		else: 
@@ -78,17 +69,29 @@ func _fixed_process(delta):
 
 	if brake:
 		inertial_dampener += sqrt(mass) * delta
+		
 		if acceleration > 0:
 			acceleration -= mass * delta
 		else:
 			acceleration = 0
+		
+	velocity = direction.normalized() * acceleration
 	
+		
+	if fire and not fired:
+		fire()
+		fire = false
+		
+	get_node("/root/globals").rotate = rotate
+	get_node("/root/globals").player_pos = get_pos()
 
 
 func _integrate_forces(state):
-	velocity = direction.normalized() * acceleration
+	if get_linear_velocity().length() == 0 or engage:
+		inertial_dampener = 0
 	set_linear_damp(inertial_dampener)
 	apply_impulse(Vector2(0, 0), velocity)
+
 
 
 func reward(reward):
@@ -107,11 +110,11 @@ func death():
 	
 func fire():
 	fired = true
-	var shot = ammo.instance()
-	shot.set_pos(Vector2(0, -get_child(0).get_texture().get_size().height / 2).rotated(rotate) + velocity)
+	var shot = get_node("/root/globals").projectile_types.small_laser.instance()
+	shot.set_pos(Vector2(0, -get_child(0).get_texture().get_size().height / 4).rotated(rotate) + velocity)
 	shot.set_rot(rotate)
-	shot.set('direction', direction)
-	shot.set('acceleration', max_acceleration + acceleration)
+	shot.direction = rotation
+	shot.acceleration = max_acceleration + acceleration
 	shot.set_name(shot.get_name() + ' ' + str(shot_count))
 	add_to_group('object', true)
 	add_child(shot)

@@ -18,7 +18,6 @@ func death():
 
 
 func hit_by(obj):
-	print(get_name() + ' was hit by ' + obj.get_name())
 	var reward = health
 		
 	if obj.get_type() == 'KinematicBody2D':
@@ -58,7 +57,6 @@ func _integrate_forces(state):
 	else:
 		set_linear_damp(0)
 
-
 	var hits = get_colliding_bodies()
 	for hit in hits:
 		hit_by(hit)
@@ -96,7 +94,8 @@ func _ready():
 	var initial_velocity = Vector2(0, 0)
 	initial_velocity.x = cos(deg2rad(rand_range(0, 360)))
 	initial_velocity.y = -sin(deg2rad(rand_range(0, 360)))
-	set_linear_velocity(initial_velocity.normalized() * rand_range(0, max_acceleration))
+	apply_impulse(Vector2(0, 0), initial_velocity.normalized() * rand_range(0, max_acceleration))
+
 
 
 

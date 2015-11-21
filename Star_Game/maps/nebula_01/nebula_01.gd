@@ -6,7 +6,6 @@ var outer_adj
 var inner
 var inner_adj
 var pos_adj
-var object_types = {}
 var objects = []
 
 
@@ -15,16 +14,14 @@ func move_bg():
 	inner.set_pos(-pos / inner_adj + pos_adj)
 	outer.set_pos(-pos / outer_adj + pos_adj)
 	
-
+	
 func _process(delta):
 	move_bg()
 	
 	
 func _ready():
-	object_types['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')
-	object_types['med_roid'] = preload('res://npcs/asteroids/medium_asteroid.scn')
-	object_types['large_roid'] = preload('res://npcs/asteroids/large_asteroid.scn')
-	map_size = get_node("area_map").get_item_rect()
+	map_size = get_node("area_map").map_size
+	get_node("/root/globals").map_size = map_size
 	
 	outer = get_node("BG/Outer_space")
 	#try texture.get_size * texture.get_transform.get_scale() - tried it, did not work as suggested.
@@ -42,8 +39,7 @@ func _ready():
 
 
 func populate():
-	var population = int(sqrt(map_size.size.length() / 10))
-	print(population)
+	var population = int(sqrt(map_size.size.length() / 20))
 	for each in range(population):
 		var info = {}
 		var material
@@ -63,19 +59,18 @@ func populate():
 func add_obj(info):
 	var entity
 	if info.size == 0:
-		entity = object_types.small_roid.instance()
+		entity = get_node("/root/globals").object_types.small_roid.instance()
 	elif info.size == 1:
-		entity = object_types.med_roid.instance()
+		entity = get_node("/root/globals").object_types.med_roid.instance()
 	else:
-		entity = object_types.large_roid.instance()
+		entity = get_node("/root/globals").object_types.large_roid.instance()
 	entity.set_pos(rand_pos(entity.get_child(0).get_region_rect().size))
 	entity.material = info.material
 	entity.shape = info.shape
 	entity.set_name(entity.get_name() + ' ' + str(info.name))
-
 	add_child(entity)
-#	objects.append(entity)
-	
+
+	entity.add_to_group('target', true)
 
 	
 func rand_pos(obj_size):

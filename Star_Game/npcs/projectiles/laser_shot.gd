@@ -10,7 +10,6 @@ var exploding = false
 var live = true
 
 
-
 func _ready():
 	explosion = preload('res://shared/small_explosion.scn')
 	acceleration += shot_acceleration
@@ -22,7 +21,6 @@ func _fixed_process(delta):
 		move(direction * acceleration * delta)
 
 		if is_colliding():
-			print('hit ' + get_collider())
 			if get_collider() != null and get_collider().get_name() != 'player':
 				hit_by(get_collider())
 			get_collider().hit_by(self)

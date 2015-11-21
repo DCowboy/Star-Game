@@ -1,6 +1,7 @@
 
 extends ReferenceFrame
 
+
 var map_size 
 var mirrors = {}
 
@@ -13,8 +14,9 @@ func add_mirrors(object, offsets, edge_name):
 		var new_sprite = Sprite.new()
 		if object.get_type() in ['KinematicBody2D', 'RigidBody2D', 'StaticBody2D', 'Area2D']:
 			new_sprite.set_texture(object.get_child(0).get_texture())
-			new_sprite.set_region(true)
-			new_sprite.set_region_rect(object.get_child(0).get_region_rect())
+			if object.get_child(0).is_region() == true:
+				new_sprite.set_region(true)
+				new_sprite.set_region_rect(object.get_child(0).get_region_rect())
 		else:
 			new_sprite.set_texture(object.get_texture())
 		new_sprite.set_scale(object.get_scale())
@@ -46,34 +48,39 @@ func check_bounds():
 	for obj in mirrors:
 		var pos = mirrors[obj].parent.get_pos()
 		var new_pos = mirrors[obj].parent.get_pos()
-		if pos.x <= -map_size.size.width / 2 + 1:
-			new_pos.x = map_size.size.width / 2 - 1
-		elif pos.x >= map_size.size.width / 2 - 1:
-			new_pos.x = -map_size.size.width / 2 + 1
-		if pos.y <= -map_size.size.height / 2 + 1:
-			new_pos.y = map_size.size.height / 2 - 1
-		elif pos.y >= map_size.size.height / 2 - 1:
-			new_pos.y = -map_size.size.height / 2 + 1
+		if pos.x <= -map_size.size.width / 2 + 10:
+			new_pos.x = map_size.size.width / 2 - 10
+		elif pos.x >= map_size.size.width / 2 - 10:
+			new_pos.x = -map_size.size.width / 2 + 10
+		if pos.y <= -map_size.size.height / 2 + 10:
+			new_pos.y = map_size.size.height / 2 - 10
+		elif pos.y >= map_size.size.height / 2 - 10:
+			new_pos.y = -map_size.size.height / 2 + 10
 
 		if pos != new_pos:
 			mirrors[obj].parent.set_pos(new_pos)
 
 
 func _fixed_process(delta):
+
+		
 	update_mirrors()
 	check_bounds()
 	
 	
-func make_edge(loc):
-	
+func make_ready():
 	pass
 
 func _ready():
 	map_size = get_item_rect()
 	
+	
 	set_fixed_process(true)
+	
+	
 
 func _on_top_left_body_enter( body ):
+	
 	var name = 'top_left'
 	var offsets = [Vector2(0, map_size.size.height),
 		Vector2(map_size.size.width, map_size.size.height),
@@ -88,6 +95,7 @@ func _on_top_left_body_exit( body ):
 
 
 func _on_top_center_body_enter( body ):
+	
 	var name = 'top_center'
 	var offsets = [Vector2(0, map_size.size.height)]
 	add_mirrors(body, offsets, name)
@@ -101,6 +109,7 @@ func _on_top_center_body_exit( body ):
 
 func _on_top_right_body_enter( body ):
 	var name = 'top_right'
+	
 	var offsets = [Vector2(-map_size.size.width, 0),
 		Vector2(-map_size.size.width, -map_size.size.height),
 		Vector2(0, -map_size.size.height)]

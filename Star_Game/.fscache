@@ -1,7 +1,6 @@
 ::res://::1447793206
 client.gd::GDScript::1447793206::
 client.scn::PackedScene::1447793198::
-health_bar.gd::GDScript::1447749889::
 icon.png::ImageTexture::1445623934::
 ::res://gui::1447793206
 cursor.gd::GDScript::1447793206::
@@ -42,8 +41,6 @@ laser_shot.scn::PackedScene::1447743002::
 Player.scn::PackedScene::1447707349::
 player.gd::GDScript::1447793206::
 ::res://shared::1447793206
-entity.gd::GDScript::1447738560::
-entity.scn::PackedScene::1447738560::
 mini_info.gd::GDScript::1447793206::
 mini_info.scn::PackedScene::1447754818::
 small_explosion.gd::GDScript::1447743225::

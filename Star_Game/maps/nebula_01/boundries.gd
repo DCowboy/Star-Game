@@ -7,18 +7,17 @@ var mirrors = {}
 
 
 func add_mirrors(object, offsets, edge_name):
+	#creates illusion for world wrap by adding sprites in opposite sides of the map
+	# 1 for sides and 3 for corners
 	var copies = {}
 	var images = []
 	var parent = object
 	for offset in offsets:
 		var new_sprite = Sprite.new()
-		if object.get_type() in ['KinematicBody2D', 'RigidBody2D', 'StaticBody2D', 'Area2D']:
-			new_sprite.set_texture(object.get_child(0).get_texture())
-			if object.get_child(0).is_region() == true:
-				new_sprite.set_region(true)
-				new_sprite.set_region_rect(object.get_child(0).get_region_rect())
-		else:
-			new_sprite.set_texture(object.get_texture())
+		new_sprite.set_texture(object.get_child(0).get_texture())
+		if object.get_child(0).is_region() == true:
+			new_sprite.set_region(true)
+			new_sprite.set_region_rect(object.get_child(0).get_region_rect())
 		new_sprite.set_scale(object.get_scale())
 		new_sprite.set_pos(object.get_pos() + offset)
 		new_sprite.set_rot(object.get_rot())
@@ -29,13 +28,14 @@ func add_mirrors(object, offsets, edge_name):
 	copies['offsets'] = offsets
 	mirrors[object.get_name() + edge_name] = copies
 
-
 func remove_mirrors(name, edge):
+	#deletes illusion sprites if out of edge area
 	for image in mirrors[name + edge].images:
 		image.free()
 	mirrors.erase(name + edge)
 
 func update_mirrors():
+	#moves illusion sprites while in edge area to correspond to partent sprite
 	for mirror in mirrors:
 		var pos = mirrors[mirror].parent.get_pos()
 		var index = 0
@@ -45,6 +45,7 @@ func update_mirrors():
 
 
 func check_bounds():
+	#checks bounds for world wrap and moves accordingly
 	for obj in mirrors:
 		var pos = mirrors[obj].parent.get_pos()
 		var new_pos = mirrors[obj].parent.get_pos()
@@ -62,25 +63,19 @@ func check_bounds():
 
 
 func _fixed_process(delta):
-
+	#checks to see if it should bother doing anything
+	if mirrors.size() > 0:
+		update_mirrors()
+		check_bounds()
 		
-	update_mirrors()
-	check_bounds()
-	
-	
-func make_ready():
-	pass
 
 func _ready():
 	map_size = get_item_rect()
-	
-	
 	set_fixed_process(true)
 	
-	
-
-func _on_top_left_body_enter( body ):
-	
+#signal calls for objects who enter and leave edge areas
+#------------------------------------------------------------
+func _on_top_left_body_enter( body ):	
 	var name = 'top_left'
 	var offsets = [Vector2(0, map_size.size.height),
 		Vector2(map_size.size.width, map_size.size.height),
@@ -94,8 +89,7 @@ func _on_top_left_body_exit( body ):
 	remove_mirrors(obj_name, name)
 
 
-func _on_top_center_body_enter( body ):
-	
+func _on_top_center_body_enter( body ):	
 	var name = 'top_center'
 	var offsets = [Vector2(0, map_size.size.height)]
 	add_mirrors(body, offsets, name)
@@ -108,8 +102,7 @@ func _on_top_center_body_exit( body ):
 
 
 func _on_top_right_body_enter( body ):
-	var name = 'top_right'
-	
+	var name = 'top_right'	
 	var offsets = [Vector2(-map_size.size.width, 0),
 		Vector2(-map_size.size.width, -map_size.size.height),
 		Vector2(0, -map_size.size.height)]

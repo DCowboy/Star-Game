@@ -11,7 +11,7 @@ var rotation = Vector2(0, 0)
 var direction = Vector2(0, 0)
 var acceleration = 0
 var velocity = Vector2(0, 0)
-var max_acceleration = 25
+var max_acceleration = 10
 var rotate = 0
 var shot_count = 0
 var fire = false
@@ -22,6 +22,7 @@ var hit = false
 
 func _input(event):
 	if (event.type == InputEvent.MOUSE_MOTION):
+		#have player always point to mouse cursor and set that direction for movement
 		var mouse_pos = Vector2(event.pos.x - get_viewport_rect().size.width / 2, event.pos.y - get_viewport_rect().size.height / 2)
 		rotate = get_viewport_rect().pos.angle_to_point(mouse_pos)
 		get_child(0).set_rot(rotate)
@@ -35,6 +36,7 @@ func _input(event):
 		else:
 			engage = false
 	elif event.is_action("decelerate"):
+	
 		if event.is_pressed():
 			brake = true
 		else:
@@ -99,26 +101,30 @@ func reward(reward):
 
 
 func hit_by(obj):
-	
+	#process info when hit
 	pass
 	
 	
 func death():
-	
+	#process death
 	pass
 	
 	
 func fire():
+	#make player have to press button again to shoot again
 	fired = true
+	#create shot and send it off
 	var shot = get_node("/root/globals").projectile_types.small_laser.instance()
 	shot.set_pos(Vector2(0, -get_child(0).get_texture().get_size().height / 4).rotated(rotate) + velocity)
 	shot.set_rot(rotate)
 	shot.direction = rotation
 	shot.acceleration = max_acceleration + acceleration
+	#sets a unique name to later be identified if needed
 	shot.set_name(shot.get_name() + ' ' + str(shot_count))
 	add_to_group('object', true)
 	add_child(shot)
 	PS2D.body_add_collision_exception(shot.get_rid(),get_rid())
 	shot_count += 1
-	if shot_count >= 100:
+	#reset counter to reuse numbers for unique name
+	if shot_count >= 25:
 		shot_count = 0

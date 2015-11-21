@@ -1,4 +1,4 @@
-
+# info child for objects TODO: Replace health label with a health bar
 extends Node2D
 var name
 var max_health

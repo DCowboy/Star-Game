@@ -7,19 +7,17 @@ var inner
 var inner_adj
 var pos_adj
 var objects = []
-
-
-func move_bg():
+	
+	
+func _process(delta):
+	#moves background layers to correspond with player position creating a distance illusion
 	var pos = get_parent().get_node("Player").get_pos()
 	inner.set_pos(-pos / inner_adj + pos_adj)
 	outer.set_pos(-pos / outer_adj + pos_adj)
 	
 	
-func _process(delta):
-	move_bg()
-	
-	
 func _ready():
+	get_node("/root/globals").current_map = self
 	map_size = get_node("area_map").map_size
 	get_node("/root/globals").map_size = map_size
 	
@@ -34,62 +32,9 @@ func _ready():
 	
 	pos_adj = Vector2(\
 	get_viewport_rect().size.width / 2, get_viewport_rect().size.height / 2)
-	populate()
+	
+	get_node("/root/globals").player_pos = get_parent().get_node("Player").get_pos()
+	get_node("/root/globals").full_populate()
 	set_process(true)
 
-
-func populate():
-	var population = int(sqrt(map_size.size.length() / 20))
-	for each in range(population):
-		var info = {}
-		var material
-		var material_seed = int(rand_range(0, 3))
-		info['size'] = int(rand_range(0, 3))
-		info['shape'] = int(rand_range(0, 3))
-		if material_seed == 0:
-			material = 'normal'
-		elif material_seed == 1:
-			material = 'solid'
-		else:
-			material = 'ore'
-		info['material'] = material
-		info['name'] = each
-		add_obj(info)
-
-func add_obj(info):
-	var entity
-	if info.size == 0:
-		entity = get_node("/root/globals").object_types.small_roid.instance()
-	elif info.size == 1:
-		entity = get_node("/root/globals").object_types.med_roid.instance()
-	else:
-		entity = get_node("/root/globals").object_types.large_roid.instance()
-	entity.set_pos(rand_pos(entity.get_child(0).get_region_rect().size))
-	entity.material = info.material
-	entity.shape = info.shape
-	entity.set_name(entity.get_name() + ' ' + str(info.name))
-	add_child(entity)
-
-	entity.add_to_group('target', true)
-
-	
-func rand_pos(obj_size):
-	var ojects = get_tree().get_nodes_in_group('object')
-	var valid = false
-	var pos = Vector2(0, 0)
-	while not valid:
-		pos.x = rand_range(-map_size.size.width / 2 + obj_size.width, map_size.size.width / 4 - obj_size.width / 2)
-		pos.y = rand_range(-map_size.size.height / 2 + obj_size.height, map_size.size.height / 4 - obj_size.height / 2)
-		for obj in objects:
-			if obj.get_type() == 'RigidBody2D' and obj.get_name() != 'player':
-				if Vector2(pos - obj_size).length() > obj_size.length() * 1.5:
-					valid = true
-				else:
-					valid = false
-			else:
-				if Vector2(pos - obj.get_item_rect.size * 2).length() > Vector2(obj.get_item_rect().size * 2).length():
-					valid = true
-				else:
-					valid = false
-		return pos
 

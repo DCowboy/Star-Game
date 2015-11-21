@@ -13,16 +13,16 @@ var health
 
 
 func death():
-	
 	var crumble
-	for child in range(get_child_count() -1):
-		get_child(child).free()
-	if str(get_name()).find('small_asteroid') != -1:
+	if size == 0:
 		crumble = get_node("/root/globals").explosions.small_rock.instance()
-	elif str(get_name()).find('medium_asteroid') != -1:
+	elif size == 1:
 		crumble = get_node("/root/globals").explosions.med_rock.instance()
 	else:
 		crumble = get_node("/root/globals").explosions.large_rock.instance()
+	for child in range(get_child_count() -1):
+		get_child(child).free()
+	
 	crumble.set_pos(get_pos())
 	self.replace_by(crumble)
 
@@ -86,14 +86,14 @@ func _ready():
 		
 	var unit = get_child(0).get_texture().get_size() / 3
 	var region_pos = Vector2(0, 0)
-	if material == 'normal':
+	if material == 0:
 		health_base = int(rand_range(13, 25))
 		region_pos.x = unit.x * 2
-	elif material == 'ore':
-		health_base = int(rand_range(65, 125))
+	elif material == 1:
+		health_base = int(rand_range(26, 50))
 		region_pos.x = unit.x * 1
 	else:
-		health_base = int(rand_range(26, 50))
+		health_base = int(rand_range(65, 125))
 		region_pos.x = unit.x * 0
 	region_pos.y = unit.y * shape
 	get_child(0).set_region_rect(Rect2(region_pos, unit))

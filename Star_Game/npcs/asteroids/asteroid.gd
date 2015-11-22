@@ -32,14 +32,14 @@ func death():
 		description['size'] = size - 1
 		description['shape'] = int(rand_range(0, 3))
 		for n in range(number):
-			pos.x += rand_range(-get_child(0).get_texture().get_size().width / 2, get_child(0).get_texture().get_size().width / 2)
-			pos.y += rand_range(-get_child(0).get_texture().get_size().height / 2, get_child(0).get_texture().get_size().height / 2)
+			pos.x += rand_range(-get_child(0).get_texture().get_size().width * .4, get_child(0).get_texture().get_size().width * .4)
+			pos.y += rand_range(-get_child(0).get_texture().get_size().height * .4, get_child(0).get_texture().get_size().height * .4 )
 			description['pos'] = pos
 			get_node("/root/globals").add_entity(description, 1)
 	for child in range(get_child_count() -1):
 		get_child(child).free()
 	crumble.set_pos(get_pos())
-	self.replace_by(crumble)
+	self.call_deferred('replace_by', crumble)
 
 
 func hit_by(obj):
@@ -49,7 +49,7 @@ func hit_by(obj):
 		health -=  obj.payload
 		if health <= 0:
 			health = 0
-	elif obj.material != null:
+	elif 'material' in obj:
 		if obj.get_mass() > get_mass():
 			health += (obj.get_mass() + get_mass()) / 2.5
 		if health > max_health:

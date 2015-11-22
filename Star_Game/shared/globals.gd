@@ -36,29 +36,31 @@ func _ready():
 func full_populate():
 	#randomly populate the map
 	var to_add = {}
-	var data = {}
-	var population = int(sqrt(map_size.size.length() / 20))
+
+	var population = int(map_size.size.length() / 100)
 	for each in range(population):
+		var data = {}
 		var info = {}
 		var name
+		var type
 		info['parent'] = current_map
-		info['type'] = '_roid'
-		if info.type == '_roid':
+		type = '_roid'
+		if type == '_roid':
 			var modifier = ['small', 'med', 'large']
 			info['size'] = int(rand_range(0, 3))
-			info['modifier'] = modifier[info.size]
+			info['type'] = modifier[info.size] + type
 			info['material'] = int(rand_range(0, 3))
 			info['shape'] = int(rand_range(0, 3))
-			name = info.modifier + info.type + str(info.material) + str(info.shape)
+			info['pos'] = rand_pos()
+			name = info.type + str(info.material) + str(info.shape)
 		data['description'] = info
 		
-		if name in to_add:
-			to_add[name].number += 1
-			print('added one for total: ' + str(to_add[name].number))
-		else:
+		if not name in to_add:
 			data['number'] = 1
 			to_add[name] = data
-	
+			
+		else:
+			to_add[name].number = to_add[name].number + 1
 	for each in to_add:
 		add_entity(to_add[each].description, to_add[each].number)
 
@@ -66,26 +68,26 @@ func full_populate():
 func add_entity(description, number):
 	#add certain number of a specific entity to a specific parent
 	for each in range(number):
-		var entity = object_types[description.modifier + description.type].instance()
-		if description.type == '_roid':
+		var entity = object_types[description.type].instance()
+		if str(description.type).find('_roid') != -1:
 			entity.size = description.size
 			entity.material = description.material
 			entity.shape = description.shape
-		entity.set_name(entity.get_type() + "_" + str(number))
-		entity.set_pos(rand_pos(entity.get_item_rect()))
+		entity.set_pos(description.pos)
 		current_map.add_child(entity)
 		entity.add_to_group('target', true)
 
+
 	
 
-func rand_pos(obj_size):
+func rand_pos():
 	#get a random position not too close to the player
 	var valid = false
 	var pos = Vector2(0, 0)
 	while not valid:
-		pos.x = rand_range(-map_size.size.width / 2 + obj_size.size.width, map_size.size.width / 2 - obj_size.size.width / 2)
-		pos.y = rand_range(-map_size.size.height / 2 + obj_size.size.height, map_size.size.height / 2 - obj_size.size.height / 2)
-		if Vector2(player_pos - obj_size.size).length() > 100:  #obj_size.size.length() * 5:
+		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
+		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
+		if Vector2(player_pos - pos).length() > 100:  #obj_size.size.length() * 5:
 			valid = true
 		else:
 			valid = false

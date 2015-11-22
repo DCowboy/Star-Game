@@ -6,7 +6,6 @@ var outer_adj
 var inner
 var inner_adj
 var pos_adj
-var objects = []
 	
 	
 func _process(delta):

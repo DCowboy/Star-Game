@@ -20,20 +20,34 @@ func _fixed_process(delta):
 		move(direction * acceleration * delta)
 
 		if is_colliding():
-			#if hit, explode
-			if get_collider() != null:
+			if get_collider() != null and get_collider().get_name() != 'player':
+				hit_by(get_collider())
 			get_collider().hit_by(self)
-			if get_collider() != null and get_collider().get_type() == 'RigidBody2D':
-				if get_collider().health > 0:
-					get_collider().set_applied_force(direction * (acceleration + payload))
-			exploding = true
+			
 	else:
-		#setting explosion if it hits something or times out
+		#setting explosion
 		get_node("Sprite").hide()
 		var explode = get_node("/root/globals").explosions.small_normal.instance()
 		explode.set_pos(get_pos())
 		self.replace_by(explode)
 
 
+func hit_by(obj):
+	if not exploding:
+		if get_collider() != null and get_collider().get_type() == 'RigidBody2D':
+			if get_collider().health > 0:
+				get_collider().set_applied_force(direction * (acceleration + payload))
+
+	exploding = true
+
+
+	
+
+	
+	
+
+
+
 func _on_Timer_timeout():
 	live = false
+	pass # replace with function body

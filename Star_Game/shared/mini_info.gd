@@ -1,6 +1,5 @@
 # info child for objects TODO: Replace health label with a health bar
 extends Node2D
-var name
 var max_health
 var health
 var lbl_name
@@ -11,8 +10,6 @@ var margin = 5
 func _ready():
 	lbl_health = get_node("lbl_health")
 	lbl_name = get_node("lbl_name")
-	name = get_parent().get_name()
-	lbl_name.set_text(get_parent().get_name())
 	var parent_rect = get_parent().get_item_rect()
 	offset = Vector2(0, -parent_rect.size.height / 2)
 	set_process(true)

@@ -4,6 +4,7 @@ extends RigidBody2D
 var size
 var material
 var shape
+var name
 var rotation_speed
 export var max_rotation = 5
 export var max_acceleration = 500
@@ -14,15 +15,29 @@ var health
 
 func death():
 	var crumble
+	var pos = get_pos()
+	var description = {}
 	if size == 0:
 		crumble = get_node("/root/globals").explosions.small_rock.instance()
 	elif size == 1:
 		crumble = get_node("/root/globals").explosions.med_rock.instance()
+		description['type'] = 'small_roid'
 	else:
 		crumble = get_node("/root/globals").explosions.large_rock.instance()
+		description['type'] = 'med_roid'
+		
+	if size != 0:
+		var number = int(rand_range(1, 4)) 
+		description['material'] = material
+		description['size'] = size - 1
+		description['shape'] = int(rand_range(0, 3))
+		for n in range(number):
+			pos.x += rand_range(-get_child(0).get_texture().get_size().width / 2, get_child(0).get_texture().get_size().width / 2)
+			pos.y += rand_range(-get_child(0).get_texture().get_size().height / 2, get_child(0).get_texture().get_size().height / 2)
+			description['pos'] = pos
+			get_node("/root/globals").add_entity(description, 1)
 	for child in range(get_child_count() -1):
 		get_child(child).free()
-	
 	crumble.set_pos(get_pos())
 	self.replace_by(crumble)
 
@@ -34,7 +49,7 @@ func hit_by(obj):
 		health -=  obj.payload
 		if health <= 0:
 			health = 0
-	elif str(obj.get_name()).find('asteroid') != -1:
+	elif obj.material != null:
 		if obj.get_mass() > get_mass():
 			health += (obj.get_mass() + get_mass()) / 2.5
 		if health > max_health:
@@ -75,39 +90,54 @@ func _integrate_forces(state):
 
 
 func _ready():
+	build_asteroid()
 	rotation_speed = rand_range(-1, 1)
-	set_angular_velocity(rotation_speed)
-	if get_name() == 'large_asteroid':
-		size = 2
-	elif get_name() == 'medium_asteroid':
-		size = 1
-	else:
-		size = 0
-		
-	var unit = get_child(0).get_texture().get_size() / 3
-	var region_pos = Vector2(0, 0)
-	if material == 0:
-		health_base = int(rand_range(13, 25))
-		region_pos.x = unit.x * 2
-	elif material == 1:
-		health_base = int(rand_range(26, 50))
-		region_pos.x = unit.x * 1
-	else:
-		health_base = int(rand_range(65, 125))
-		region_pos.x = unit.x * 0
-	region_pos.y = unit.y * shape
-	get_child(0).set_region_rect(Rect2(region_pos, unit))
-	max_health = health_base * (size + 1) + (health_base * shape)
-	health = max_health
-	add_to_group('object', true)
-
+	set_angular_velocity(rotation_speed)	
 	var initial_velocity = Vector2(0, 0)
 	initial_velocity.x = cos(deg2rad(rand_range(0, 360)))
 	initial_velocity.y = -sin(deg2rad(rand_range(0, 360)))
 	apply_impulse(Vector2(0, 0), initial_velocity.normalized() * rand_range(0, max_acceleration))
 
 
-
+func build_asteroid():
+	var size_name
+	var material_name
+	var unit = get_child(0).get_texture().get_size() / 3
+	var region_pos = Vector2(0, 0)
+	if size == 0:
+		size_name = 'small'
+		
+	elif size == 1:
+		size_name = 'medium'
+	elif size == 2:
+		size_name = 'large'
+	else:
+		print('something is broken with size')
+	
+	if material == 0:
+		health_base = int(rand_range(65, 125))
+		region_pos.x = unit.x * 0
+		material_name = 'solid'
+	elif material == 1:
+		health_base = int(rand_range(26, 50))
+		region_pos.x = unit.x * 1
+		material_name = 'rusty'
+	elif material == 2:
+		health_base = int(rand_range(13, 25))
+		region_pos.x = unit.x * 2
+		material_name = 'rocky'
+	else: 
+		print('something is broken with material')
+	name = size_name + " " + material_name + " asteroid"
+	get_node("mini_info").lbl_name.set_text(name)
+		
+	if shape in range(0, 3):
+		region_pos.y = unit.y * shape
+	else:
+	 	print('something is broken with shape')
+	get_child(0).set_region_rect(Rect2(region_pos, unit))
+	max_health = health_base * (size + 1) + (health_base * shape)
+	health = max_health
 
 
 

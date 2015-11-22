@@ -8,17 +8,17 @@ var brake = false
 var thrust = 10
 var inertial_dampener = 0
 var rotation = Vector2(0, 0)
-var direction = Vector2(0, 0)
+var force = Vector2(0,0)
+#var velocity = Vector2(0, 0)
 var acceleration = 0
-var velocity = Vector2(0, 0)
-var max_acceleration = 10
+var max_acceleration = 100
 var rotate = 0
 var shot_count = 0
 var fire = false
 var fired = false
 var hit = false
 #var damaged = false
-
+#TODO: fix acceleration and braking - rewrite if necessary - probably likely
 
 func _input(event):
 	if (event.type == InputEvent.MOUSE_MOTION):
@@ -57,12 +57,12 @@ func _ready():
 
 func _fixed_process(delta):
 	if engage:
-		direction = rotation
+		force = rotation.normalized()
 		if acceleration < max_acceleration:
 			acceleration += thrust * delta
 		else: 
 			acceleration = max_acceleration
-		
+
 		get_node("Sprite/burner_left").set_emitting(true)
 		get_node("Sprite/burner_right").set_emitting(true)
 	else:
@@ -71,14 +71,12 @@ func _fixed_process(delta):
 
 	if brake:
 		inertial_dampener += sqrt(mass) * delta
-		
-		if acceleration > 0:
+		if acceleration >= 0:
 			acceleration -= mass * delta
 		else:
 			acceleration = 0
-		
-	velocity = direction.normalized() * acceleration
-	
+	else:
+		inertial_dampener = 0
 		
 	if fire and not fired:
 		fire()
@@ -89,11 +87,9 @@ func _fixed_process(delta):
 
 
 func _integrate_forces(state):
-	if get_linear_velocity().length() == 0 or engage:
-		inertial_dampener = 0
+	if engage:
+		apply_impulse(Vector2(0, 0), force * acceleration)
 	set_linear_damp(inertial_dampener)
-	apply_impulse(Vector2(0, 0), velocity)
-
 
 
 func reward(reward):
@@ -115,10 +111,10 @@ func fire():
 	fired = true
 	#create shot and send it off
 	var shot = get_node("/root/globals").projectile_types.small_laser.instance()
-	shot.set_pos(Vector2(0, -get_child(0).get_texture().get_size().height / 4).rotated(rotate) + velocity)
+	shot.set_pos(Vector2(0, -get_child(0).get_texture().get_size().height / 4).rotated(rotate) + force)
 	shot.set_rot(rotate)
 	shot.direction = rotation
-	shot.acceleration = max_acceleration + acceleration
+	shot.acceleration = thrust + force.length()
 	#sets a unique name to later be identified if needed
 	shot.set_name(shot.get_name() + ' ' + str(shot_count))
 	add_to_group('object', true)

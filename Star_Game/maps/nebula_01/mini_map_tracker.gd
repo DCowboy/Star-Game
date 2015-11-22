@@ -5,10 +5,9 @@ var pings = []
 
 func _ready():
 	#sets size of area to check based on viewport size
-	var scale_x = get_node("/root/globals").main_viewport.size.width / get_node("/root/globals").basis_viewport.size.width
-	var scale_y = get_node("/root/globals").main_viewport.size.height / get_node("/root/globals").basis_viewport.size.width
+	var scale = get_node("/root/globals").main_viewport.size.width / get_node("/root/globals").basis_viewport.size.width
 	var current_transform = get_shape_transform(0)
-	set_shape_transform(0, current_transform.scaled(Vector2(scale_x, scale_y)))
+	set_shape_transform(0, current_transform.scaled(Vector2(scale, scale)))
 	set_fixed_process(true)
 
 

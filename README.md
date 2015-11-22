@@ -17,5 +17,5 @@ So, unless you are using this for your own use, please offer advice instead.
 - [x] Finish map illusion
 - [x] Add player sub-sprites
 - [x] Create and implement other objects (like asteriods to start)
-- [ ] Create propper GUI
+- [ ] Create propper GUI (started)
 - [ ] Anything else that will make me feel satisfied with the project's first stage. (suggestions welcome)

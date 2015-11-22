@@ -1,24 +1,22 @@
 
 extends RigidBody2D
-var mass
 var max_health = 0
 var health = 0
 var engage = false
 var brake = false
-var thrust = 10
+var thrust = .5
 var inertial_dampener = 0
 var rotation = Vector2(0, 0)
 var force = Vector2(0,0)
-#var velocity = Vector2(0, 0)
 var acceleration = 0
-var max_acceleration = 100
+var max_acceleration = 5
 var rotate = 0
 var shot_count = 0
 var fire = false
 var fired = false
 var hit = false
 #var damaged = false
-#TODO: fix acceleration and braking - rewrite if necessary - probably likely
+
 
 func _input(event):
 	if (event.type == InputEvent.MOUSE_MOTION):
@@ -50,7 +48,6 @@ func _input(event):
 			
 			
 func _ready():
-	mass = self.get_mass()
 	set_fixed_process(true)
 	set_process_input(true)
 
@@ -70,11 +67,8 @@ func _fixed_process(delta):
 		get_node("Sprite/burner_right").set_emitting(false)
 
 	if brake:
-		inertial_dampener += sqrt(mass) * delta
-		if acceleration >= 0:
-			acceleration -= mass * delta
-		else:
-			acceleration = 0
+		inertial_dampener += sqrt(get_mass()) * delta
+		acceleration = 0
 	else:
 		inertial_dampener = 0
 		

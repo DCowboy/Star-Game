@@ -37,7 +37,7 @@ func full_populate():
 	#randomly populate the map
 	var to_add = {}
 
-	var population = int(map_size.size.length() / 100)
+	var population = int(map_size.size.length() / 125)
 	for each in range(population):
 		var data = {}
 		var info = {}

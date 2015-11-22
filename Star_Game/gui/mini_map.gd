@@ -8,9 +8,11 @@ var pings
 
 func _ready():
 	#sets minimap to a size based upon the viewport size
+	var scale = get_node("/root/globals").main_viewport.size.width / get_node("/root/globals").basis_viewport.size.width
 	main_viewport = get_node("/root/globals").main_viewport
-	get_node("Viewport").set_rect(Rect2(Vector2(0, 0), main_viewport.size / 4))
-	get_node("display").set_size(Vector2(main_viewport.size / 8))
+	get_node("Viewport").set_rect(Rect2(Vector2(0, 0), Vector2(main_viewport.size.width, main_viewport.size.width) / 4))
+	get_node("Viewport/mini_map_bg").set_scale(Vector2(scale, scale))
+	get_node("display").set_size(get_node("Viewport/mini_map_bg").get_texture().get_size())
 	get_node("display").set_pos(Vector2(main_viewport.size.width * .75, 0))
 
 	set_process(true)
@@ -32,9 +34,9 @@ func _process(delta):
 	
 func get_pings():
 	#deletes earlier ping sprites
-	if get_node("Viewport/mini_map_bg").get_child_count() != 0:
-		for child in range(0, get_node("Viewport/mini_map_bg").get_child_count()):
-			get_node("Viewport/mini_map_bg").get_child(child).queue_free()
+	if get_node("Viewport/ping_holder").get_child_count() != 0:
+		for child in range(0, get_node("Viewport/ping_holder").get_child_count()):
+			get_node("Viewport/ping_holder").get_child(child).queue_free()
 		
 	#adds a spite for each ping
 	for ping in pings:
@@ -45,7 +47,8 @@ func get_pings():
 		if ping in get_tree().get_nodes_in_group('target'):
 			dot.set_region_rect(Rect2(16, 0, 8, 8))
 		else:
-			dot.set_region_rect(Rect2(0, 0, 8, 8))
-			dot.set_rot(ping.get_rot())
-		get_node("Viewport/mini_map_bg").add_child(dot)
+			if ping.get_type() != 'KinematicBody2D' and ping.get_name() != 'Player':
+				dot.set_region_rect(Rect2(0, 0, 8, 8))
+				dot.set_rot(ping.get_rot())
+		get_node("Viewport/ping_holder").add_child(dot)
 	

@@ -7,7 +7,7 @@ func _ready():
 	#sets size of area to check based on viewport size
 	var scale = get_node("/root/globals").main_viewport.size.width / get_node("/root/globals").basis_viewport.size.width
 	var current_transform = get_shape_transform(0)
-	set_shape_transform(0, current_transform.scaled(Vector2(scale, scale)))
+	set_shape_transform(0, current_transform.scaled(get_node("/root/globals").square_scale))
 	set_fixed_process(true)
 
 

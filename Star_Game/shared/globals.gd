@@ -3,6 +3,8 @@ extends Node2D
 
 var main_viewport
 var basis_viewport
+var true_scale
+var square_scale
 
 var current_map
 var map_size
@@ -31,6 +33,8 @@ func _ready():
 	explosions['large_normal'] = preload('res://shared/large_explosion.scn')
 	projectile_types['small_laser'] = preload('res://npcs/projectiles/laser_shot.scn')
 	main_viewport = get_viewport_rect()
+	true_scale = Vector2(main_viewport.size / basis_viewport.size)
+	square_scale = Vector2(main_viewport.size.width / basis_viewport.size.width, main_viewport.size.width / basis_viewport.size.width)
 
 
 func full_populate():

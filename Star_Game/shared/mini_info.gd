@@ -13,7 +13,6 @@ func _ready():
 	lbl_health = get_node("lbl_health")
 	lbl_name = get_node("lbl_name")
 	var parent_rect = get_parent().get_item_rect()
-	print(parent_rect)
 	offset = Vector2(0, -parent_rect.size.height / 2)
 	visibility.set_rect(Rect2(Vector2(0, 0), Vector2(parent_rect.size * 1.25)))
 	if not visibility.is_on_screen():
@@ -38,10 +37,10 @@ func _process(delta):
 func _on_VisibilityNotifier2D_enter_screen():
 	self.show()
 	get_parent().show()
-	pass # replace with function body
+
 
 
 func _on_VisibilityNotifier2D_exit_screen():
 	self.hide()
 	get_parent().hide()
-	pass # replace with function body
+

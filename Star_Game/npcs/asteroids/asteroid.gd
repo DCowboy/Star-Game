@@ -136,7 +136,7 @@ func build_asteroid():
 	else:
 	 	print('something is broken with shape')
 	get_child(0).set_region_rect(Rect2(region_pos, unit))
-	max_health = health_base * (size + 1) + (health_base * shape)
+	max_health = health_base * (size + 1) + (health_base * shape) * 1.0
 	health = max_health
 
 

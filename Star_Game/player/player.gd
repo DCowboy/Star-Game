@@ -1,10 +1,10 @@
 
 extends RigidBody2D
-var max_health = 0
-var health = 0
+var max_health = 1
+var health = 1
 var engage = false
 var brake = false
-var thrust = .5
+var thrust = 1
 var inertial_dampener = 0
 var rotation = Vector2(0, 0)
 var force = Vector2(0,0)
@@ -84,6 +84,12 @@ func _integrate_forces(state):
 	if engage:
 		apply_impulse(Vector2(0, 0), force * acceleration)
 	set_linear_damp(inertial_dampener)
+
+	var hits = get_colliding_bodies()
+	for hit in hits:
+		hit_by(hit)
+	if health <= 0:
+		death()
 
 
 func reward(reward):

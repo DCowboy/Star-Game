@@ -3,15 +3,25 @@ extends Node2D
 var max_health
 var health
 var lbl_name
-var lbl_health
+var bar_bg
+var bar_health
+var bar_energy
 var offset
 var margin = 5
+var visibility
 
 func _ready():
-	lbl_health = get_node("lbl_health")
+	visibility = get_node("VisibilityNotifier2D")
+	bar_bg = get_node("bar_bg")
+	bar_health = get_node_and_resource("bar_bg/bar_health")
+	bar_energy = get_node_and_resource("bar_bg/bar_energy")
 	lbl_name = get_node("lbl_name")
 	var parent_rect = get_parent().get_item_rect()
 	offset = Vector2(0, -parent_rect.size.height / 2)
+	visibility.set_rect(Rect2(Vector2(0, 0), Vector2(parent_rect.size * 1.25)))
+	if not visibility.is_on_screen():
+		self.hide()
+		get_parent().hide()
 	set_process(true)
 
 func _process(delta):
@@ -19,6 +29,22 @@ func _process(delta):
 	health = get_parent().health
 	max_health = get_parent().max_health
 	if health != max_health:
-		lbl_health.set_text(str(round(health)) + ' / ' + str(round(max_health)))
-	lbl_health.set_pos(Vector2(lbl_health.get_pos().x,  -lbl_health.get_size().height - margin) + offset)
-	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, lbl_health.get_pos().y -lbl_name.get_size().height - margin))
+		bar_health[1].ratio = health / max_health
+	
+	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, -bar_bg.get_texture().get_height() / 2 -lbl_name.get_size().height - margin))
+	
+	
+	
+	
+	
+
+func _on_VisibilityNotifier2D_enter_screen():
+	self.show()
+	get_parent().show()
+
+
+
+func _on_VisibilityNotifier2D_exit_screen():
+	self.hide()
+	get_parent().hide()
+

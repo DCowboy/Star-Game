@@ -41,7 +41,7 @@ func full_populate():
 	#randomly populate the map
 	var to_add = {}
 
-	var population = int(map_size.size.length() / 125)
+	var population = int(map_size.size.length() / 100)
 	for each in range(population):
 		var data = {}
 		var info = {}
@@ -55,7 +55,7 @@ func full_populate():
 			info['type'] = modifier[info.size] + type
 			info['material'] = int(rand_range(0, 3))
 			info['shape'] = int(rand_range(0, 3))
-			info['pos'] = rand_pos()
+			info['pos'] = null
 			name = info.type + str(info.material) + str(info.shape)
 		data['description'] = info
 		
@@ -77,7 +77,10 @@ func add_entity(description, number):
 			entity.size = description.size
 			entity.material = description.material
 			entity.shape = description.shape
-		entity.set_pos(description.pos)
+		if description.pos == null:
+			entity.set_pos(rand_pos())
+		else:
+			entity.set_pos(description.pos)
 		current_map.add_child(entity)
 		entity.add_to_group('target', true)
 

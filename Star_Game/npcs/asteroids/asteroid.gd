@@ -8,7 +8,7 @@ var name
 var rotation_speed
 export var max_rotation = 5
 export var max_acceleration = 500
-var health_base
+
 var max_health
 var health
 
@@ -104,6 +104,7 @@ func build_asteroid():
 	var material_name
 	var unit = get_child(0).get_texture().get_size() / 3
 	var region_pos = Vector2(0, 0)
+	var health_base
 	if size == 0:
 		size_name = 'small'
 		

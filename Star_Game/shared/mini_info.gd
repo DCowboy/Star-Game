@@ -40,20 +40,12 @@ func _process(delta):
 			bar_bg.show()
 		bar_health.show()
 		bar_health.get_material().set_shader_param("ratio",  float(health / max_health))
-		print(get_parent().name + ": " + str(health) + " / " + str(max_health) + " = " + str(float(health / max_health)))
-
-	
 	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, -bar_bg.get_texture().get_height() / 2 -lbl_name.get_size().height - margin))
-	
-	
-	
-	
 	
 
 func _on_VisibilityNotifier2D_enter_screen():
 	self.show()
 	get_parent().show()
-
 
 
 func _on_VisibilityNotifier2D_exit_screen():

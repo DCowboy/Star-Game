@@ -4,7 +4,7 @@ var max_health = 1
 var health = 1
 var engage = false
 var brake = false
-var thrust = 1
+var thrust = 1.5
 var inertial_dampener = 0
 var rotation = Vector2(0, 0)
 var force = Vector2(0,0)
@@ -14,7 +14,6 @@ var rotate = 0
 var shot_count = 0
 var fire = false
 var fired = false
-var hit = false
 #var damaged = false
 
 

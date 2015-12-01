@@ -10,8 +10,9 @@ This game may use things that some computers cannot handle. It would be invaluab
 
 ### Current Game Controls
 - Turn by mouse: Your ship will always face your mouse pointer and that is the direction you will accelerate in.
-- 'a' = accelerate: Pressing this button will cause your ship to accelerate in the direction it is facing.
-- 'd' = inertial Dampener: This will cause your ship to slow down, regardless of direction your ship is facing.
-- 'space' or Right Mouse Button = fire: Fire your weapon.
+- 'a' = accelerate: Pressing this button will cause your ship to accelerate in the direction it is facing. Will not work if shield is up.
+- 'd' = inertial dampener: This will cause your ship to slow down, regardless of direction your ship is facing.
+- 'space' or Right Mouse Button = fire: Fire your weapon, if the shield is not up.
+- 's' = shields: This will put up a barrier to protect your health points, (when they're implemented.) However, engines and weapons will not work while the shield is up; inertial dampener does though.
 
 These are subject to change, so refer here if in doubt. 

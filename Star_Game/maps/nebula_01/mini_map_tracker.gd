@@ -15,7 +15,6 @@ func _fixed_process(delta):
 	#follow the player if it's there
 	if get_node("/root/globals").player_pos != null:
 		set_pos(get_node("/root/globals").player_pos)
-		
 	#attempt to get overlapping bodies and areas
 	#TODO: fix minimap to show areas
 	pings = get_overlapping_bodies()

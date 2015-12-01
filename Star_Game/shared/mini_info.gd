@@ -5,7 +5,9 @@ var health
 var lbl_name
 var bar_bg
 var bar_health
+var full_health = Color(0.0, 1.0, 0.0, 1.0)
 var bar_energy
+var full_energy = Color(0.0, 1.0, 1.0, 1.0)
 var offset
 var margin = 5
 var visibility
@@ -15,10 +17,10 @@ func _ready():
 	bar_bg = get_node("bar_bg")
 	bar_health = get_node("bar_bg/bar_health")
 	bar_health.set_material(bar_health.get_material().duplicate(true))
-	bar_health.get_material().set_shader_param("col", Color(2.0, 0.0, 0.0, 2.0))
+	bar_health.get_material().set_shader_param("col", full_health)
 	bar_energy = get_node("bar_bg/bar_energy")
 	bar_energy.set_material(bar_energy.get_material().duplicate(true))
-	bar_energy.get_material().set_shader_param("col", Color(0.0, 2.0, 2.0, 2.0))
+	bar_energy.get_material().set_shader_param("col", full_energy)
 	lbl_name = get_node("lbl_name")
 	var parent_rect = get_parent().get_item_rect()
 	offset = Vector2(0, -parent_rect.size.height / 2)
@@ -41,9 +43,26 @@ func _process(delta):
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
 		bar_health.show()
-		bar_health.get_material().set_shader_param("ratio",  float(health / max_health))
+		health_bar()
+	else:
+		if get_parent().get_name() != 'Player':
+			bar_health.hide()
 	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, -bar_bg.get_texture().get_height() / 2 -lbl_name.get_size().height - margin))
 	
+func health_bar():
+	var light = Color(1.0, 1.0, 0.0, 1.0)
+	var heavy = Color(0.75, 0.25, 0.05, 1.0)
+	var critical = Color(1.0, 0.0, 0.0, 1.0)
+	var ratio = float(health / max_health)
+	var color
+	bar_health.get_material().set_shader_param("ratio",  ratio)
+	if ratio > .67:
+		color = light
+	elif ratio > .34:
+		color = heavy
+	else:
+		color = critical
+	bar_health.get_material().set_shader_param("col", color)
 
 func _on_VisibilityNotifier2D_enter_screen():
 	self.show()

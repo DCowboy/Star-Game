@@ -16,6 +16,7 @@ var mini_map_icons
 var object_types = {}
 var projectile_types = {}
 var explosions = {}
+var sound_effects
 
 var pings
 
@@ -32,6 +33,7 @@ func _ready():
 	explosions['med_normal'] = preload('res://shared/medium_explosion.scn')
 	explosions['large_normal'] = preload('res://shared/large_explosion.scn')
 	projectile_types['small_laser'] = preload('res://npcs/projectiles/laser_shot.scn')
+	sound_effects = preload('res://shared/sound_effects.scn')
 	main_viewport = get_viewport_rect()
 	true_scale = Vector2(main_viewport.size / basis_viewport.size)
 	square_scale = Vector2(main_viewport.size.width / basis_viewport.size.width, main_viewport.size.width / basis_viewport.size.width)
@@ -85,18 +87,15 @@ func add_entity(description, number):
 		entity.add_to_group('target', true)
 
 
-	
-
 func rand_pos():
 	#get a random position not too close to the player
-	var valid = false
+	var broken = false
 	var pos = Vector2(0, 0)
-	while not valid:
+	while not broken:
+		randomize()
 		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
 		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
-		if Vector2(player_pos - pos).length() > 100:  #obj_size.size.length() * 5:
-			valid = true
-		else:
-			valid = false
+		if Vector2(player_pos - pos).length() > 100:  
+			break
 
 	return pos

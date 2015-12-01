@@ -8,6 +8,7 @@ var name
 var rotation_speed
 export var max_rotation = 5
 export var max_acceleration = 500
+var impacts = {}
 
 var max_health
 var health
@@ -45,7 +46,7 @@ func death():
 func hit_by(obj):
 	var reward = health
 		
-	if obj.get_type() == 'KinematicBody2D':
+	if obj.name == 'laser_shot':
 		health -=  obj.payload
 		if health <= 0:
 			health = 0
@@ -61,7 +62,7 @@ func hit_by(obj):
 			health -= rand_range(2, obj.get_mass() / 2)
 	if health < reward:
 		reward -= health
-		if obj.get_type() == 'KinematicBody2D':
+		if obj.name == 'laser_shot':
 			obj.get_parent().reward(int(reward))
 		else:
 			obj.reward(reward)
@@ -82,9 +83,23 @@ func _integrate_forces(state):
 	else:
 		set_linear_damp(0)
 
-	var hits = get_colliding_bodies()
-	for hit in hits:
-		hit_by(hit)
+	
+	var count = state.get_contact_count()
+	if count > 0:
+		for hit in range(count):
+			var collider = state.get_contact_collider_object(hit)
+			if not collider in impacts and str(collider.get_name()).find('laser_shot') == -1:
+				impacts[collider] = 0
+				hit_by(collider)
+
+	if impacts != null:
+		for each in impacts:
+			impacts[each] += 1
+			if impacts[each] == 45:
+				hit_by(each)
+				impacts[each] = 0
+	
+
 	if health <= 0:
 		death()
 
@@ -141,4 +156,16 @@ func build_asteroid():
 	health = max_health
 
 
+func _on_large_asteroid_body_exit( body ):
+	impacts.erase(body)
+	pass # replace with function body
 
+
+func _on_medium_asteroid_body_exit( body ):
+	impacts.erase(body)
+	pass # replace with function body
+	
+
+func _on_small_asteroid_body_exit( body ):
+	impacts.erase(body)
+	pass # replace with function body

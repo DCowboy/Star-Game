@@ -63,6 +63,11 @@ func check_bounds():
 
 
 func _fixed_process(delta):
+	#checks for bullets
+#	for each in range(get_child_count() - 1):
+#		var check = get_child(each).get_overlapping_bodies()
+#		for ping in check:
+#			if not ping
 	#checks to see if it should bother doing anything
 	if mirrors.size() > 0:
 		update_mirrors()

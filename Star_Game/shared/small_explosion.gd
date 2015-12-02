@@ -7,7 +7,7 @@ func _ready():
 	if str(get_name()).find('small_explosion') != -1:
 		sound = get_node("/root/globals").sound_effects.instance()
 		add_child(sound)
-		sound.play('small_explosion', 0)
+		sound.play('small_explosion')
 	set_emitting(true)
 	set_process(true)
 	

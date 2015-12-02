@@ -9,20 +9,14 @@ var payload = 25
 var exploding = false
 var life = 0
 export var lifetime = 90
+var sound
 
 func _ready():
 	acceleration += shot_acceleration
-	get_node("laser_sound").play('laser', 0)
+	sound = get_node("/root/globals").sound_effects.instance()
+	add_child(sound)
+	sound.play('laser')
 	set_fixed_process(true)
-
-
-#func _fixed_process(delta):
-#	#move and check for collisions if not exploding
-#	if not exploding and live:
-#		
-#			
-#	else:
-#		
 
 
 func _integrate_forces(state):

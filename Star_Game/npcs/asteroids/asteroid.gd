@@ -12,6 +12,8 @@ var impacts = {}
 
 var max_health
 var health
+var max_energy = 0
+var energy = 0
 
 
 func death():
@@ -155,17 +157,17 @@ func build_asteroid():
 	max_health = health_base * (size + 1) + (health_base * shape) * 1.0
 	health = max_health
 
-
+	#signal if the collider leaves the body so it doesn't keep hitting
 func _on_large_asteroid_body_exit( body ):
 	impacts.erase(body)
-	pass # replace with function body
+
 
 
 func _on_medium_asteroid_body_exit( body ):
 	impacts.erase(body)
-	pass # replace with function body
+
 	
 
 func _on_small_asteroid_body_exit( body ):
 	impacts.erase(body)
-	pass # replace with function body
+

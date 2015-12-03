@@ -1,9 +1,13 @@
 
 extends RigidBody2D
-
+#variables that handle character
 var name = 'Player'
 var max_health = 1
 var health = 1
+var max_energy = 1
+var energy = 1
+
+#variables than handle mechanics
 var engage = false
 var brake = false
 var thrust = 1.5

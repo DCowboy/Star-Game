@@ -38,8 +38,4 @@
 
 - muffled distant explosion (slightly modified - shortened)
 
-##### Warlock's Gauntlet Team (possibly)
 
-- ball lightning
-- electric snare
-- electron

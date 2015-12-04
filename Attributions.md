@@ -26,6 +26,10 @@
 
 - alien cross hairs (slightly modified one for game mouse cursor
 
+##### aloknarula
+
+  - simple bubble (only resized, used for item containers)
+
 ##### Triki Minut
 
 - Sci-Fi Laser fire SFX (slightly modified - shortened)

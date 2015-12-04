@@ -24,7 +24,7 @@
 
 ##### Pyccna
 
-- alien cross hairs (slightly modified one for game mouse cursor
+- alien cross hairs (slightly modified one for game mouse cursor)
 
 ##### aloknarula
 

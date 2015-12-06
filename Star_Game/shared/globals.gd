@@ -7,24 +7,30 @@ var true_scale
 var square_scale
 
 var current_map
+var map_name
 var map_size
+
 
 var player
 var rotate
 var player_pos
 var mini_map_icons
+
+
 var object_types = {}
 var projectile_types = {}
 var explosions = {}
 var sound_effects
 
-var pings
+var ping_objects
+var ping_areas
 
 func _ready():
 	basis_viewport = Rect2(0, 0, 800, 600)
 	object_types['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')
 	object_types['med_roid'] = preload('res://npcs/asteroids/medium_asteroid.scn')
 	object_types['large_roid'] = preload('res://npcs/asteroids/large_asteroid.scn')
+	object_types['player'] = preload('res://player/Player.scn')
 	mini_map_icons = preload('res://gui/mini_map_sprites.scn')
 	explosions['small_rock'] = preload('res://npcs/asteroids/small_asteroid_destroy.scn')
 	explosions['med_rock'] = preload('res://npcs/asteroids/medium_asteroid_destroy.scn')
@@ -99,3 +105,4 @@ func rand_pos():
 			break
 
 	return pos
+

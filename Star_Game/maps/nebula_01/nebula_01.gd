@@ -10,13 +10,15 @@ var pos_adj
 	
 func _process(delta):
 	#moves background layers to correspond with player position creating a distance illusion
-	var pos = get_parent().get_node("Player").get_pos()
+	
+	var pos = get_node("/root/globals").player_pos
 	inner.set_pos(-pos / inner_adj + pos_adj)
 	outer.set_pos(-pos / outer_adj + pos_adj)
 	
 	
 func _ready():
 	get_node("/root/globals").current_map = self
+	get_node("/root/globals").map_name = get_name()
 	map_size = get_node("area_map").map_size
 	get_node("/root/globals").map_size = map_size
 	

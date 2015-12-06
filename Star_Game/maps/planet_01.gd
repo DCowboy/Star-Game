@@ -1,9 +1,7 @@
 
 extends Area2D
+var name = 'Planet_01'
 
-# member variables here, example:
-# var a=2
-# var b="textvar"
 
 func _ready():
 	#quick and dirty fix to trigger boundry issue

@@ -1,10 +1,15 @@
 
 extends CanvasLayer
-
+var map_name
 
 
 func _ready():
-	get_node("TextureFrame/gui_status_bg").set_scale(get_node("/root/globals").square_scale)
+	map_name = get_node("map_and_missions/Label")
+	map_name.set_text(get_node("/root/globals").map_name)
 	pass
 
 
+
+
+func _on_TextureButton_pressed():
+	pass # replace with function body

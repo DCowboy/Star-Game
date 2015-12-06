@@ -1,20 +1,12 @@
 
-extends RigidBody2D
+extends "res://shared/rigid_object.gd"
 
 var size
 var material
 var shape
-var name
 var rotation_speed
 export var max_rotation = 5
-export var max_acceleration = 500
-var impacts = {}
-
-var max_health
-var health
-var max_energy = 0
-var energy = 0
-
+export var max_acceleration = 5000
 
 func death():
 	var crumble
@@ -42,40 +34,9 @@ func death():
 	for child in range(get_child_count() -1):
 		get_child(child).free()
 	crumble.set_pos(get_pos())
-	self.call_deferred('replace_by', crumble)
+	call_deferred('replace_by', crumble)
 
-
-func hit_by(obj):
-	var reward = health
-		
-	if obj.name == 'laser_shot':
-		health -=  obj.payload
-		if health <= 0:
-			health = 0
-	elif 'material' in obj:
-		if obj.get_mass() > get_mass():
-			health += (obj.get_mass() + get_mass()) / 2.5
-		if health > max_health:
-			health = max_health
-	else:
-		if get_mass() > obj.get_mass():
-			health -= ceil((get_mass() - obj.get_mass()) / 2)
-		else:
-			health -= rand_range(2, obj.get_mass() / 2)
-	if health < reward:
-		reward -= health
-		if obj.name == 'laser_shot':
-			obj.get_parent().reward(int(reward))
-		else:
-			obj.reward(reward)
-
-
-func reward(amount):
-	
-	pass
-
-
-func _integrate_forces(state):
+func _fixed_process(delta):
 	if abs(get_angular_velocity()) > max_rotation:
 		set_angular_damp(1)
 	else:
@@ -85,35 +46,20 @@ func _integrate_forces(state):
 	else:
 		set_linear_damp(0)
 
-	
-	var count = state.get_contact_count()
-	if count > 0:
-		for hit in range(count):
-			var collider = state.get_contact_collider_object(hit)
-			if not collider in impacts and str(collider.get_name()).find('laser_shot') == -1:
-				impacts[collider] = 0
-				hit_by(collider)
-
-	if impacts != null:
-		for each in impacts:
-			impacts[each] += 1
-			if impacts[each] == 45:
-				hit_by(each)
-				impacts[each] = 0
-	
-
 	if health <= 0:
 		death()
 
 
 func _ready():
 	build_asteroid()
+	race = 'neutral'
 	rotation_speed = rand_range(-1, 1)
 	set_angular_velocity(rotation_speed)	
 	var initial_velocity = Vector2(0, 0)
 	initial_velocity.x = cos(deg2rad(rand_range(0, 360)))
 	initial_velocity.y = -sin(deg2rad(rand_range(0, 360)))
 	apply_impulse(Vector2(0, 0), initial_velocity.normalized() * rand_range(0, max_acceleration))
+	set_fixed_process(true)
 
 
 func build_asteroid():
@@ -124,7 +70,6 @@ func build_asteroid():
 	var health_base
 	if size == 0:
 		size_name = 'small'
-		
 	elif size == 1:
 		size_name = 'medium'
 	elif size == 2:
@@ -156,17 +101,17 @@ func build_asteroid():
 	get_child(0).set_region_rect(Rect2(region_pos, unit))
 	max_health = health_base * (size + 1) + (health_base * shape) * 1.0
 	health = max_health
+	max_energy = 0.0
+	energy = max_energy
 
 	#signal if the collider leaves the body so it doesn't keep hitting
 func _on_large_asteroid_body_exit( body ):
 	impacts.erase(body)
 
 
-
 func _on_medium_asteroid_body_exit( body ):
 	impacts.erase(body)
 
-	
 
 func _on_small_asteroid_body_exit( body ):
 	impacts.erase(body)

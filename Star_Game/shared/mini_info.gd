@@ -1,4 +1,4 @@
-# info child for objects TODO: Replace health label with a health bar
+# info child for objects
 extends Node2D
 var max_health
 var health
@@ -9,7 +9,7 @@ var bar_bg
 var bar_health
 var full_health = Color(0.0, 1.0, 0.0, 1.0)
 var bar_energy
-var full_energy = Color(0.0, 1.0, 1.0, 1.0)
+var full_energy = Color(0.0, 0.0, 1.0, 1.0)
 var margin = 5
 var visibility
 
@@ -45,7 +45,7 @@ func _process(delta):
 	if health != max_health:
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
-		bar_health.show()
+			bar_health.show()
 		status_bar('health')
 	else:
 		if get_parent().get_name() != 'Player':
@@ -53,7 +53,7 @@ func _process(delta):
 	if energy != max_energy:
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
-		bar_energy.show()
+			bar_energy.show()
 		status_bar('energy')
 	else:
 		if get_parent().get_name() != 'Player':
@@ -76,9 +76,9 @@ func status_bar(type):
 		bar_health.get_material().set_shader_param("ratio",  ratio)
 	elif type == 'energy':
 		full = full_energy
-		light = Color(0.0, 0.75, 0.75, 1.0)
-		heavy = Color(0.0, 0.25, 0.75, 1.0)
-		critical = Color(0.0, 0.0, 1.0, 1.0)
+		light = Color(0.0, 0.25, 0.75, 1.0)
+		heavy = Color(0.0, 0.50, 0.75, 1.0)
+		critical = Color(0.0, 1.0, 1.0, 1.0)
 		ratio = float(energy / max_energy)
 		bar_energy.get_material().set_shader_param("ratio",  ratio)
 	
@@ -95,6 +95,7 @@ func status_bar(type):
 		bar_health.get_material().set_shader_param("col", color)
 	elif type == 'energy':
 		bar_energy.get_material().set_shader_param("col", color)
+
 
 func _on_VisibilityNotifier2D_enter_screen():
 	self.show()

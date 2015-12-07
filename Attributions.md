@@ -5,7 +5,7 @@
 ## From OpenGameArt.com
 ##### Scorpio
 
-- Ship construction kits 1 and 2 (modified into ships and space stations currently)
+- Ship construction kits 1 and 2 (assembled into ships and space stations currently)
 - stars from construction kit 1
 - nebulae from construction kit 1
 
@@ -16,7 +16,7 @@
 ##### Rawdanitsu
 
 - lasers and beams
-- perhaps hud window pieces (unsure if will use yet)
+- hud window pieces (assembled into hud windows)
 
 ##### n4pgamer
 
@@ -29,6 +29,10 @@
 ##### aloknarula
 
   - simple bubble (only resized, used for item containers)
+
+##### Georges "TRaK" Grondin
+
+  - Metal panel light grey (slightly modified - scaled)
 
 ##### Triki Minut
 

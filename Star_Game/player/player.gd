@@ -87,7 +87,7 @@ func _fixed_process(delta):
 	if brake and energy > 0:
 		if get_linear_velocity().length() > 0:
 			energy -= .2
-			inertial_dampener += get_mass() * delta
+			inertial_dampener += sqrt(get_mass()) * delta
 			acceleration = 0
 	else:
 		inertial_dampener = 0

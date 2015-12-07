@@ -49,14 +49,14 @@ func check_bounds():
 	for obj in mirrors:
 		var pos = mirrors[obj].parent.get_pos()
 		var new_pos = mirrors[obj].parent.get_pos()
-		if pos.x <= -map_size.size.width / 2 + 10:
-			new_pos.x = map_size.size.width / 2 - 10
-		elif pos.x >= map_size.size.width / 2 - 10:
-			new_pos.x = -map_size.size.width / 2 + 10
-		if pos.y <= -map_size.size.height / 2 + 10:
-			new_pos.y = map_size.size.height / 2 - 10
-		elif pos.y >= map_size.size.height / 2 - 10:
-			new_pos.y = -map_size.size.height / 2 + 10
+		if pos.x <= -map_size.size.width / 2 + 1:
+			new_pos.x = map_size.size.width / 2 - 1
+		elif pos.x >= map_size.size.width / 2 - 1:
+			new_pos.x = -map_size.size.width / 2 + 1
+		if pos.y <= -map_size.size.height / 2 + 1:
+			new_pos.y = map_size.size.height / 2 - 1
+		elif pos.y >= map_size.size.height / 2 - 1:
+			new_pos.y = -map_size.size.height / 2 + 1
 
 		if pos != new_pos:
 			mirrors[obj].parent.set_pos(new_pos)

@@ -37,19 +37,20 @@ func get_pings():
 		
 	#adds a spite for each ping
 	for ping in ping_objects:
-		var dot = get_node("/root/globals").mini_map_icons.instance()
-		dot.set_scale(Vector2(.5, .5))
-		dot.set_pos(((ping.get_pos() + Vector2(0, 100) - get_node("/root/globals").player_pos)) / 12)
-		if ping in get_tree().get_nodes_in_group('friendly'):
-			dot.set_region_rect(Rect2(8, 0, 8, 8))
-		if ping in get_tree().get_nodes_in_group('target'):
-			dot.set_region_rect(Rect2(16, 0, 8, 8))
-		else:
-			if ping.name != 'laser_shot':
-				dot.set_region_rect(Rect2(0, 0, 8, 8))
-				dot.set_scale(Vector2(1,1))
-				if ping.name == 'Player':
-					dot.set_pos(Vector2(0, 0))
-					dot.set_rot(get_node("/root/globals").rotate)
-		get_node("Viewport/ping_holder").add_child(dot)
+		if ping != null:
+			var dot = get_node("/root/globals").mini_map_icons.instance()
+			dot.set_scale(Vector2(.5, .5))
+			dot.set_pos(((ping.get_pos() + Vector2(0, 100) - get_node("/root/globals").player_pos)) / 12)
+			if ping in get_tree().get_nodes_in_group('friendly'):
+				dot.set_region_rect(Rect2(8, 0, 8, 8))
+			if ping in get_tree().get_nodes_in_group('target'):
+				dot.set_region_rect(Rect2(16, 0, 8, 8))
+			else:
+				if ping.name != 'laser_shot':
+					dot.set_region_rect(Rect2(0, 0, 8, 8))
+					dot.set_scale(Vector2(1,1))
+					if ping.name == 'Player':
+						dot.set_pos(Vector2(0, 0))
+						dot.set_rot(get_node("/root/globals").rotate)
+			get_node("Viewport/ping_holder").add_child(dot)
 	

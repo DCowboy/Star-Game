@@ -26,10 +26,14 @@ func _ready():
 	var parent_rect = get_parent().get_item_rect()
 	visibility.set_rect(Rect2(Vector2(0, 0), Vector2(parent_rect.size * 1.25)))
 	
-	if get_parent().get_name() != 'Player':
+	if get_parent().name != 'Player':
 		bar_bg.hide()
 		bar_health.hide()
 		bar_energy.hide()
+	else:
+		bar_bg.show()
+		bar_health.show()
+		bar_energy.show()
 	if not visibility.is_on_screen():
 		self.hide()
 		get_parent().hide()
@@ -48,16 +52,20 @@ func _process(delta):
 			bar_health.show()
 		status_bar('health')
 	else:
-		if get_parent().get_name() != 'Player':
+		if get_parent().name != 'Player':
 			bar_health.hide()
+		else:
+			bar_health.show()
 	if energy != max_energy:
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
 			bar_energy.show()
 		status_bar('energy')
 	else:
-		if get_parent().get_name() != 'Player':
+		if get_parent().name != 'Player':
 			bar_energy.hide()
+		else:
+			bar_energy.show()
 	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, -bar_bg.get_texture().get_height() / 2 -lbl_name.get_size().height - margin))
 	
 func status_bar(type):

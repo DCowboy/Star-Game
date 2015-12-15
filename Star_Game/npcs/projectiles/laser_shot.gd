@@ -1,18 +1,19 @@
 
 extends RigidBody2D
-
+var owner
 var name = 'laser_shot'
 var direction
 var acceleration
-var shot_acceleration = 100
+var shot_acceleration = 250
 var payload = 25
 var exploding = false
+
 var life = 0
-export var lifetime = 15
+var lifetime = 15
 var sound
 
 func _ready():
-	acceleration += shot_acceleration
+	shot_acceleration += acceleration
 	sound = get_node("/root/globals").sound_effects.instance()
 	add_child(sound)
 	sound.play('laser')
@@ -30,8 +31,8 @@ func _fixed_process(delta):
 		explode.set_pos(get_pos())
 		call_deferred('replace_by', explode)
 	else:
-		if get_linear_velocity().length() <= acceleration:
-			apply_impulse(Vector2(0, 0), direction * acceleration)
+		if get_linear_velocity().length() <= shot_acceleration:
+			apply_impulse(Vector2(0, 0), direction * shot_acceleration)
 
 func _integrate_forces(state):
 	var count = state.get_contact_count()

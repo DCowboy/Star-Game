@@ -3,12 +3,14 @@ extends RigidBody2D
 
 var name
 var race
+var type
 var max_health
 var health 
 var max_energy
 var energy
 
 var shape_hit
+var shield_index
 var shield_strength
 
 var impacts = {}
@@ -47,7 +49,7 @@ func hit_by(obj, at=null):
 	var hit = 0
 	if at == 0:
 		shape = 'hull'
-	elif at == 1:
+	elif at == shield_index:
 		shape = 'shield'
 		
 	if obj.name == 'laser_shot':
@@ -73,7 +75,7 @@ func hit_by(obj, at=null):
 	if health < reward:
 		reward -= health
 		if obj.name == 'laser_shot':
-			obj.get_parent().reward(int(reward))
+			obj.owner.reward(int(reward))
 		else:
 			obj.reward(reward)
 			

@@ -27,8 +27,9 @@ func death():
 		description['size'] = size - 1
 		description['shape'] = int(rand_range(0, 3))
 		for n in range(number):
-			pos.x += rand_range(-get_child(0).get_texture().get_size().width * .4, get_child(0).get_texture().get_size().width * .4)
-			pos.y += rand_range(-get_child(0).get_texture().get_size().height * .4, get_child(0).get_texture().get_size().height * .4 )
+			var this_image = get_node('Sprite').get_texture().get_size()
+			pos.x += rand_range(-this_image.x * .4, this_image.x * .4)
+			pos.y += rand_range(-this_image.y * .4, this_image.y * .4 )
 			description['pos'] = pos
 			get_node("/root/globals").add_entity(description, 1)
 	for child in range(get_child_count() -1):

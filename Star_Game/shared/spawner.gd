@@ -26,7 +26,7 @@ func _on_Timer_timeout():
 		respawn_pos = Vector2(0, 0)
 	if poor_dead_bastard.name == 'Player':
 		print('respawning')
-		var spawn = get_node("/root/globals").object_types.player.instance()
+		var spawn = get_node("/root/globals").player.ship.instance()
 		spawn.set_pos(respawn_pos)
 		get_node("/root/client").add_child(spawn)
 		

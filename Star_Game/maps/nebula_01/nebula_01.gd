@@ -24,8 +24,12 @@ func _ready():
 	
 	#gets outer and inner space layers and their scale compared to the main play area (finally simplified some)
 	outer = get_node("BG/Outer_space")
-	outer_adj = map_size.size.length() / Vector2(outer.get_child(0).get_texture().get_size() * outer.get_child(0).get_transform().get_scale()).length()
+	var outer_texture_size = outer.get_node("star_bg").get_texture().get_size()
+	var outer_transform_scale = outer.get_node("star_bg").get_transform().get_scale()
+	outer_adj = map_size.size.length() / Vector2(outer_texture_size * outer_transform_scale).length()
 	inner = get_node("BG/Inner_space")
+	var inner_texture_size = inner.get_node("floating_stars").get_texture().get_size()
+	var inner_transform_scale = inner.get_node("floating_stars").get_transform().get_scale()
 	inner_adj = map_size.size.length() / Vector2(inner.get_child(0).get_texture().get_size() * inner.get_child(0).get_transform().get_scale()).length()
 	
 	pos_adj = Vector2(get_viewport_rect().size.width / 2, get_viewport_rect().size.height / 2)

@@ -11,7 +11,7 @@ var map_name
 var map_size
 
 
-var player
+var player = {}
 var rotate
 var player_pos
 var mini_map_icons
@@ -25,22 +25,25 @@ var ping_objects
 var ping_areas
 
 func _ready():
+	player['ship'] = preload('res://player/blue_battle_cruiser.scn')
+	player['status'] = preload('res://player/terran_corvette_status.scn')
+#	player['cargo'] =
 	basis_viewport = Rect2(0, 0, 800, 600)
 	object_types['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')
 	object_types['med_roid'] = preload('res://npcs/asteroids/medium_asteroid.scn')
 	object_types['large_roid'] = preload('res://npcs/asteroids/large_asteroid.scn')
-	object_types['player'] = preload('res://player/blue_battle_cruiser.scn')
-	print('loaded object types')
+
 	mini_map_icons = preload('res://gui/mini_map_sprites.scn')
+	
 	explosions['small_rock'] = preload('res://npcs/asteroids/small_asteroid_destroy.scn')
 	explosions['med_rock'] = preload('res://npcs/asteroids/medium_asteroid_destroy.scn')
 	explosions['large_rock'] = preload('res://npcs/asteroids/large_asteroid_destroy.scn')
 	explosions['small_normal'] = preload('res://shared/small_explosion.scn')
 	explosions['med_normal'] = preload('res://shared/medium_explosion.scn')
 	explosions['large_normal'] = preload('res://shared/large_explosion.scn')
-	print('loaded explosions and mini-map')
+
 	sound_effects = preload('res://shared/sound_effects.scn')
-	print('sounds')
+
 	main_viewport = get_viewport_rect()
 	true_scale = Vector2(main_viewport.size / basis_viewport.size)
 	square_scale = Vector2(main_viewport.size.width / basis_viewport.size.width, main_viewport.size.width / basis_viewport.size.width)

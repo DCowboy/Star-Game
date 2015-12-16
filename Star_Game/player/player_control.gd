@@ -14,7 +14,7 @@ func _input(event):
 		#have player always point to mouse cursor and set that direction for movement
 		var mouse_pos = Vector2(event.pos - get_viewport_rect().size / 2)
 		rotate = get_viewport_rect().pos.angle_to_point(mouse_pos)
-		get_parent().rotate = rotate #figure out how to stop explosion from trying to rotate - probably by freeing the controls
+		get_parent().rotate = rotate 
 		
 	if event.is_action("accelerate"):
 		if event.is_pressed():

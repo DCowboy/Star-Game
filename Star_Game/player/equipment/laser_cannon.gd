@@ -4,7 +4,7 @@ var owner
 var ammo
 var shot_count = 0
 var fire_delay = 0
-var fire_rate = 10
+var fire_rate = 30
 
 func _ready():
 	ammo = preload('res://npcs/projectiles/laser_shot.scn')
@@ -27,7 +27,6 @@ func fire(force, acceleration):
 		#create shot and send it off
 		var shot = ammo.instance()
 		#there has got to be a better way to set the position correctly
-		#hold to test: - Vector2(weapon_size.x, player_height * 0.9)
 		var player_height = owner.get_child(0).get_texture().get_height()
 		var weapon_size = get_node('Sprite').get_texture().get_size()
 		shot.set_pos(get_global_pos() - Vector2(weapon_size.x, player_height * 0.9) - Vector2(0, weapon_size.y * .75).rotated(owner.rotate))

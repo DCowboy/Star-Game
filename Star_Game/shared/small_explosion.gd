@@ -16,7 +16,5 @@ func _ready():
 
 func _process(delta):
 
-	if not is_emitting(): # or sound == null or not sound.is_voice_active(0):
-#		if get_node("SamplePlayer2D") != null:
-#			get_node("SamplePlayer2D").stop_voice(0)
+	if not is_emitting():
 		queue_free()

@@ -5,11 +5,11 @@ var name = 'laser_shot'
 var direction
 var acceleration
 var shot_acceleration = 250
-var payload = 25
+var payload = 50
 var exploding = false
 
 var life = 0
-var lifetime = 15
+var lifetime = 30
 var sound
 
 func _ready():

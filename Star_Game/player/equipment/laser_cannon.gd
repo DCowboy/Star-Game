@@ -4,7 +4,7 @@ var owner
 var ammo
 var shot_count = 0
 var fire_delay = 0
-var fire_rate = 30
+var fire_rate = 15
 
 func _ready():
 	ammo = preload('res://npcs/projectiles/laser_shot.scn')

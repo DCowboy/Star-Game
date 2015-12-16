@@ -11,7 +11,7 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action("status") and event.is_pressed():
+	
 		var window_pos = get_pos()
 		if window_pos.y == 665:
 			set_pos(Vector2(window_pos.x, 465))

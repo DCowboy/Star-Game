@@ -10,6 +10,8 @@ var maps = {}
 var current_map
 var map_name
 var map_size
+
+var ships = {}
 var terran_base
 
 var player = {}
@@ -27,8 +29,8 @@ var ping_areas
 
 func _ready():
 	maps['nebula_01'] = preload('res://maps/nebula_01/nebula_01.scn')
-	player['ship'] = preload('res://player/terran_corvette.scn')
-	player['status'] = preload('res://player/terran_corvette_status.scn')
+	ships['terran_corvette'] = {'scene': preload('res://player/terran_corvette.scn'), 'status': preload('res://player/terran_corvette_status.scn')}
+	ships['terran_warship'] = {'scene': preload('res://player/terran_warship.scn'), 'status': preload('res://player/terran_warship_status.scn')}
 #	player['cargo'] =
 	basis_viewport = Rect2(0, 0, 800, 600)
 	object_types['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')

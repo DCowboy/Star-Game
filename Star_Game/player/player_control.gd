@@ -5,6 +5,7 @@ var rotate = 0
 
 func _ready():
 	set_name('controls')
+	
 	set_process_input(true)
 	pass
 

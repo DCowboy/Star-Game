@@ -34,8 +34,10 @@ func _ready():
 	
 	pos_adj = Vector2(get_viewport_rect().size.width / 2, get_viewport_rect().size.height / 2)
 	
-	get_node("/root/globals").player_pos = get_parent().get_node("Player").get_pos()
-	get_node("/root/globals").full_populate()
+	
+	
+	
+	
 	set_process(true)
 
 

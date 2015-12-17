@@ -27,12 +27,10 @@ func fire(force, acceleration):
 		#create shot and send it off
 		var shot = ammo.instance()
 		#there has got to be a better way to set the position correctly
-		var player_height = owner.get_child(0).get_texture().get_height()
 		var weapon_size = get_node('Sprite').get_texture().get_size()
-		shot.set_pos(get_global_pos() - Vector2(weapon_size.x, player_height * 0.9) - Vector2(0, weapon_size.y * .75).rotated(owner.rotate))
+		shot.set_pos(get_global_pos() - Vector2(0, weapon_size.y / 2).rotated(owner.rotate))
 		shot.set_rot(owner.rotate)
-		shot.direction = Vector2(cos(owner.rotate + deg2rad(90)),\
-		 -sin(owner.rotate + deg2rad(90)))
+		shot.direction = Vector2(cos(owner.rotate + deg2rad(90)), -sin(owner.rotate + deg2rad(90)))
 		shot.acceleration = acceleration
 		#sets a unique name to later be identified if needed
 		shot.set_name(shot.get_name() + ' ' + str(shot_count))

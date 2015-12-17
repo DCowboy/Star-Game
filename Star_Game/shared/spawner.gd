@@ -19,14 +19,24 @@ func wait(name, race):
 func _on_Timer_timeout():
 	print('waiting over')
 	get_node("Timer").stop()
+	spawn(poor_dead_bastard.name, poor_dead_bastard.race)
+		
+
+
+func spawn(name, race):
 	var respawn_pos
-	if poor_dead_bastard.race == 'terran':
-		respawn_pos = Vector2(-3545, 4015)
+	print('spawning: ' + name + ', ' + race)
+	if race == 'terran':
+		respawn_pos = get_node("/root/globals").terran_base.get_pos()
+		print(respawn_pos)
+		randomize()
+		respawn_pos.x += int(rand_range(-1,1) * 250)
+		respawn_pos.y += int(rand_range(-1, 1) * 250)
 	else:
 		respawn_pos = Vector2(0, 0)
-	if poor_dead_bastard.name == 'Player':
+	if name == 'Player':
 		print('respawning')
 		var spawn = get_node("/root/globals").player.ship.instance()
 		spawn.set_pos(respawn_pos)
 		get_node("/root/client").add_child(spawn)
-		
+		get_node("/root/client").move_child(spawn, 1)

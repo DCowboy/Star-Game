@@ -6,10 +6,11 @@ var basis_viewport
 var true_scale
 var square_scale
 
+var maps = {}
 var current_map
 var map_name
 var map_size
-
+var terran_base
 
 var player = {}
 var rotate
@@ -25,7 +26,8 @@ var ping_objects
 var ping_areas
 
 func _ready():
-	player['ship'] = preload('res://player/blue_battle_cruiser.scn')
+	maps['nebula_01'] = preload('res://maps/nebula_01/nebula_01.scn')
+	player['ship'] = preload('res://player/terran_corvette.scn')
 	player['status'] = preload('res://player/terran_corvette_status.scn')
 #	player['cargo'] =
 	basis_viewport = Rect2(0, 0, 800, 600)
@@ -105,7 +107,7 @@ func rand_pos():
 		randomize()
 		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
 		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
-		if Vector2(player_pos - pos).length() > 100:  
+		if Vector2(player_pos - pos).length() > 500:  
 			break
 
 	return pos

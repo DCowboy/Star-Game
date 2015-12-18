@@ -12,7 +12,7 @@ var energy
 var shape_hit
 var shield_index
 var shield_strength
-
+var credit = {}
 var impacts = {}
 
 func _ready():
@@ -45,6 +45,7 @@ func _integrate_forces(state):
 
 func hit_by(obj, at=null):
 	var shape
+	var culprit
 	var reward = health
 	var hit = 0
 	if at == 0:
@@ -52,7 +53,7 @@ func hit_by(obj, at=null):
 	elif at == shield_index:
 		shape = 'shield'
 		
-	if obj.name == 'laser_shot':
+	if obj.type == 'projectile':
 		hit = obj.payload
 		set_applied_force(obj.direction * (obj.acceleration + obj.payload))
 	elif 'material' in obj and 'material' in self:
@@ -74,15 +75,25 @@ func hit_by(obj, at=null):
 		health = 0
 	if health < reward:
 		reward -= health
-		if obj.name == 'laser_shot':
-			obj.owner.reward(int(reward))
+		if obj.type == 'projectile':
+			culprit = obj.owner
+#			obj.owner.reward(int(reward))
 		else:
-			obj.reward(reward)
+			culprit = obj
+#			obj.reward(reward)
+	if culprit != null:
+		if not culprit.name in credit:
+			credit[culprit.name] = {'who':culprit, 'gets':reward}
 			
+		else:
+			credit[culprit.name].gets += reward
 			
-func reward(amount):
-	if name == 'Player':
-		print('recieved reward of ' + str(amount))
+func reward():
+	
+	
+	for culprit in credit:
+		if culprit == 'Player':
+			print('recieved reward of ' + str(credit[culprit].gets))
 		
 
 

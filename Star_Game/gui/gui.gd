@@ -1,14 +1,17 @@
 
 extends CanvasLayer
 var map_name
+var status
 
 
 func _ready():
 	map_name = get_node("map_and_missions/map_name")
 	map_name.set_text(get_node("/root/globals").map_name)
-	get_node("status_control/status_bg/status_holder").add_child(get_node("/root/globals").player.status.instance())
+	status = get_node("/root/globals").player.status.instance()
+	get_node("status_control/status_bg/status_holder").add_child(status)
 	set_process_input(true)
 	pass
+
 
 
 func _input(event):

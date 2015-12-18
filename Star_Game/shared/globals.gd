@@ -14,7 +14,7 @@ var map_size
 var ships = {}
 var terran_base
 
-var player = {}
+var player = {'ship':null, 'status':null}
 var rotate
 var player_pos
 var mini_map_icons

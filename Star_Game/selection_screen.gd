@@ -43,5 +43,8 @@ func _on_terran_warship_pressed():
 
 
 func _on_confirm_pressed():
-	call_deferred('replace_by', client.instance())
+	if get_node("/root/globals").player.ship != null:
+		call_deferred('replace_by', client.instance())
+	else:
+		get_node("explanation").set_text('Need to choose a ship before you can start! Dumbass!')
 	pass # replace with function body

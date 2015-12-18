@@ -36,6 +36,7 @@ func death():
 		get_child(child).free()
 	crumble.set_pos(get_pos())
 	call_deferred('replace_by', crumble)
+	reward()
 
 func _fixed_process(delta):
 	if abs(get_angular_velocity()) > max_rotation:

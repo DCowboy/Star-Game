@@ -46,11 +46,9 @@ func _fixed_process(delta):
 		else: 
 			acceleration = max_acceleration
 
-		get_node("hull/burner_left").set_emitting(true)
-		get_node("hull/burner_right").set_emitting(true)
+		get_node('hull').engines_engage()
 	else:
-		get_node("hull/burner_left").set_emitting(false)
-		get_node("hull/burner_right").set_emitting(false)
+		get_node('hull').engines_disengage()
 
 	if brake and energy > 0:
 		if get_linear_velocity().length() > 0:
@@ -92,6 +90,7 @@ func death():
 		if child.get_name() != 'Camera2D':
 			child.free()
 	call_deferred('replace_by', explode)
+	reward()
 	get_node("/root/spawner").wait(self.name, self.race)
 	
 

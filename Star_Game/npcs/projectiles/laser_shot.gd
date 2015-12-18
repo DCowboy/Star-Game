@@ -2,6 +2,7 @@
 extends RigidBody2D
 var owner
 var name = 'laser_shot'
+var type = 'projectile'
 var direction
 var acceleration
 var shot_acceleration = 250

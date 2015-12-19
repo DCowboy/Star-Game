@@ -6,6 +6,7 @@ extends Sprite
 # var b="textvar"
 
 func _ready():
+	get_parent().size = 1
 	engines_disengage()
 	pass
 

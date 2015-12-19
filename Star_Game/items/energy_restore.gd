@@ -2,9 +2,10 @@
 extends Area2D
 
 var life = 0
-var lifetime = 600
+var lifetime = 3000
 
 func _ready():
+	set_scale(get_node("/root/globals").player_scale)
 	set_process(true)
 	pass
 

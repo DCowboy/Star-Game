@@ -12,8 +12,10 @@ var bar_energy
 var full_energy = Color(0.0, 0.0, 1.0, 1.0)
 var margin = 5
 var visibility
+var scale_set = false
 
 func _ready():
+	
 	visibility = get_node("VisibilityNotifier2D")
 	bar_bg = get_node("bar_bg")
 	bar_health = get_node("bar_bg/bar_health")
@@ -41,6 +43,9 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
+	if scale_set == false:
+		set_scale(get_node("/root/globals").player_scale)
+		scale_set = true
 	max_health = get_parent().max_health
 	max_energy = get_parent().max_energy
 	set_rot(-get_parent().get_rot())

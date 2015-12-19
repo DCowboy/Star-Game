@@ -5,6 +5,7 @@ var name
 var race
 var type
 var status = 'normal'
+var size = 0
 var max_health
 var health = 0 setget change_health
 var max_energy

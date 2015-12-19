@@ -35,6 +35,9 @@ func _ready():
 	shield_strength = 10
 	last_pos = get_pos()
 	this_pos = get_pos()
+	get_node("/root/globals").player_scale = get_node("Camera2D").get_zoom()
+	
+	
 	set_fixed_process(true)
 
 

@@ -15,6 +15,7 @@ var ships = {}
 var terran_base
 
 var player = {'ship':null, 'status':null}
+var player_scale
 var rotate
 var player_speed = 0
 var player_pos

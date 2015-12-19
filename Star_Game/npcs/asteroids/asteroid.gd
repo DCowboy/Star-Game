@@ -1,7 +1,6 @@
 
 extends "res://shared/rigid_object.gd"
 
-var size
 var material
 var shape
 var rotation_speed
@@ -72,11 +71,11 @@ func build_asteroid():
 	var unit = get_child(0).get_texture().get_size() / 3
 	var region_pos = Vector2(0, 0)
 	var health_base
-	if size == 0:
+	if self.size == 0:
 		size_name = 'small'
-	elif size == 1:
+	elif self.size == 1:
 		size_name = 'medium'
-	elif size == 2:
+	elif self.size == 2:
 		size_name = 'large'
 	else:
 		print('something is broken with size')

@@ -2,11 +2,12 @@
 extends Area2D
 
 var life = 0
-var lifetime = 600
+var lifetime = 3000
 var time = 0
 var switch_time = 40
 var anim 
 func _ready():
+	set_scale(get_node("/root/globals").player_scale)
 	anim = get_node("Sprite")
 	set_process(true)
 	pass

@@ -4,6 +4,7 @@ extends Sprite
 
 
 func _ready():
+	get_parent().size = 2
 	engines_disengage()
 
 

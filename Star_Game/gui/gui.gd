@@ -9,7 +9,7 @@ var guage_limit = 5
 
 
 func _ready():
-	map_name = get_node("map_and_missions/map_name")
+	map_name = get_node("missions_control/map_and_missions/map_name")
 	map_name.set_text(get_node("/root/globals").map_name)
 	speed = get_node("mini_map_control/mini-map_and _speed/speed")
 	status = get_node("/root/globals").player.status.instance()
@@ -19,6 +19,13 @@ func _ready():
 
 
 func _input(event):
+	if event.is_action("missions") and event.is_pressed():
+		var window_pos = get_node("missions_control").get_pos()
+		if window_pos.y >= 135:
+			get_node("missions_control").set_pos(Vector2(window_pos.x, window_pos.y - 205))
+		else:
+			get_node("missions_control").set_pos(Vector2(window_pos.x, window_pos.y + 205))
+			
 	if event.is_action("status") and event.is_pressed():
 		var window_pos = get_node("status_control").get_pos()
 		if window_pos.y >= 0:
@@ -32,6 +39,13 @@ func _input(event):
 			get_node("mini_map_control").set_pos(Vector2(window_pos.x, window_pos.y - 205))
 		else:
 			get_node("mini_map_control").set_pos(Vector2(window_pos.x, window_pos.y + 205))
+	
+	if event.is_action("cargo") and event.is_pressed():
+		var window_pos = get_node("inventory_control").get_pos()
+		if window_pos.y >= 0:
+			get_node("inventory_control").set_pos(Vector2(window_pos.x, window_pos.y - 195))
+		else:
+			get_node("inventory_control").set_pos(Vector2(window_pos.x, window_pos.y + 195))
 
 
 func _process(delta):
@@ -61,3 +75,20 @@ func _on_radar_control_toggled( pressed ):
 	else:
 		get_node("mini_map_control").set_pos(Vector2(window_pos.x, window_pos.y + 205))
 
+
+
+func _on_missions_button_toggled( pressed ):
+	var window_pos = get_node("missions_control").get_pos()
+	if window_pos.y >= 135:
+		get_node("missions_control").set_pos(Vector2(window_pos.x, window_pos.y - 205))
+	else:
+		get_node("missions_control").set_pos(Vector2(window_pos.x, window_pos.y + 205))
+
+
+func _on_cargo_hold_button_toggled( pressed ):
+	var window_pos = get_node("inventory_control").get_pos()
+	if window_pos.y >= 0:
+		get_node("inventory_control").set_pos(Vector2(window_pos.x, window_pos.y - 195))
+	else:
+		get_node("inventory_control").set_pos(Vector2(window_pos.x, window_pos.y + 195))
+	

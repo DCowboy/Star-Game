@@ -16,11 +16,13 @@ var terran_base
 
 var player = {'ship':null, 'status':null}
 var rotate
+var player_speed = 0
 var player_pos
 var mini_map_icons
 
 
-var object_types = {}
+var asteroids = {}
+var items = {}
 var explosions = {}
 var sound_effects
 
@@ -33,9 +35,12 @@ func _ready():
 	ships['terran_warship'] = {'scene': preload('res://player/terran_warship.scn'), 'status': preload('res://player/terran_warship_status.scn')}
 #	player['cargo'] =
 	basis_viewport = Rect2(0, 0, 800, 600)
-	object_types['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')
-	object_types['med_roid'] = preload('res://npcs/asteroids/medium_asteroid.scn')
-	object_types['large_roid'] = preload('res://npcs/asteroids/large_asteroid.scn')
+	asteroids['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')
+	asteroids['med_roid'] = preload('res://npcs/asteroids/medium_asteroid.scn')
+	asteroids['large_roid'] = preload('res://npcs/asteroids/large_asteroid.scn')
+	
+	items['energy_restore'] = preload('res://items/energy_restore.scn')
+	items['ship_repair'] = preload('res://items/ship_repair.scn')
 
 	mini_map_icons = preload('res://gui/mini_map_sprites.scn')
 	
@@ -88,7 +93,7 @@ func full_populate():
 func add_entity(description, number):
 	#add certain number of a specific entity to a specific parent
 	for each in range(number):
-		var entity = object_types[description.type].instance()
+		var entity = asteroids[description.type].instance()
 		if str(description.type).find('_roid') != -1:
 			entity.size = description.size
 			entity.material = description.material

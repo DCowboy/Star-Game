@@ -44,6 +44,8 @@ func _on_terran_warship_pressed():
 
 func _on_confirm_pressed():
 	if get_node("/root/globals").player.ship != null:
+		for child in get_children():
+			child.queue_free()
 		call_deferred('replace_by', client.instance())
 	else:
 		get_node("explanation").set_text('Need to choose a ship before you can start! Dumbass!')

@@ -46,26 +46,26 @@ func _process(delta):
 	set_rot(-get_parent().get_rot())
 	health = get_parent().health
 	energy = get_parent().energy
-	if health != max_health:
+	if get_parent().name == 'Player' or health != max_health:
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
 			bar_health.show()
 		status_bar('health')
 	else:
-		if get_parent().name != 'Player':
+		if bar_bg.is_visible() == true:
+			bar_bg.hide()
 			bar_health.hide()
-		else:
-			bar_health.show()
-	if energy != max_energy:
+			
+	if get_parent().name == 'Player':
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
+		if bar_energy.is_visible() == false:
 			bar_energy.show()
 		status_bar('energy')
 	else:
-		if get_parent().name != 'Player':
+		if bar_energy.is_visible() == true:
 			bar_energy.hide()
-		else:
-			bar_energy.show()
+
 	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, -bar_bg.get_texture().get_height() / 2 -lbl_name.get_size().height - margin))
 	
 func status_bar(type):
@@ -91,11 +91,11 @@ func status_bar(type):
 		bar_energy.get_material().set_shader_param("ratio",  ratio)
 	
 	
-	if ratio == 1:
+	if ratio >= .95:
 		color = full
-	elif ratio > .67:
+	elif ratio >= .6:
 		color = light
-	elif ratio > .34:
+	elif ratio >= .33:
 		color = heavy
 	else:
 		color = critical

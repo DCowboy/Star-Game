@@ -4,16 +4,49 @@ extends RigidBody2D
 var name
 var race
 var type
+var status = 'normal'
 var max_health
-var health 
+var health = 0 setget change_health
 var max_energy
-var energy
+var energy = 0 setget change_energy
 
 var shape_hit
 var shield_index
 var shield_strength
 var credit = {}
 var impacts = {}
+
+
+func change_health(action, value):
+	if action == 'add':
+		if health + value <= max_health:
+			health += value
+		else:
+			health = max_health
+	elif action == 'subtract':
+		if health - value >= 0:
+			health -= value
+		else:
+			health = 0
+	elif action == 'set':
+		if value >= 0 and value >= max_health:
+			health = value
+
+
+func change_energy(action, value):
+	if action == 'add':
+		if energy + value <= max_energy:
+			energy += value
+		else:
+			energy = max_energy
+	elif action == 'subtract':
+		if energy - value >= 0:
+			energy -= value
+		else:
+			energy = 0
+	elif action == 'set':
+		if value >= 0 and value >= max_energy:
+			energy = value
 
 func _ready():
 
@@ -23,7 +56,7 @@ func _ready():
 func _process(delta):
 	#slowly regenerate energy "from neutrino collectors"
 	if max_energy > 0 and energy < max_energy:
-		energy += .001
+		energy += .0001
 
 
 func _integrate_forces(state):
@@ -89,11 +122,17 @@ func hit_by(obj, at=null):
 			credit[culprit.name].gets += reward
 			
 func reward():
-	
-	
 	for culprit in credit:
 		if culprit == 'Player':
 			print('recieved reward of ' + str(credit[culprit].gets))
-		
+	drop()
 
 
+func drop():
+	var item
+	if type == 'asteroid':
+		if self.size == 0:
+			item = get_node("/root/globals").items.energy_restore.instance()
+			item.set_pos(get_pos())
+			get_node("/root/globals").current_map.add_child(item)
+	pass

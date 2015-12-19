@@ -1,4 +1,4 @@
-# Star-Game
+﻿# Star-Game
 #### (Working Title)
 This is a project I am working on to get past the confidence cliff.
 
@@ -14,5 +14,9 @@ This game may use things that some computers cannot handle. It would be invaluab
 - 'd' = inertial dampener: This will cause your ship to slow down, regardless of direction your ship is facing.
 - 'space' or Right Mouse Button = fire: Fire your weapon, if the shield is not up.
 - 's' = shields: This will put up a barrier to protect your health points, (when they're implemented.) However, engines and weapons will not work while the shield is up; inertial dampener does though.
+- 'q' = missions menu: opens up the missions (also opens by clicking tab)
+- 'r' = radar: opens up radar tab to expose mini-map (also opens by clicking tab)
+- 'e' = status: opens up status tab to expose equipment information (also opens by clicking tab)
+- 'c' = cargo: opens up cargo hold tab to expose cargo hold (items holding) (also opens by clicking tab)
 
 These are subject to change, so refer here if in doubt. 

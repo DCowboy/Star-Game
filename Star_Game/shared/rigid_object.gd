@@ -120,19 +120,4 @@ func hit_by(obj, at=null):
 			
 		else:
 			credit[culprit.name].gets += reward
-			
-func reward():
-	for culprit in credit:
-		if culprit == 'Player':
-			print('recieved reward of ' + str(credit[culprit].gets))
-	drop()
 
-
-func drop():
-	var item
-	if type == 'asteroid':
-		if self.size == 0:
-			item = get_node("/root/globals").items.energy_restore.instance()
-			item.set_pos(get_pos())
-			get_node("/root/globals").current_map.add_child(item)
-	pass

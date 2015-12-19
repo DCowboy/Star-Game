@@ -1,9 +1,8 @@
 
 extends Area2D
 
-# member variables here, example:
-# var a=2
-# var b="textvar"
+var life = 0
+var lifetime = 600
 
 func _ready():
 	set_process(true)
@@ -11,6 +10,7 @@ func _ready():
 
 
 func _process(delta):
+	life += 1
 	var hits = get_overlapping_bodies()
 	if hits.size() > 0:
 		if hits[0].type == 'projectile':
@@ -18,3 +18,5 @@ func _process(delta):
 		else:
 			hits[0].change_energy('add', 25)
 			queue_free()
+	if life >= lifetime:
+		queue_free()

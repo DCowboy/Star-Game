@@ -101,7 +101,7 @@ func death():
 		if child.get_name() != 'Camera2D':
 			child.free()
 	call_deferred('replace_by', explode)
-	reward()
+	get_node("/root/rewards").reward(self)
 	get_node("/root/spawner").wait(self.name, self.race)
 	
 

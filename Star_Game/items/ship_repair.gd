@@ -1,7 +1,8 @@
 
 extends Area2D
 
-# member variables here, example:
+var life = 0
+var lifetime = 600
 var time = 0
 var switch_time = 40
 var anim 
@@ -12,6 +13,7 @@ func _ready():
 
 
 func _process(delta):
+	life += 1
 	time += 1
 	if time >= switch_time:
 		if anim.get_frame() == anim.get_hframes() -1:
@@ -26,5 +28,6 @@ func _process(delta):
 		else:
 			hits[0].change_health('add', 25)
 			queue_free()
-
+	if life >= lifetime:
+		queue_free()
 

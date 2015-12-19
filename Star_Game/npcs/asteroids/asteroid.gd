@@ -10,6 +10,7 @@ export var max_acceleration = 5000
 
 func death():
 	var crumble
+	var number = 0
 	var pos = get_pos()
 	var description = {}
 	if size == 0:
@@ -22,7 +23,7 @@ func death():
 		description['type'] = 'med_roid'
 		
 	if size != 0:
-		var number = int(rand_range(1, 4)) 
+		number = int(rand_range(0, 4)) 
 		description['material'] = material
 		description['size'] = size - 1
 		description['shape'] = int(rand_range(0, 3))
@@ -36,7 +37,7 @@ func death():
 		get_child(child).free()
 	crumble.set_pos(get_pos())
 	call_deferred('replace_by', crumble)
-	reward()
+	get_node("/root/rewards").reward(self, number)
 
 func _fixed_process(delta):
 	if abs(get_angular_velocity()) > max_rotation:

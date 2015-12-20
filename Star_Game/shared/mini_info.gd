@@ -13,9 +13,11 @@ var full_energy = Color(0.0, 0.0, 1.0, 1.0)
 var margin = 5
 var visibility
 var scale_set = false
+var normal_texture
 
 func _ready():
-	
+	normal_texture = load('res://media/circular_hud_bg.tex')
+
 	visibility = get_node("VisibilityNotifier2D")
 	bar_bg = get_node("bar_bg")
 	bar_health = get_node("bar_bg/bar_health")
@@ -28,14 +30,14 @@ func _ready():
 	var parent_rect = get_parent().get_item_rect()
 	visibility.set_rect(Rect2(Vector2(0, 0), Vector2(parent_rect.size * 1.25)))
 	
-	if get_parent().name != 'Player':
-		bar_bg.hide()
-		bar_health.hide()
-		bar_energy.hide()
-	else:
-		bar_bg.show()
-		bar_health.show()
-		bar_energy.show()
+#	if get_parent().name != 'Player':
+#		bar_bg.hide()
+#		bar_health.hide()
+#		bar_energy.hide()
+#	else:
+#		bar_bg.show()
+#		bar_health.show()
+#		bar_energy.show()
 	if not visibility.is_on_screen():
 		self.hide()
 		get_parent().hide()
@@ -52,13 +54,13 @@ func _process(delta):
 	health = get_parent().health
 	energy = get_parent().energy
 	if get_parent().name == 'Player' or health != max_health:
-		if bar_bg.is_visible() == false:
-			bar_bg.show()
+		if bar_bg.get_normal_texture() == null:
+			bar_bg.set_normal_texture(normal_texture)
 			bar_health.show()
 		status_bar('health')
 	else:
 		if bar_bg.is_visible() == true:
-			bar_bg.hide()
+			bar_bg.set_normal_texture(null)
 			bar_health.hide()
 			
 	if get_parent().name == 'Player':
@@ -71,7 +73,7 @@ func _process(delta):
 		if bar_energy.is_visible() == true:
 			bar_energy.hide()
 
-	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, -bar_bg.get_texture().get_height() / 2 -lbl_name.get_size().height - margin))
+	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, - normal_texture.get_height() / 2 - margin))
 	
 func status_bar(type):
 	var color
@@ -119,3 +121,13 @@ func _on_VisibilityNotifier2D_exit_screen():
 	self.hide()
 	get_parent().hide()
 
+
+
+func _on_bar_bg_mouse_enter():
+	get_node("/root/globals").mouse_is_over = get_parent()
+	pass # replace with function body
+
+
+func _on_bar_bg_mouse_exit():
+	get_node("/root/globals").mouse_is_over = null
+	pass # replace with function body

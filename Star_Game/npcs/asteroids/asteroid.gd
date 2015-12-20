@@ -39,6 +39,7 @@ func death():
 	get_node("/root/rewards").reward(self, number)
 
 func _fixed_process(delta):
+	
 	if abs(get_angular_velocity()) > max_rotation:
 		set_angular_damp(1)
 	else:

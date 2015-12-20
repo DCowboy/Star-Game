@@ -27,6 +27,7 @@ var asteroids = {}
 var items = {}
 var explosions = {}
 var sound_effects
+var mouse_is_over = null
 
 var ping_objects
 var ping_areas

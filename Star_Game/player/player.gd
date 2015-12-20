@@ -43,6 +43,7 @@ func _ready():
 
 
 func _fixed_process(delta):
+	
 	last_pos = this_pos
 	this_pos = get_pos()
 	

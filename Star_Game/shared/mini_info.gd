@@ -1,5 +1,6 @@
 # info child for objects
 extends Node2D
+
 var max_health
 var health
 var max_energy
@@ -19,35 +20,26 @@ func _ready():
 	normal_texture = load('res://media/circular_hud_bg.tex')
 
 	visibility = get_node("VisibilityNotifier2D")
-	bar_bg = get_node("bar_bg")
-	bar_health = get_node("bar_bg/bar_health")
+	bar_bg = get_node("status_bar_holder/bar_bg")
+	bar_health = get_node("status_bar_holder/bar_bg/bar_health")
 	bar_health.set_material(bar_health.get_material().duplicate(true))
 	bar_health.get_material().set_shader_param("col", full_health)
-	bar_energy = get_node("bar_bg/bar_energy")
+	bar_energy = get_node("status_bar_holder/bar_bg/bar_energy")
 	bar_energy.set_material(bar_energy.get_material().duplicate(true))
 	bar_energy.get_material().set_shader_param("col", full_energy)
 	lbl_name = get_node("lbl_name")
 	var parent_rect = get_parent().get_item_rect()
 	visibility.set_rect(Rect2(Vector2(0, 0), Vector2(parent_rect.size * 1.25)))
-	
-#	if get_parent().name != 'Player':
-#		bar_bg.hide()
-#		bar_health.hide()
-#		bar_energy.hide()
-#	else:
-#		bar_bg.show()
-#		bar_health.show()
-#		bar_energy.show()
 	if not visibility.is_on_screen():
 		self.hide()
 		get_parent().hide()
-
+	lbl_name.hide()
 	set_process(true)
 
 func _process(delta):
-	if scale_set == false:
-		set_scale(get_node("/root/globals").player_scale)
-		scale_set = true
+#	if scale_set == false:
+#		set_scale(get_node("/root/globals").player_scale)
+#		scale_set = true
 	max_health = get_parent().max_health
 	max_energy = get_parent().max_energy
 	set_rot(-get_parent().get_rot())
@@ -56,13 +48,13 @@ func _process(delta):
 	if get_parent().name == 'Player' or health != max_health:
 		if bar_bg.get_normal_texture() == null:
 			bar_bg.set_normal_texture(normal_texture)
-			lbl_name.show()
+#			lbl_name.show()
 			bar_health.show()
 		status_bar('health')
 	else:
 		if bar_bg.is_visible() == true:
 			bar_bg.set_normal_texture(null)
-			lbl_name.hide()
+#			lbl_name.hide()
 			bar_health.hide()
 			
 	if get_parent().name == 'Player':
@@ -75,7 +67,7 @@ func _process(delta):
 		if bar_energy.is_visible() == true:
 			bar_energy.hide()
 
-	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, - normal_texture.get_height() / 2 - margin))
+	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, - normal_texture.get_height() / 2 - lbl_name.get_size().y - margin))
 	
 func status_bar(type):
 	var color
@@ -127,9 +119,11 @@ func _on_VisibilityNotifier2D_exit_screen():
 
 func _on_bar_bg_mouse_enter():
 	get_node("/root/globals").mouse_is_over = get_parent()
+	lbl_name.show()
 	pass # replace with function body
 
 
 func _on_bar_bg_mouse_exit():
 	get_node("/root/globals").mouse_is_over = null
+	lbl_name.hide()
 	pass # replace with function body

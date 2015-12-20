@@ -19,6 +19,7 @@ var player_scale
 var rotate
 var player_speed = 0
 var player_pos
+var player_race
 var mini_map_icons
 
 

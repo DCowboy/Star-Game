@@ -6,6 +6,7 @@ var speed
 var spd = 0
 var guage_limiter = 0
 var guage_limit = 5
+var cursor
 
 
 func _ready():
@@ -14,6 +15,7 @@ func _ready():
 	speed = get_node("mini_map_control/mini-map_and _speed/speed")
 	status = get_node("/root/globals").player.status.instance()
 	get_node("status_control/status_bg/status_holder").add_child(status)
+	cursor =get_node("cursor/Sprite")
 	set_process(true)
 	set_process_input(true)
 
@@ -92,3 +94,5 @@ func _on_cargo_hold_button_toggled( pressed ):
 	else:
 		get_node("inventory_control").set_pos(Vector2(window_pos.x, window_pos.y + 195))
 	
+
+

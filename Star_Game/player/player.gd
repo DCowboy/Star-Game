@@ -23,6 +23,7 @@ func _ready():
 	name = 'Player'
 	race = 'terran'
 	type = 'ship'
+	get_node("/root/globals").player_race = race
 	max_health = 100.0
 	health = max_health
 	max_energy = 100.0

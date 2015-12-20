@@ -56,11 +56,13 @@ func _process(delta):
 	if get_parent().name == 'Player' or health != max_health:
 		if bar_bg.get_normal_texture() == null:
 			bar_bg.set_normal_texture(normal_texture)
+			lbl_name.show()
 			bar_health.show()
 		status_bar('health')
 	else:
 		if bar_bg.is_visible() == true:
 			bar_bg.set_normal_texture(null)
+			lbl_name.hide()
 			bar_health.hide()
 			
 	if get_parent().name == 'Player':

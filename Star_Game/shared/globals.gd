@@ -34,6 +34,7 @@ var ping_areas
 
 func _ready():
 	maps['nebula_01'] = preload('res://maps/nebula_01/nebula_01.scn')
+	ships['terran_interceptor'] = {'scene': preload('res://player/terran_interceptor.scn'), 'status': preload('res://player/terran_corvette_status.scn')}
 	ships['terran_corvette'] = {'scene': preload('res://player/terran_corvette.scn'), 'status': preload('res://player/terran_corvette_status.scn')}
 	ships['terran_warship'] = {'scene': preload('res://player/terran_warship.scn'), 'status': preload('res://player/terran_warship_status.scn')}
 #	player['cargo'] =

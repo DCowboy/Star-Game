@@ -27,19 +27,21 @@ func _ready():
 	bar_energy = get_node("status_bar_holder/bar_bg/bar_energy")
 	bar_energy.set_material(bar_energy.get_material().duplicate(true))
 	bar_energy.get_material().set_shader_param("col", full_energy)
-	lbl_name = get_node("lbl_name")
+	lbl_name = get_node("name_holder")
 	var parent_rect = get_parent().get_item_rect()
 	visibility.set_rect(Rect2(Vector2(0, 0), Vector2(parent_rect.size * 1.25)))
 	if not visibility.is_on_screen():
 		self.hide()
 		get_parent().hide()
+
 	lbl_name.hide()
 	set_process(true)
 
 func _process(delta):
-#	if scale_set == false:
-#		set_scale(get_node("/root/globals").player_scale)
-#		scale_set = true
+	if scale_set == false:
+		lbl_name.set_scale(get_node("/root/globals").player_scale)
+		lbl_name.set_pos(Vector2(0, normal_texture.get_height() / 2 - margin))
+		scale_set = true
 	max_health = get_parent().max_health
 	max_energy = get_parent().max_energy
 	set_rot(-get_parent().get_rot())
@@ -66,8 +68,9 @@ func _process(delta):
 	else:
 		if bar_energy.is_visible() == true:
 			bar_energy.hide()
+	
 
-	lbl_name.set_pos(Vector2(lbl_name.get_pos().x, - normal_texture.get_height() / 2 - lbl_name.get_size().y - margin))
+	
 	
 func status_bar(type):
 	var color
@@ -116,7 +119,6 @@ func _on_VisibilityNotifier2D_exit_screen():
 	get_parent().hide()
 
 
-
 func _on_bar_bg_mouse_enter():
 	get_node("/root/globals").mouse_is_over = get_parent()
 	lbl_name.show()
@@ -126,4 +128,9 @@ func _on_bar_bg_mouse_enter():
 func _on_bar_bg_mouse_exit():
 	get_node("/root/globals").mouse_is_over = null
 	lbl_name.hide()
+	
+	
+func _exit_tree():
+	get_node("/root/globals").mouse_is_over = null
+	
 	pass # replace with function body

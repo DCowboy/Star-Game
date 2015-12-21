@@ -8,6 +8,16 @@ func _ready():
 	pass
 
 
+func _on_terran_interceptor_mouse_enter():
+	get_node("explanation").set_text('Terran Interceptor: Currently does the same damn thing as every ship you see here')
+	pass # replace with function body
+
+
+func _on_terran_interceptor_mouse_exit():
+	get_node("explanation").set_text('')
+	pass # replace with function body
+
+
 func _on_terran_corvette_mouse_enter():
 	get_node("explanation").set_text('Terran Corvette: Currently does the same damn thing as every ship you see here')
 	pass # replace with function body
@@ -26,7 +36,14 @@ func _on_terran_warship_mouse_enter():
 func _on_terran_warship_mouse_exit():
 	get_node("explanation").set_text('Terran Warship: Currently does the same damn thing as every ship you see here')
 	pass # replace with function body
-	
+
+
+func _on_terran_interceptor_toggled( pressed ):
+	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_interceptor.scene
+	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_interceptor.status
+	get_node("choice").set_text('Current Choice: Terran Interceptor')
+	pass # replace with function body	
+
 	
 func _on_terran_corvette_pressed():
 	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_corvette.scene
@@ -50,3 +67,5 @@ func _on_confirm_pressed():
 	else:
 		get_node("explanation").set_text('Need to choose a ship before you can start! Dumbass!')
 	pass # replace with function body
+
+

@@ -96,7 +96,7 @@ func build_asteroid():
 	else: 
 		print('something is broken with material')
 	name = size_name + " " + material_name + " asteroid"
-	get_node("mini_info").lbl_name.set_text(name)
+	get_node("mini_info").lbl_name.get_child(0).set_text(name)
 		
 	if shape in range(0, 3):
 		region_pos.y = unit.y * shape

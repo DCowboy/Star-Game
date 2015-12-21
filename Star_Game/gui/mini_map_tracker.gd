@@ -1,19 +1,26 @@
 
 extends Area2D
-
+var shape
+var current_transform
+var player_scale = Vector2(0, 0)
 var ping_bodies = []
 var ping_areas = []
 
 func _ready():
+	shape = get_node("CollisionShape2D").get_collision_object_shape_index()
+	current_transform = get_shape_transform(shape)
 	#sets size of area to check based on viewport size
 #	var scale = get_node("/root/globals").main_viewport.size.width / get_node("/root/globals").basis_viewport.size.width
-	var current_transform = get_shape_transform(0)
-	set_shape_transform(0, current_transform.scaled(get_node("/root/globals").square_scale))
+	
 	set_fixed_process(true)
 
 
 func _fixed_process(delta):
-	#follow the player if it's there
+	if player_scale != get_node("/root/globals").player_scale:
+		player_scale = get_node("/root/globals").player_scale
+		set_shape_transform(0, current_transform.scaled(player_scale))
+#		get_node("/root/globals").mini_map_size = 
+		#follow the player if it's there
 	if get_node("/root/globals").player_pos != null:
 		set_pos(get_node("/root/globals").player_pos)
 	#attempt to get overlapping bodies and areas
@@ -25,4 +32,5 @@ func _fixed_process(delta):
 	get_node("/root/globals").ping_areas = ping_areas
 	
 
-
+func _screen_size_changed():
+	set_shape_transform(0, current_transform.scaled(get_node("/root/globals").square_scale))

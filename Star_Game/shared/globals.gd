@@ -20,8 +20,6 @@ var rotate
 var player_speed = 0
 var player_pos
 var player_race
-var mini_map_icons
-
 
 var asteroids = {}
 var items = {}
@@ -29,12 +27,14 @@ var explosions = {}
 var sound_effects
 var mouse_is_over = null
 
+var mini_map_size = Vector2(0, 0)
+var mini_map_icons
 var ping_objects
 var ping_areas
 
 func _ready():
 	maps['nebula_01'] = preload('res://maps/nebula_01/nebula_01.scn')
-	ships['terran_interceptor'] = {'scene': preload('res://player/terran_interceptor.scn'), 'status': preload('res://player/terran_corvette_status.scn')}
+	ships['terran_interceptor'] = {'scene': preload('res://player/terran_interceptor.scn'), 'status': preload('res://player/terran_interceptor_status.scn')}
 	ships['terran_corvette'] = {'scene': preload('res://player/terran_corvette.scn'), 'status': preload('res://player/terran_corvette_status.scn')}
 	ships['terran_warship'] = {'scene': preload('res://player/terran_warship.scn'), 'status': preload('res://player/terran_warship_status.scn')}
 #	player['cargo'] =

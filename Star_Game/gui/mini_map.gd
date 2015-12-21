@@ -5,22 +5,27 @@ var main_viewport
 var texture
 var ping_objects
 var ping_areas
+var radar_bg
+var radar_background 
+var radar_area
+var globals
 
 
 func _ready():
-	#sets minimap to a size based upon the viewport size
-	main_viewport = get_node("/root/globals").main_viewport
-	get_node("Viewport").set_rect(Rect2(Vector2(0, 0), Vector2(main_viewport.size.width, main_viewport.size.width) / 4))
-	get_node("Viewport/mini_map_bg").set_scale(get_node("/root/globals").square_scale)
-#	get_node("display").set_size(get_node("Viewport/mini_map_bg").get_texture().get_size())
-#	get_node("display").set_pos(Vector2(main_viewport.size.width * .75, 0))
-
+	globals = get_node("/root/globals")
+	radar_bg = get_node("Viewport/mini_map_bg")
+	radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
+	radar_area = 10
 	set_process(true)
 
 
 func _process(delta):
-	#get pings from mini_map_tracker
-	ping_objects = get_node("/root/globals").ping_objects
+	if radar_area != 10 * globals.player_scale.x:
+		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
+		radar_area = 10 * globals.player_scale.x
+		print(radar_area)
+#	#get pings from mini_map_tracker
+	ping_objects = globals.ping_objects
 	#add pings
 	get_pings()
 	#capture picture from viewport
@@ -40,7 +45,7 @@ func get_pings():
 		if ping != null:
 			var dot = get_node("/root/globals").mini_map_icons.instance()
 			dot.set_scale(Vector2(.5, .5))
-			dot.set_pos(((ping.get_pos() + Vector2(0, 100) - get_node("/root/globals").player_pos)) / 12)
+			dot.set_pos(((ping.get_pos() - get_node("/root/globals").player_pos)) / radar_area)
 			if ping in get_tree().get_nodes_in_group('friendly'):
 				dot.set_region_rect(Rect2(8, 0, 8, 8))
 			if ping in get_tree().get_nodes_in_group('target'):

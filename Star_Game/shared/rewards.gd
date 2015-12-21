@@ -50,7 +50,7 @@ func drop(obj):
 			if item != null:
 				randomize()
 				var item_pos = obj.get_pos()
-				var child = item.get_node('Sprite')
+				var child = item.get_node('Sprite') 
 				item_pos.x += int(rand_range(-1, 1) * (child.get_texture().get_width() * child.get_transform().get_scale().x))
 				item_pos.y += int(rand_range(-1, 1) * (child.get_texture().get_height() * child.get_transform().get_scale().y))
 				item.set_pos(item_pos)

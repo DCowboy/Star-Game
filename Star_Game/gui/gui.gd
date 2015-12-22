@@ -8,18 +8,21 @@ var spd = 0
 var guage_limiter = 0
 var guage_limit = 5
 var cursor
+var globals
 
 
 func _ready():
+	globals = get_node("/root/globals")
 	map_name = get_node("missions_control/map_and_missions/map_name")
-	map_name.set_text(get_node("/root/globals").map_name)
+	map_name.set_text(globals.map_name)
 	speed = get_node("mini_map_control/mini-map_and _speed/speed")
-	status = get_node("/root/globals").player.status.instance()
+	status = globals.player_current_ship.status
 	get_node("status_control/status_bg/status_holder").add_child(status)
-	cargo = get_node("/root/globals").player.cargo.instance()
+	cargo = globals.player_current_ship.cargo
 	get_node("inventory_control/items_bg/cargo_holder").add_child(cargo)
-	cursor =get_node("cursor/Sprite")
+	cursor = get_node("cursor")
 	set_process(true)
+	
 	set_process_input(true)
 
 

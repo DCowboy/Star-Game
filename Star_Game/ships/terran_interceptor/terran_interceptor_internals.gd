@@ -7,32 +7,37 @@ extends 'res://ships/ship.gd'
 
 func _ready():
 	name = 'terran_interceptor'
+	race = 'terran'
 	size = 0
 	size_name = 'small'
 	variation = 0
 	variation_name = 'defensive'
-#	status = preload('res://ships/terran_interceptor/terran_interceptor_status.scn')
-#	status.instance()
-#	cargo = preload('res://ships/small_normal_inventory.scn')
-#	cargo.instance()
+	status = preload('res://ships/terran_interceptor/terran_interceptor_status.scn').instance()
+#	get_node('/client/gui/status_control/status_bg/status_holder').add_child(status.instance())
+	cargo = preload('res://ships/small_normal_inventory.scn').instance()
+#	get_node('/client/gui/inventory_control/items_bg/cargo_holder').add_child(cargo.instance())
 	base_thrust = 1000
-	weapons['medium_laser'] = preload('res://ships/equipment/laser_cannon.scn')
-	get_node('hull/main_cannon').add_child(weapons.medium_laser.instance())
+	weapons['medium_laser'] = preload('res://ships/equipment/laser_cannon.scn').instance()
+	self.get_node('hull/main_cannon').add_child(weapons.medium_laser)
 	current_weapon = weapons.medium_laser
 	previous_pos = get_pos()
-	add_child(controls)
-	get_node("/root/player").scale = get_node("Camera2D").get_zoom()
+	current_pos = get_pos()
+	get_node("/root/globals").player_scale = get_node("Camera2D").get_zoom()
+	burners.append(get_node('hull/burner_center'))
+	owner = 'player'
 	shield_index = get_node("shield_shape").get_collision_object_shape_index()
 	shield_size = get_shape_transform(shield_index)
 	shape_hit = get_shape(0)
-	engines_disengage()
+	add_child(controls)
+	max_health = status.def_get() * 50
+	max_energy = status.spd_get() * 50
+	health = max_health
+	energy = max_energy
+	shield_strength = ceil(status.pwr_get() / 2 + status.def_get() / 2) * 5
+	print(str(health) + ' ' + str(energy))
 	pass
 
 
-func engines_engage():
-	get_node("hull/burner_center").set_emitting(true)
-	
-func engines_disengage():
-	get_node("hull/burner_center").set_emitting(false)
+
 
 

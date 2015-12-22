@@ -36,48 +36,48 @@ func drop(obj):
 			if obj.material == 0:
 				if chance > 75:
 					item = globals.items.ship_repair.instance()
-					if which < 50:
+					if which < 75:
 						item.use_now = true
 					else:
 						item.use_now = false
 				elif chance > 50:
 					item = globals.items.energy_restore.instance()
-					if which < 50:
+					if which < 75:
 						item.use_now = true
 					else:
 						item.use_now = false
 			elif obj.material == 1:
 				if chance > 75:
 					item = globals.items.energy_restore.instance()
-					if which < 45:
+					if which < 75:
 						item.use_now = true
 					else:
 						item.use_now = false
 				elif chance > 50:
 					item = globals.items.ship_repair.instance()
-					if which < 55:
+					if which < 75:
 						item.use_now = true
 					else:
 						item.use_now = false
 			elif obj.material == 2:
 				if chance > 90:
 					item = globals.items.ship_repair.instance()
-					if which < 50:
+					if which < 75:
 						item.use_now = true
 					else:
 						item.use_now = false
 				elif chance > 80:
 					item = globals.items.energy_restore.instance()
-					if which < 50:
+					if which < 75:
 						item.use_now = true
 					else:
 						item.use_now = false
 			if item != null:
 				randomize()
 				var item_pos = obj.get_pos()
-				var child = item.get_node('Sprite') 
-				item_pos.x += int(rand_range(-1, 1) * (child.get_texture().get_width() * child.get_transform().get_scale().x))
-				item_pos.y += int(rand_range(-1, 1) * (child.get_texture().get_height() * child.get_transform().get_scale().y))
+				var child = item.get_node('bubble') 
+				item_pos.x += int(rand_range(-1, 1) * (child.get_normal_texture().get_width() * child.get_transform().get_scale().x))
+				item_pos.y += int(rand_range(-1, 1) * (child.get_normal_texture().get_height() * child.get_transform().get_scale().y))
 				item.set_pos(item_pos)
 				get_node("/root/globals").current_map.add_child(item)
 			else:

@@ -11,13 +11,18 @@ var switch_time = 40
 var anim 
 func _ready():
 	set_scale(get_node("/root/globals").player_scale)
-	anim = get_node("Sprite")
+	anim = get_node("body")
+	if use_now == false:
+		get_node("bubble").show()
+	else:
+		get_node("bubble").hide()
 	set_process(true)
 	pass
 
 
 func _process(delta):
-	life += 1
+	if str(get_parent().get_name()).find('slot') == -1:
+		life += 1
 	time += 1
 	if time >= switch_time:
 		if anim.get_frame() == anim.get_hframes() -1:
@@ -35,13 +40,19 @@ func _process(delta):
 			queue_free()
 		elif 'cargo' in hits[0]:
 			owner = hits[0]
+			get_parent().remove_child(self)
 			hits[0].cargo.add_item(self)
-			queue_free()
 	if life >= lifetime:
 		queue_free()
 
 
 func use_item():
-	owner.change_energy('add', 25)
+	owner.change_health('add', 25)
 	queue_free()
 	
+
+func _on_bubble_toggled( pressed ):
+	if str(get_parent().get_name()).find('slot') != -1:
+		use_item()
+	else:
+		pass

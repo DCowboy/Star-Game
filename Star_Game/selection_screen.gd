@@ -46,32 +46,35 @@ func _on_terran_interceptor_toggled( pressed ):
 #						'status': preload('res://ships/terran_interceptor/terran_interceptor_status.scn'),
 #						'cargo': preload('res://ships/small_normal_inventory.scn')})
 #	player.current_ship = player.ships[0].ship
-	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_interceptor.scene
-	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_interceptor.status
-	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_interceptor.cargo
-	
+
+#	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_interceptor.scene
+#	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_interceptor.status
+#	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_interceptor.cargo
+	globals.player = preload('res://ships/terran_interceptor/terran_interceptor.scn')
 	get_node("choice").set_text('Current Choice: Terran Interceptor')
 	pass # replace with function body	
 
 	
 func _on_terran_corvette_pressed():
-	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_corvette.scene
-	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_corvette.status
-	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_corvette.cargo
+	globals.player = preload('res://ships/terran_corvette/terran_corvette.scn')
+#	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_corvette.scene
+#	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_corvette.status
+#	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_corvette.cargo
 	get_node("choice").set_text('Current Choice: Terran Corvette')
 	pass # replace with function body
 
 
 func _on_terran_warship_pressed():
-	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_warship.scene
-	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_warship.status
-	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_warship.cargo
+#	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_warship.scene
+#	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_warship.status
+#	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_warship.cargo
+	globals.player = preload('res://ships/terran_warship/terran_warship.scn')
 	get_node("choice").set_text('Current Choice: Terran Warship')
 	pass # replace with function body
 
 
 func _on_confirm_pressed():
-	if globals.player.ship != null:
+	if globals.player != null:
 		for child in get_children():
 			child.queue_free()
 		call_deferred('replace_by', client.instance())

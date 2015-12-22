@@ -14,8 +14,10 @@ var force_direction = Vector2(0, 0)
 var facing_direction = Vector2(0, 0)
 var engage = false
 var engineering_extensions = {}
+var burners = []
 var base_thrust
 var previous_pos = Vector2(0, 0)
+var current_pos = Vector2(0, 0)
 var speed = 0
 var brake = false
 var core_extensions = {}
@@ -25,30 +27,26 @@ var weapons = {}
 var current_weapon
 var shields_up = false
 var shield_size
+
 var defenses = {}
 var tactical_extensions = {}
 var supply_extensions = {}
-var max_health
-var health
-var max_energy
-var energy
+
 
 
 
 func _ready():
 	rotate = 0
-	health = max_health
-	energy = max_energy
-	
+
 	set_fixed_process(true)
+
 	pass
 
 
 func _fixed_process(delta):
-	var this_pos = Vector2(0, 0)
-	previous_pos = this_pos
-	this_pos = get_pos()	
-	speed = Vector2(previous_pos - this_pos).length() / 0.0167
+	previous_pos = current_pos
+	current_pos = get_pos()
+	speed = Vector2(previous_pos - current_pos).length() / 0.0167
 	
 	if get_rot() != rotate:
 		set_rot(rotate)
@@ -60,7 +58,7 @@ func _fixed_process(delta):
 		if speed <= 1000 or force_direction.dot(facing_direction) <= 0:
 			apply_impulse(Vector2(0, 0), force_direction * base_thrust * delta)
 			energy -= .01
-			get_node('hull').engines_engage()
+			engines_engage()
 			facing_direction = force_direction
 		else:
 			engines_disengage()
@@ -80,6 +78,8 @@ func _fixed_process(delta):
 	if fire and energy >= .25:
 		current_weapon.fire(force_direction, get_linear_velocity().length())
 		fire = false
+	else:
+		fire = false
 
 	if shields_up and energy > .01:
 		set_shape_transform(shield_index, shield_size.scaled(Vector2(4, 4)))
@@ -90,12 +90,21 @@ func _fixed_process(delta):
 		get_node("shield").hide()
 
 	set_linear_damp(inertial_dampener)
-	owner.speed = speed
-	owner.rotate = rotate
-	owner.pos = get_pos()
+	get_node("/root/globals").player_speed = speed
+	get_node("/root/globals").rotate = rotate
+	get_node("/root/globals").player_pos = get_pos()
 	
 	if health <= 0:
 		death()
+
+
+func engines_engage():
+	for burner in burners:
+		burner.set_emitting(true)
+	
+func engines_disengage():
+	for burner in burners:
+		burner.set_emitting(false)
 
 
 func death():
@@ -108,5 +117,5 @@ func death():
 			child.free()
 	call_deferred('replace_by', explode)
 	get_node("/root/rewards").reward(self)
-	get_node("/root/spawner").wait(owner.name, owner.race)
+	get_node("/root/spawner").wait(owner, race)
 

@@ -6,14 +6,13 @@ var race
 var type
 var condition = 'normal'
 var size = 0
-var max_health
-var health = 0 setget change_health
-var max_energy
-var energy = 0 setget change_energy
-
+var max_health = 1
+var health = 1 setget change_health
+var max_energy = 1
+var energy = 1 setget change_energy
+var shield_strength
 var shape_hit
 var shield_index
-var shield_strength
 var credit = {}
 var impacts = {}
 
@@ -50,7 +49,8 @@ func change_energy(action, value):
 			energy = value
 
 func _ready():
-
+	health = max_health
+	energy = max_energy
 	set_process(true)
 	
 	
@@ -68,13 +68,18 @@ func _integrate_forces(state):
 		if not collider in impacts:
 			impacts[collider] = 0
 			hit_by(collider, shape_hit)
+	
 		
 	if impacts != null:
-		for each in impacts:
-			impacts[each] += 1
-			if impacts[each] == 45:
-				hit_by(each, shape_hit)
-				impacts[each] = 0
+		for obj in impacts:
+			if obj in self.get_colliding_bodies():
+				impacts[obj] += 1
+				if impacts[obj] == 45:
+					hit_by(obj, shape_hit)
+					impacts[obj] = 0
+			else:
+				impacts.erase(obj)
+			
 
 
 func hit_by(obj, at=null):
@@ -98,7 +103,7 @@ func hit_by(obj, at=null):
 	else:
 		hit = obj.get_mass()
 	if shape == 'shield':
-		energy -= hit / shield_strength
+		energy -= hit / self.shield_strength
 		if energy < 0:
 			health += energy
 			energy = 0

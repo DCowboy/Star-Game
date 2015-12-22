@@ -14,7 +14,16 @@ func _ready():
 	pass
 
 func add_item(item):
-	if item in currently_used:
-		currently_used.item += 1
+	if currently_used.size() < max_slots:
+		for slot in get_children():
+			if slot.get_child_count() == 0:
+				item.set_pos(Vector2(0, 0))
+				item.set_transform(Matrix32(Vector2(.5,-0), Vector2(0, .5), get_pos()))
+				item.owner = get_node("/root/globals").player_current_ship
+				slot.add_child(item)
+				currently_used[item] = 1
+			slot.update()
 	else:
-		currently_used[item] = 1
+		print('inventory full')
+			
+	display.get_node("used").set_text(str(currently_used.size()))

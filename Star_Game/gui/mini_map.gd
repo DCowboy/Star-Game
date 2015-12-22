@@ -57,7 +57,7 @@ func get_pings():
 				if ping.name != 'laser_shot':
 					dot.set_region_rect(Rect2(0, 0, 8, 8))
 					dot.set_scale(Vector2(1,1))
-					if ping.name == 'Player':
+					if 'owner' in ping and ping.owner == 'player':
 						dot.set_pos(Vector2(0, 0))
 						dot.set_rot(globals.rotate)
 			ping_holder.add_child(dot)

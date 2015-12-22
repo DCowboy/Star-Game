@@ -1,7 +1,6 @@
 
 extends Area2D
 
-var usable = true
 var use_now = true
 var owner = null
 var life = 0
@@ -10,13 +9,16 @@ var lifetime = 3000
 func _ready():
 	set_scale(get_node("/root/globals").player_scale)
 	if use_now == false:
-		get_node("Sprite").show()
+		get_node("bubble").show()
+	else:
+		get_node("bubble").hide()
 	set_process(true)
 	pass
 
 
 func _process(delta):
-	life += 1
+	if str(get_parent().get_name()).find('slot') == -1:
+		life += 1
 	var hits = get_overlapping_bodies()
 	if hits.size() > 0:
 		if hits[0].type == 'projectile':
@@ -27,11 +29,20 @@ func _process(delta):
 			queue_free()
 		elif 'cargo' in hits[0]:
 			owner = hits[0]
+			get_parent().remove_child(self)
 			hits[0].cargo.add_item(self)
-			queue_free()
-
+		else:
+			print(hits[0].type + ' ' + hits[0].name + ' ' + str(use_now))
 
 func use_item():
 	owner.change_energy('add', 25)
 	queue_free()
 	
+
+func _on_bubble_toggled( pressed ):
+	print('press worked')
+	if str(get_parent().get_name()).find('slot') != -1:
+		use_item()
+	else:
+		print('something else did not work')
+		pass

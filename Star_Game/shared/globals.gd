@@ -11,16 +11,15 @@ var current_map
 var map_name
 var map_size
 
-var ships = {}
 var terran_base
 
-var player = {'ship': null, 'status': null, 'cargo': null}
-var player_scale
+var player #= {'ship': null, 'status': null, 'cargo': null}
+var player_scale = Vector2(0, 0)
 var rotate
 var player_speed = 0
 var player_pos
 var player_race
-var player_controls
+var player_current_ship
 
 var asteroids = {}
 var items = {}
@@ -36,16 +35,7 @@ var ping_areas
 func _ready():
 
 	maps['nebula_01'] = preload('res://maps/nebula_01/nebula_01.scn')
-	ships['terran_interceptor'] = {'scene': preload('res://player/terran_interceptor.scn'),
-									'status': preload('res://player/terran_interceptor_status.scn'),
-									'cargo': preload('res://player/small_normal_inventory.scn')}
-	ships['terran_corvette'] = {'scene': preload('res://player/terran_corvette.scn'),
-								'status': preload('res://player/terran_corvette_status.scn'),
-								'cargo': preload('res://player/medium_normal_inventory.scn')}
-	ships['terran_warship'] = {'scene': preload('res://player/terran_warship.scn'),
-								'status': preload('res://player/terran_warship_status.scn'),
-								'cargo': preload('res://player/large_normal_inventory.scn')}
-#	player['cargo'] =
+
 	basis_viewport = Rect2(0, 0, 800, 600)
 	asteroids['small_roid'] = preload('res://npcs/asteroids/small_asteroid.scn')
 	asteroids['med_roid'] = preload('res://npcs/asteroids/medium_asteroid.scn')

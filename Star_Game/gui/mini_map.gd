@@ -9,10 +9,12 @@ var radar_bg
 var radar_background 
 var radar_area
 var globals
+var player
 
 
 func _ready():
 	globals = get_node("/root/globals")
+#	player = get_node("/root/player")
 	radar_bg = get_node("Viewport/mini_map_bg")
 	radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
 	radar_area = 10
@@ -36,16 +38,17 @@ func _process(delta):
 	
 func get_pings():
 	#deletes earlier ping sprites
-	if get_node("Viewport/ping_holder").get_child_count() != 0:
-		for child in range(0, get_node("Viewport/ping_holder").get_child_count()):
-			get_node("Viewport/ping_holder").get_child(child).queue_free()
+	var ping_holder = get_node("Viewport/ping_holder")
+	if ping_holder.get_child_count() != 0:
+		for child in range(0, ping_holder.get_child_count()):
+			ping_holder.get_child(child).queue_free()
 		
 	#adds a spite for each ping
 	for ping in ping_objects:
 		if ping != null:
-			var dot = get_node("/root/globals").mini_map_icons.instance()
+			var dot = globals.mini_map_icons.instance()
 			dot.set_scale(Vector2(.5, .5))
-			dot.set_pos(((ping.get_pos() - get_node("/root/globals").player_pos)) / radar_area)
+			dot.set_pos(((ping.get_pos() - globals.player_pos)) / radar_area)
 			if ping in get_tree().get_nodes_in_group('friendly'):
 				dot.set_region_rect(Rect2(8, 0, 8, 8))
 			if ping in get_tree().get_nodes_in_group('target'):
@@ -56,6 +59,6 @@ func get_pings():
 					dot.set_scale(Vector2(1,1))
 					if ping.name == 'Player':
 						dot.set_pos(Vector2(0, 0))
-						dot.set_rot(get_node("/root/globals").rotate)
-			get_node("Viewport/ping_holder").add_child(dot)
+						dot.set_rot(globals.rotate)
+			ping_holder.add_child(dot)
 	

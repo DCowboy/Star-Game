@@ -31,22 +31,47 @@ func drop(obj):
 	if number > 0:
 		for each in range(number):
 			var chance = floor(rand_range(0, 101))
+			var which = floor(rand_range(0, 101))
 			var item = null
 			if obj.material == 0:
 				if chance > 75:
 					item = globals.items.ship_repair.instance()
+					if which < 50:
+						item.use_now = true
+					else:
+						item.use_now = false
 				elif chance > 50:
 					item = globals.items.energy_restore.instance()
+					if which < 50:
+						item.use_now = true
+					else:
+						item.use_now = false
 			elif obj.material == 1:
 				if chance > 75:
 					item = globals.items.energy_restore.instance()
+					if which < 45:
+						item.use_now = true
+					else:
+						item.use_now = false
 				elif chance > 50:
 					item = globals.items.ship_repair.instance()
+					if which < 55:
+						item.use_now = true
+					else:
+						item.use_now = false
 			elif obj.material == 2:
 				if chance > 90:
 					item = globals.items.ship_repair.instance()
+					if which < 50:
+						item.use_now = true
+					else:
+						item.use_now = false
 				elif chance > 80:
 					item = globals.items.energy_restore.instance()
+					if which < 50:
+						item.use_now = true
+					else:
+						item.use_now = false
 			if item != null:
 				randomize()
 				var item_pos = obj.get_pos()

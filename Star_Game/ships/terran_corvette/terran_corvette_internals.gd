@@ -4,7 +4,9 @@ extends Sprite
 var status
 var cargo
 
-func _ready():	
+func _ready():
+	status = get_node('
+	
 	get_parent().size = 1
 	engines_disengage()
 	pass

@@ -1,4 +1,4 @@
-# info child for objects
+# info parent for objects
 extends Node2D
 
 var max_health
@@ -38,27 +38,30 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
+	#set the scale of the label name to readable depending on the size of the ship
 	if scale_set == false:
 		lbl_name.set_scale(get_node("/root/globals").player_scale)
-		lbl_name.set_pos(Vector2(0, normal_texture.get_height() / 2 - margin))
+		lbl_name.set_pos(Vector2(0, -normal_texture.get_height() / 2 - margin))
 		scale_set = true
+	#max health and energy might change so left here until decided
 	max_health = get_parent().max_health
 	max_energy = get_parent().max_energy
+	#counter parent rotation and get current health and energy
 	set_rot(-get_parent().get_rot())
 	health = get_parent().health
 	energy = get_parent().energy
+	#only show if belongs to the player or health is less than 100%
 	if get_parent().name == 'Player' or health != max_health:
 		if bar_bg.get_normal_texture() == null:
 			bar_bg.set_normal_texture(normal_texture)
-#			lbl_name.show()
 			bar_health.show()
 		status_bar('health')
 	else:
 		if bar_bg.is_visible() == true:
 			bar_bg.set_normal_texture(null)
-#			lbl_name.hide()
 			bar_health.hide()
-			
+
+	#only show energy if belongs to the player
 	if get_parent().name == 'Player':
 		if bar_bg.is_visible() == false:
 			bar_bg.show()

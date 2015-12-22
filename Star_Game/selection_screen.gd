@@ -1,10 +1,13 @@
 
 extends Panel
-
+var globals
 var client
+var player
 
 func _ready():
+	globals = get_node("/root/globals")
 	client = preload('res://client.scn')
+#	player = get_node("/root/player")
 	pass
 
 
@@ -39,8 +42,14 @@ func _on_terran_warship_mouse_exit():
 
 
 func _on_terran_interceptor_toggled( pressed ):
+#	player.ships.append({'ship': preload('res://ships/terran_interceptor/terran_interceptor.scn'),
+#						'status': preload('res://ships/terran_interceptor/terran_interceptor_status.scn'),
+#						'cargo': preload('res://ships/small_normal_inventory.scn')})
+#	player.current_ship = player.ships[0].ship
 	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_interceptor.scene
 	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_interceptor.status
+	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_interceptor.cargo
+	
 	get_node("choice").set_text('Current Choice: Terran Interceptor')
 	pass # replace with function body	
 
@@ -48,6 +57,7 @@ func _on_terran_interceptor_toggled( pressed ):
 func _on_terran_corvette_pressed():
 	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_corvette.scene
 	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_corvette.status
+	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_corvette.cargo
 	get_node("choice").set_text('Current Choice: Terran Corvette')
 	pass # replace with function body
 
@@ -55,12 +65,13 @@ func _on_terran_corvette_pressed():
 func _on_terran_warship_pressed():
 	get_node("/root/globals").player['ship'] = get_node("/root/globals").ships.terran_warship.scene
 	get_node("/root/globals").player['status'] = get_node("/root/globals").ships.terran_warship.status
+	get_node("/root/globals").player['cargo'] = get_node("/root/globals").ships.terran_warship.cargo
 	get_node("choice").set_text('Current Choice: Terran Warship')
 	pass # replace with function body
 
 
 func _on_confirm_pressed():
-	if get_node("/root/globals").player.ship != null:
+	if globals.player.ship != null:
 		for child in get_children():
 			child.queue_free()
 		call_deferred('replace_by', client.instance())

@@ -34,9 +34,11 @@ func spawn(name, race):
 		respawn_pos.y += int(rand_range(-1, 1) * 250)
 	else:
 		respawn_pos = Vector2(0, 0)
-	if name == 'Player':
+	if name == 'player':
 		print('respawning')
-		var spawn = get_node("/root/globals").player.ship.instance()
+		var spawn = get_node("/root/globals").player.ship.instance() #get_node("/root/player").current_ship.instance()
+#		spawn.controls = get_node("/root/player").controls.new()
+#		spawn.owner = get_node("/root/player")
 		spawn.set_pos(respawn_pos)
 		get_node("/root/client").add_child(spawn)
 		get_node("/root/client").move_child(spawn, 1)

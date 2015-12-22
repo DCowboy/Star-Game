@@ -2,6 +2,7 @@
 extends CanvasLayer
 var map_name
 var status
+var cargo
 var speed
 var spd = 0
 var guage_limiter = 0
@@ -15,6 +16,8 @@ func _ready():
 	speed = get_node("mini_map_control/mini-map_and _speed/speed")
 	status = get_node("/root/globals").player.status.instance()
 	get_node("status_control/status_bg/status_holder").add_child(status)
+	cargo = get_node("/root/globals").player.cargo.instance()
+	get_node("inventory_control/items_bg/cargo_holder").add_child(cargo)
 	cursor =get_node("cursor/Sprite")
 	set_process(true)
 	set_process_input(true)

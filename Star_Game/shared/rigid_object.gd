@@ -4,7 +4,7 @@ extends RigidBody2D
 var name
 var race
 var type
-var status = 'normal'
+var condition = 'normal'
 var size = 0
 var max_health
 var health = 0 setget change_health

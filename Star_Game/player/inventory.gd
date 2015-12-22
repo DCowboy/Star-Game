@@ -4,14 +4,22 @@ extends Node2D
 var display
 var max_slots
 var currently_used = {}
-
+var used = 0
 
 func _ready():
 	display = get_parent().get_parent()
 	max_slots = get_child_count()
 	display.get_node("max_space").set_text(str(max_slots))
 	display.get_node("used").set_text(str(currently_used.size()))
+	set_process(true)
 	pass
+
+
+func _process(delta):
+	if used !=  currently_used.size():
+		display.get_node("used").set_text(str(currently_used.size()))
+		used = currently_used.size()
+
 
 func add_item(item):
 	if currently_used.size() < max_slots:

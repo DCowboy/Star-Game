@@ -23,6 +23,8 @@ func _ready():
 func _process(delta):
 	if str(get_parent().get_name()).find('slot') == -1:
 		life += 1
+	else:
+		life = 0
 	time += 1
 	if time >= switch_time:
 		if anim.get_frame() == anim.get_hframes() -1:
@@ -53,6 +55,7 @@ func use_item():
 
 func _on_bubble_toggled( pressed ):
 	if str(get_parent().get_name()).find('slot') != -1:
+		get_parent().get_parent().currently_used.erase(self)
 		use_item()
 	else:
 		pass

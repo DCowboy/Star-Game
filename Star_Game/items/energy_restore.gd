@@ -19,6 +19,8 @@ func _ready():
 func _process(delta):
 	if str(get_parent().get_name()).find('slot') == -1:
 		life += 1
+	else:
+		life = 0
 	var hits = get_overlapping_bodies()
 	if hits.size() > 0:
 		if hits[0].type == 'projectile':
@@ -40,9 +42,9 @@ func use_item():
 	
 
 func _on_bubble_toggled( pressed ):
-	print('press worked')
 	if str(get_parent().get_name()).find('slot') != -1:
+		get_parent().get_parent().currently_used.erase(self)
 		use_item()
 	else:
-		print('something else did not work')
+	
 		pass

@@ -1,40 +1,43 @@
 
 extends Node2D
 
-var pwr = 5 setget pwr_set, pwr_get
-var def = 7 setget def_set, def_get
-var spd = 3 setget spd_set, spd_get
+var weapons = 5 setget weapons_set, weapons_get
+var core = 7 setget core_set, core_get
+var engineering = 3 setget engineering_set, engineering_get
 var display
 
 func _ready():
 	print('getting ready')
 	display = get_parent().get_parent()
 	print(display.get_name())
-	display.get_node('propulsion').set_text(str(spd))
-	display.get_node('defense').set_text(str(def))
-	display.get_node('weap_pwr').set_text(str(pwr))
+	display.get_node('engineering').set_text(str(engineering))
+	display.get_node('core').set_text(str(core))
+	display.get_node('weapons').set_text(str(weapons))
+	display.get_node('supply').set_text(str(ceil((engineering + core) * .5)))
+	display.get_node('tactical').set_text(str(ceil((engineering + weapons) * .5)))
+	display.get_node('defense').set_text(str(ceil((core + weapons) * .5)))
 	pass
 
 
-func pwr_set(new_value):
-	pwr = new_value
+func weapons_set(new_value):
+	weapons = new_value
 	
 	
-func pwr_get():
-	return pwr
+func weapons_get():
+	return weapons
 	
 	
-func def_set(new_value):
-	def = new_value
-	
-
-func def_get():
-	return def
+func core_set(new_value):
+	core = new_value
 	
 
-func spd_set(new_value):
-	spd = new_value
+func core_get():
+	return core
+	
+
+func engineering_set(new_value):
+	engineering = new_value
 	
 	
-func spd_get():
-	return spd
+func engineering_get():
+	return engineering

@@ -32,11 +32,11 @@ func _ready():
 	shield_size = get_shape_transform(shield_index)
 	shape_hit = get_shape(0)
 	add_child(controls)
-	max_health = status.def_get() * 50
-	max_energy = status.spd_get() * 50
+	max_health = status.core_get() * 50
+	max_energy = status.engineering_get() * 50
 	health = max_health
 	energy = max_energy
-	shield_strength = ceil(status.pwr_get() / 2 + status.def_get() / 2) * 5
+	shield_strength = ceil((status.weapons_get() + status.core_get()) / 2) * 5
 	print(str(health) + ' ' + str(energy))
 	pass
 

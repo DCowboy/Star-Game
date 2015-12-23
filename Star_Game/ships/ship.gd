@@ -1,6 +1,7 @@
 
 extends "res://shared/rigid_object.gd"
 
+var globals
 const type = 'ship'
 var owner
 var controls
@@ -9,7 +10,7 @@ var variation
 var variation_name
 var status
 var cargo
-var rotate
+var rotate = 0
 var force_direction = Vector2(0, 0)
 var facing_direction = Vector2(0, 0)
 var engage = false
@@ -22,6 +23,7 @@ var speed = 0
 var brake = false
 var core_extensions = {}
 var inertial_dampener = 0
+var turn_speed = 5
 var fire = false
 var weapons = {}
 var current_weapon
@@ -36,7 +38,8 @@ var supply_extensions = {}
 
 
 func _ready():
-	rotate = 0
+	globals = get_node("/root/globals")
+
 
 	set_fixed_process(true)
 
@@ -47,12 +50,53 @@ func _fixed_process(delta):
 	previous_pos = current_pos
 	current_pos = get_pos()
 	speed = Vector2(previous_pos - current_pos).length() / 0.0167
-	
-	if get_rot() != rotate:
-		set_rot(rotate)
+	if speed > 1000:
+		speed = 1001
+		
+#	var turn_amount = (turn_speed / (size + 1)) * delta
+#	var s = sign(rotate)
+#	var ang = abs(rotate)
+#	rotate( min(ang,turn_amount)*s )
+#	rotate(rotate * turn_amount)
+
+	var rot = get_rot()
+	if rot != rotate:
+		var sgn = 1
+		var turn_amount = (turn_speed / pow(size + 1, size + 1) * delta)
+		if rot + turn_amount < rotate:
+			if rotate - rot > deg2rad(179):
+				sgn = -1
+			else:
+				sgn = 1
+		elif rot - turn_amount > rotate:
+			if rot - rotate> deg2rad(179):
+				sgn = 1
+			else:
+				sgn = -1
+		else:
+			turn_amount = 0
+
+		
+#			turn_amount = rotate - rot
+		set_rot(rot +  sgn * turn_amount)
+
+#	var turn_amount = (turn_speed / (size + 1)) * delta
+#	var rot = get_rot()
+#	if rot != rotate:
+#		var sgn = 1
+#		if rad2deg(abs(rot - rotate)) > 180 or rad2deg(abs(rotate - rot)) > 180:
+#			sgn = -1
+#		set_angular_velocity( sgn * turn_amount )
+#	else:
+#		set_rot(rotate)
+
+		
+#		set_rot(rotate)
+
+		
 	if engage and energy > .01:
-		force_direction.x = cos(rotate + deg2rad(90))
-		force_direction.y = -sin(rotate + deg2rad(90))
+		force_direction.x = cos(get_rot() + deg2rad(90))
+		force_direction.y = -sin(get_rot() + deg2rad(90))
 		force_direction = force_direction.normalized()
 
 		if speed <= 1000 or force_direction.dot(facing_direction) <= 0:
@@ -76,7 +120,7 @@ func _fixed_process(delta):
 		inertial_dampener = 0
 		
 	if fire and energy >= .25:
-		current_weapon.fire(force_direction, get_linear_velocity().length())
+		current_weapon.fire(get_rot() + deg2rad(90), get_linear_velocity().length())
 		fire = false
 	else:
 		fire = false
@@ -90,9 +134,11 @@ func _fixed_process(delta):
 		get_node("shield").hide()
 
 	set_linear_damp(inertial_dampener)
-	get_node("/root/globals").player_speed = speed
-	get_node("/root/globals").rotate = rotate
-	get_node("/root/globals").player_pos = get_pos()
+	
+	
+	globals.player_speed = speed
+	globals.rotate = rotate
+	globals.player_pos = get_pos()
 	
 	if health <= 0:
 		death()
@@ -109,13 +155,14 @@ func engines_disengage():
 
 func death():
 	
-	var explode = get_node("/root/globals").explosions.large_normal.instance()
+	var explode = globals.explosions.large_normal.instance()
 	explode.set_pos(get_pos())
 	
 	for child in get_children():
 		if child.get_name() != 'Camera2D':
 			child.free()
 	call_deferred('replace_by', explode)
+	globals.population -= 1
 	get_node("/root/rewards").reward(self)
 	get_node("/root/spawner").wait(owner, race)
 

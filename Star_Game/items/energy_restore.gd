@@ -30,11 +30,12 @@ func _process(delta):
 			use_item()
 			queue_free()
 		elif 'cargo' in hits[0]:
-			owner = hits[0]
-			get_parent().remove_child(self)
-			hits[0].cargo.add_item(self)
-		else:
-			print(hits[0].type + ' ' + hits[0].name + ' ' + str(use_now))
+			if hits[0].cargo.check_room():
+				get_parent().remove_child(self)
+				hits[0].cargo.add_item(self)
+			else:
+				print('no space available!')
+
 
 func use_item():
 	owner.change_energy('add', 25)

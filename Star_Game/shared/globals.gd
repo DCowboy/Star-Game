@@ -10,7 +10,7 @@ var maps = {}
 var current_map
 var map_name
 var map_size
-
+var population = 0
 var terran_base
 
 var player #= {'ship': null, 'status': null, 'cargo': null}
@@ -64,8 +64,8 @@ func full_populate():
 	#randomly populate the map
 	var to_add = {}
 
-	var population = int(map_size.size.length() / 100)
-	for each in range(population):
+	var make = int(map_size.size.length() / 100)
+	for each in range(make):
 		var data = {}
 		var info = {}
 		var name

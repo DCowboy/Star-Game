@@ -9,7 +9,7 @@ extends 'res://ships/ship.gd'
 func _ready():
 	name = 'terran_warship'
 	race = 'terran'
-	size = 1
+	size = 2
 	size_name = 'large'
 	variation = 0
 	variation_name = 'defensive'
@@ -37,7 +37,7 @@ func _ready():
 	health = max_health
 	energy = max_energy
 	shield_strength = ceil((status.weapons_get() + status.core_get()) / 2) * 5
-	print(str(health) + ' ' + str(energy))
+
 	pass
 
 

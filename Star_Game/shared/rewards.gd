@@ -76,8 +76,8 @@ func drop(obj):
 				randomize()
 				var item_pos = obj.get_pos()
 				var child = item.get_node('bubble') 
-				item_pos.x += int(rand_range(-1, 1) * (child.get_size().x))
-				item_pos.y += int(rand_range(-1, 1) * (child.get_size().y))
+				item_pos.x += int(rand_range(-1, 1) * (child.get_normal_texture().get_width() * child.get_scale().x))
+				item_pos.y += int(rand_range(-1, 1) * (child.get_normal_texture().get_height() * child.get_scale().y))
 				item.set_pos(item_pos)
 				get_node("/root/globals").current_map.add_child(item)
 			else:

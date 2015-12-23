@@ -6,6 +6,7 @@ var shape
 var rotation_speed
 export var max_rotation = 5
 export var max_acceleration = 5000
+var globals
 
 func death():
 	var crumble
@@ -13,12 +14,12 @@ func death():
 	var pos = get_pos()
 	var description = {}
 	if size == 0:
-		crumble = get_node("/root/globals").explosions.small_rock.instance()
+		crumble = globals.explosions.small_rock.instance()
 	elif size == 1:
-		crumble = get_node("/root/globals").explosions.med_rock.instance()
+		crumble = globals.explosions.med_rock.instance()
 		description['type'] = 'small_roid'
 	else:
-		crumble = get_node("/root/globals").explosions.large_rock.instance()
+		crumble = globals.explosions.large_rock.instance()
 		description['type'] = 'med_roid'
 		
 	if size != 0:
@@ -31,11 +32,12 @@ func death():
 			pos.x += rand_range(-this_image.x * .4, this_image.x * .4)
 			pos.y += rand_range(-this_image.y * .4, this_image.y * .4 )
 			description['pos'] = pos
-			get_node("/root/globals").add_entity(description, 1)
+			globals.add_entity(description, 1)
 	for child in range(get_child_count() -1):
 		get_child(child).free()
 	crumble.set_pos(get_pos())
 	call_deferred('replace_by', crumble)
+	globals.population -= 1
 	get_node("/root/rewards").reward(self, number)
 
 func _fixed_process(delta):
@@ -54,6 +56,7 @@ func _fixed_process(delta):
 
 
 func _ready():
+	globals = get_node("/root/globals")
 	build_asteroid()
 	race = 'neutral'
 	type = 'asteroid'
@@ -107,6 +110,7 @@ func build_asteroid():
 	health = max_health
 	max_energy = 0.0
 	energy = max_energy
+	globals.population += 1
 
 	#signal if the collider leaves the body so it doesn't keep hitting
 func _on_large_asteroid_body_exit( body ):

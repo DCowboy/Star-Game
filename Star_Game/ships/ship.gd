@@ -55,20 +55,33 @@ func _fixed_process(delta):
 	var rot = get_rot()
 	if rot != rotate:
 		var sgn = 1
-		var turn_amount = (turn_speed / pow(size + 1, size + 1) * delta)
+		var turn_amount = ((turn_speed / ((((size + .1) * speed) + 1) * pow(size + 1, size + .1))) * delta)
 		if rot + turn_amount < rotate:
-			if rotate - rot > deg2rad(179):
+			if rotate - rot > deg2rad(180 - turn_amount):
 				sgn = -1
 			else:
 				sgn = 1
 		elif rot - turn_amount > rotate:
-			if rot - rotate> deg2rad(179):
+			if rot - rotate> deg2rad(80 - turn_amount):
 				sgn = 1
 			else:
 				sgn = -1
 		else:
 			turn_amount = 0
 		set_rot(rot +  sgn * turn_amount)
+	var angular_velocity = get_angular_velocity()
+	if abs(angular_velocity) > 0:
+		if angular_velocity > 0:
+			if angular_velocity - turn_speed >= 0:
+				angular_velocity -= turn_speed
+			else:
+				angular_velocity = 0
+		else:
+			if angular_velocity + turn_speed <= 0:
+				angular_velocity += turn_speed
+			else:
+				angular_velocity = 0
+		set_angular_velocity(angular_velocity)
 		
 	if engage and energy > .01:
 		force_direction.x = cos(get_rot() + deg2rad(90))

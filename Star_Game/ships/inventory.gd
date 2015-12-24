@@ -12,6 +12,14 @@ func _ready():
 	display.get_node("max_space").set_text(str(max_slots))
 	display.get_node("used").set_text(str(currently_used.size()))
 	pass
+	
+	
+func check_room():
+	if currently_used.size() < max_slots:
+		return true
+	else:
+		return false
+	
 
 func add_item(item):
 	if item in currently_used:

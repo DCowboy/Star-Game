@@ -40,3 +40,6 @@ func _input(event):
 		else:
 			if get_parent().shields_up:
 				get_parent().shields_up = false
+	
+	if event.is_action("quit") and event.is_pressed():
+		OS.get_main_loop().quit()

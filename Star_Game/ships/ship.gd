@@ -40,7 +40,6 @@ var supply_extensions = {}
 func _ready():
 	globals = get_node("/root/globals")
 
-
 	set_fixed_process(true)
 
 	pass
@@ -52,12 +51,6 @@ func _fixed_process(delta):
 	speed = Vector2(previous_pos - current_pos).length() / 0.0167
 	if speed > 1000:
 		speed = 1001
-		
-#	var turn_amount = (turn_speed / (size + 1)) * delta
-#	var s = sign(rotate)
-#	var ang = abs(rotate)
-#	rotate( min(ang,turn_amount)*s )
-#	rotate(rotate * turn_amount)
 
 	var rot = get_rot()
 	if rot != rotate:
@@ -75,24 +68,7 @@ func _fixed_process(delta):
 				sgn = -1
 		else:
 			turn_amount = 0
-
-		
-#			turn_amount = rotate - rot
 		set_rot(rot +  sgn * turn_amount)
-
-#	var turn_amount = (turn_speed / (size + 1)) * delta
-#	var rot = get_rot()
-#	if rot != rotate:
-#		var sgn = 1
-#		if rad2deg(abs(rot - rotate)) > 180 or rad2deg(abs(rotate - rot)) > 180:
-#			sgn = -1
-#		set_angular_velocity( sgn * turn_amount )
-#	else:
-#		set_rot(rotate)
-
-		
-#		set_rot(rotate)
-
 		
 	if engage and energy > .01:
 		force_direction.x = cos(get_rot() + deg2rad(90))

@@ -71,16 +71,13 @@ func _fixed_process(delta):
 		set_rot(rot +  sgn * turn_amount)
 	var angular_velocity = get_angular_velocity()
 	if abs(angular_velocity) > 0:
-		if angular_velocity > 0:
-			if angular_velocity - turn_speed >= 0:
-				angular_velocity -= turn_speed
+		if abs(angular_velocity - (angular_velocity / (size + 2)) * delta) > .001:
+			if angular_velocity > 0:
+				angular_velocity -=  (angular_velocity / (size + 1)) * delta
 			else:
-				angular_velocity = 0
+				angular_velocity += (angular_velocity / (size + 1)) * delta
 		else:
-			if angular_velocity + turn_speed <= 0:
-				angular_velocity += turn_speed
-			else:
-				angular_velocity = 0
+			angular_velocity = 0
 		set_angular_velocity(angular_velocity)
 		
 	if engage and energy > .01:

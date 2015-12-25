@@ -1,5 +1,6 @@
 
 extends Node2D
+const type = 'cannon'
 var owner
 var ammo
 var shot_count = 0

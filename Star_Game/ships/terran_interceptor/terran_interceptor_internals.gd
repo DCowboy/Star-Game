@@ -34,7 +34,7 @@ func _ready():
 	health = max_health
 	energy = max_energy
 	shield_strength = ceil((status.weapons_get() + status.core_get()) / 2) * 5
-	pass
+
 
 
 

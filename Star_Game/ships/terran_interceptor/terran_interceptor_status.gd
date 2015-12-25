@@ -14,6 +14,11 @@ func _ready():
 	display.get_node('supply').set_text(str(ceil((engineering + core) * .5)))
 	display.get_node('tactical').set_text(str(ceil((engineering + weapons) * .5)))
 	display.get_node('defense').set_text(str(ceil((core + weapons) * .5)))
+	set_process(true)
+	
+	
+func _process(delta):
+
 	pass
 
 

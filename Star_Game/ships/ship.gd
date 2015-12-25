@@ -16,10 +16,11 @@ var facing_direction = Vector2(0, 0)
 var engage = false
 var engineering_extensions = {}
 var burners = []
-var base_thrust
+var thrust
 var previous_pos = Vector2(0, 0)
 var current_pos = Vector2(0, 0)
 var speed = 0
+var top_speed
 var brake = false
 var core_extensions = {}
 var inertial_dampener = 0
@@ -39,13 +40,19 @@ var supply_extensions = {}
 
 func _ready():
 	globals = get_node("/root/globals")
-
+	
 	set_fixed_process(true)
+	
 
-	pass
 
 
 func _fixed_process(delta):
+	if thrust == null:
+		thrust = 1000 * (status.engineering_get() * ((size + 1.0) / 2))
+		top_speed = 200 + 100 * (size + 1.0) + 15 * status.engineering_get()
+		print(thrust)
+		print(top_speed)
+
 	previous_pos = current_pos
 	current_pos = get_pos()
 	speed = Vector2(previous_pos - current_pos).length() / 0.0167
@@ -55,7 +62,7 @@ func _fixed_process(delta):
 	var rot = get_rot()
 	if rot != rotate:
 		var sgn = 1
-		var turn_amount = (turn_speed / (((size + 1) + (speed / 50)) * pow(size + 1, size))) * delta
+		var turn_amount = (turn_speed / (((size + 1.0) + (speed / 50)) * pow(size - .5, size))) * delta
 		if rot + turn_amount < rotate:
 			if rotate - rot > deg2rad(180 - turn_amount):
 				sgn = -1
@@ -88,8 +95,8 @@ func _fixed_process(delta):
 		force_direction.y = -sin(get_rot() + deg2rad(90))
 		force_direction = force_direction.normalized()
 
-		if speed <= 1000 or force_direction.dot(facing_direction) <= 0:
-			apply_impulse(Vector2(0, 0), force_direction * base_thrust * delta)
+		if speed <= top_speed  or force_direction.dot(facing_direction) <= 0:
+			apply_impulse(Vector2(0, 0), force_direction * thrust * delta)
 			energy -= .01
 			engines_engage()
 			facing_direction = force_direction

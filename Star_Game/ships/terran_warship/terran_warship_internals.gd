@@ -17,7 +17,6 @@ func _ready():
 #	get_node('/client/gui/status_control/status_bg/status_holder').add_child(status.instance())
 	cargo = preload('res://ships/large_normal_inventory.scn').instance()
 #	get_node('/client/gui/inventory_control/items_bg/cargo_holder').add_child(cargo.instance())
-	base_thrust = 1000
 	weapons['medium_laser'] = preload('res://ships/equipment/laser_cannon.scn').instance()
 	self.get_node('hull/main_cannon').add_child(weapons.medium_laser)
 	current_weapon = weapons.medium_laser
@@ -38,6 +37,5 @@ func _ready():
 	energy = max_energy
 	shield_strength = ceil((status.weapons_get() + status.core_get()) / 2) * 5
 
-	pass
 
 

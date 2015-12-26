@@ -21,7 +21,7 @@ func _process(delta):
 
 
 func check_room():
-	if currently_used.size() < max_slots:
+	if currently_used != null and currently_used.size() < max_slots:
 		return true
 	else:
 		return false

@@ -48,7 +48,7 @@ func _ready():
 
 func _fixed_process(delta):
 	if thrust == null:
-		thrust = 1000 * (status.engineering_get() * ((size + 1.0) / 2))
+		thrust = 500 * (status.engineering_get() * ((size + 1.0) / 2))
 		top_speed = 200 + 100 * (size + 1.0) + 15 * status.engineering_get()
 		print(thrust)
 		print(top_speed)

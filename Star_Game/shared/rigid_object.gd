@@ -1,9 +1,9 @@
-
+#need to fix
 extends RigidBody2D
 
 var name
-var race
-var type
+#var race
+#var type
 var condition = 'normal'
 var size = 0
 var max_health = 1
@@ -92,7 +92,7 @@ func hit_by(obj, at=null):
 	elif at == shield_index:
 		shape = 'shield'
 		
-	if obj.type == 'projectile':
+	if obj in get_tree().get_nodes_in_group('projectiles'):
 		hit = obj.payload
 		set_applied_force(obj.direction * (obj.acceleration + obj.payload))
 	elif 'material' in obj and 'material' in self:
@@ -114,7 +114,7 @@ func hit_by(obj, at=null):
 		health = 0
 	if health < reward:
 		reward -= health
-		if obj.type == 'projectile':
+		if obj in get_tree().get_nodes_in_group('projectiles'):
 			culprit = obj.owner
 #			obj.owner.reward(int(reward))
 		else:

@@ -8,9 +8,9 @@ var energy
 var lbl_name
 var bar_bg
 var bar_health
-var full_health = Color(0.0, 1.0, 0.0, 1.0)
+var full_health = Color(0.25, 1.0, 0.0, 1.0)
 var bar_energy
-var full_energy = Color(0.0, 0.0, 1.0, 1.0)
+var full_energy = Color(0.25, 0.0, 1.0, 1.0)
 var margin = 5
 var visibility
 var scale_set = false
@@ -84,16 +84,16 @@ func status_bar(type):
 	var ratio
 	if type == 'health':
 		full = full_health
-		light = Color(1.0, 1.0, 0.0, 1.0)
-		heavy = Color(0.75, 0.25, 0.05, 1.0)
-		critical = Color(1.0, 0.0, 0.0, 1.0)
+		light = Color(0.5, 0.75, 0.0, 1.0)
+		heavy = Color(0.75, 0.5, 0.0, 1.0)
+		critical = Color(1.0, 0.25, 0.0, 1.0)
 		ratio = float(health / max_health)
 		bar_health.get_material().set_shader_param("ratio",  ratio)
 	elif type == 'energy':
 		full = full_energy
-		light = Color(0.0, 0.25, 0.75, 1.0)
-		heavy = Color(0.0, 0.50, 0.75, 1.0)
-		critical = Color(0.0, 1.0, 1.0, 1.0)
+		light = Color(0.5, 0.0, 0.75, 1.0)
+		heavy = Color(0.75, 0.0, 0.5, 1.0)
+		critical = Color(1.0, 0.0, 0.25, 1.0)
 		ratio = float(energy / max_energy)
 		bar_energy.get_material().set_shader_param("ratio",  ratio)
 	

@@ -1,4 +1,4 @@
-
+#need to fix
 extends 'res://ships/ship.gd'
 
 # member variables here, example:
@@ -7,11 +7,8 @@ extends 'res://ships/ship.gd'
 
 func _ready():
 	name = 'terran_interceptor'
-	race = 'terran'
 	size = 0
 	size_name = 'small'
-	variation = 0
-	variation_name = 'defensive'
 	status = preload('res://ships/terran_interceptor/terran_interceptor_status.scn').instance()
 #	get_node('/client/gui/status_control/status_bg/status_holder').add_child(status.instance())
 	cargo = preload('res://ships/small_normal_inventory.scn').instance()

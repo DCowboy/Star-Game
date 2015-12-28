@@ -58,8 +58,6 @@ func _fixed_process(delta):
 func _ready():
 	globals = get_node("/root/globals")
 	build_asteroid()
-	race = 'neutral'
-	type = 'asteroid'
 	rotation_speed = rand_range(-1, 1)
 	set_angular_velocity(rotation_speed)	
 	var initial_velocity = Vector2(0, 0)

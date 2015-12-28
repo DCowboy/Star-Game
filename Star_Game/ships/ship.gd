@@ -1,13 +1,13 @@
-
+#need to fix
 extends "res://shared/rigid_object.gd"
 
 var globals
-const type = 'ship'
+#const type = 'ship'
 var owner
 var controls
 var size_name
-var variation
-var variation_name
+#var variation
+#var variation_name
 var status
 var cargo
 var rotate = 0
@@ -160,5 +160,5 @@ func death():
 	call_deferred('replace_by', explode)
 	globals.population -= 1
 	get_node("/root/rewards").reward(self)
-	get_node("/root/spawner").wait(owner, race)
+	get_node("/root/spawner").wait(owner)
 

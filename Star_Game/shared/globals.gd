@@ -1,4 +1,4 @@
-
+#need to fix
 extends Node2D
 
 var main_viewport
@@ -28,7 +28,6 @@ var sound_effects
 var mouse_is_over = null
 
 var mini_map_size = Vector2(0, 0)
-var mini_map_icons
 var ping_objects
 var ping_areas
 
@@ -43,8 +42,6 @@ func _ready():
 	
 	items['energy_restore'] = preload('res://items/energy_restore.scn')
 	items['ship_repair'] = preload('res://items/ship_repair.scn')
-
-	mini_map_icons = preload('res://gui/mini_map_sprites.scn')
 	
 	explosions['small_rock'] = preload('res://npcs/asteroids/small_asteroid_destroy.scn')
 	explosions['med_rock'] = preload('res://npcs/asteroids/medium_asteroid_destroy.scn')

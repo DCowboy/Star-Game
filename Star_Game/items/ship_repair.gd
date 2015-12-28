@@ -34,7 +34,7 @@ func _process(delta):
 		time = 0
 	var hits = get_overlapping_bodies()
 	if hits.size() > 0:
-		if hits[0].type == 'projectile':
+		if hits[0] in get_tree().get_nodes_in_group('projectiles'):
 			queue_free()
 		elif use_now == true:
 			owner = hits[0]

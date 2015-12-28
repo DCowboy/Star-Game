@@ -25,7 +25,7 @@ func reward (victim, pieces=0):
 func drop(obj):
 	var globals = get_node("/root/globals")
 	var number = 0
-	if obj.type == 'asteroid':
+	if obj in get_tree().get_nodes_in_group('asteroids'):
 		randomize()
 		number = ceil(rand_range(0, obj.size + 1))
 	if number > 0:

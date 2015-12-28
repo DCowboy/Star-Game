@@ -36,3 +36,4 @@ func _fixed_process(delta):
 
 func _screen_size_changed():
 	set_shape_transform(0, current_transform.scaled(globals.square_scale))
+	

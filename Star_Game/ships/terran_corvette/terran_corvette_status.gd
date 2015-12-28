@@ -1,4 +1,4 @@
-
+#need to fix
 extends Node2D
 
 var weapons = 6 setget weapons_set, weapons_get

@@ -1,4 +1,4 @@
-
+#need to fix
 
 extends 'res://ships/ship.gd'
 
@@ -8,11 +8,8 @@ extends 'res://ships/ship.gd'
 
 func _ready():
 	name = 'terran_corvette'
-	race = 'terran'
 	size = 1
 	size_name = 'medium'
-	variation = 2
-	variation_name = 'offensive'
 	status = preload('res://ships/terran_corvette/terran_corvette_status.scn').instance()
 #	get_node('/client/gui/status_control/status_bg/status_holder').add_child(status.instance())
 	cargo = preload('res://ships/medium_normal_inventory.scn').instance()

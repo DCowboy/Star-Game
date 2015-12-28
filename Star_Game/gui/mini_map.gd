@@ -62,6 +62,8 @@ func get_pings():
 				rect_pos.y = 0
 				if ping in get_tree().get_nodes_in_group('ships'):
 					scale *= (ping.size + 1)
+				elif ping in get_tree().get_nodes_in_group('projectiles'):
+					scale /= 2
 				
 			if ping in get_tree().get_nodes_in_group('terran'):
 				rect_pos.x = 36

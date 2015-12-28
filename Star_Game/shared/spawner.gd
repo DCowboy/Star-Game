@@ -8,10 +8,10 @@ func _ready():
 	globals = get_node("/root/globals")
 	pass
 
-func wait(name, race):
+func wait(owner, groups):
 	print('starting respawn wait')
-	poor_dead_bastard = {'name':name, 'race':race}
-	if poor_dead_bastard.race != 'neutral':
+	poor_dead_bastard = {'owner': owner, 'groups': groups}
+	if not 'neutral' in poor_dead_bastard.groups:
 		get_node("Timer").start()
 	
 
@@ -19,24 +19,24 @@ func wait(name, race):
 func _on_Timer_timeout():
 	print('waiting over')
 	get_node("Timer").stop()
-	spawn(poor_dead_bastard.name, poor_dead_bastard.race)
+	spawn(poor_dead_bastard.owner, poor_dead_bastard.groups)
 		
 
 
-func spawn(name, race):
+func spawn(owner, groups):
 	var respawn_pos
-	if race == 'terran':
+	if 'terran' in groups:
 		respawn_pos = globals.terran_base.get_pos()
-		randomize()
-		respawn_pos.x += int(rand_range(-1,1) * 250)
-		respawn_pos.y += int(rand_range(-1, 1) * 250)
 	else:
 		respawn_pos = Vector2(0, 0)
-	if name == 'player':
+	if owner == 'player':
 		print('respawning')
 		var spawn = globals.player.instance() #get_node("/root/player").current_ship.instance()
 		spawn.controls = load('res://player/player_control.gd').new()
 #		spawn.owner = get_node("/root/player")
+		randomize()
+		respawn_pos.x += int(rand_range(-1,1) * 250)
+		respawn_pos.y += int(rand_range(-1, 1) * 250)
 		spawn.set_pos(respawn_pos)
 		get_node("/root/client").add_child(spawn)
 		get_node("/root/client").move_child(spawn, 1)

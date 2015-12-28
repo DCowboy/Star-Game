@@ -160,5 +160,5 @@ func death():
 	call_deferred('replace_by', explode)
 	globals.population -= 1
 	get_node("/root/rewards").reward(self)
-	get_node("/root/spawner").wait(owner)
+	get_node("/root/spawner").wait(owner, get_groups())
 

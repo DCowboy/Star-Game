@@ -37,6 +37,7 @@ func spawn(owner, groups):
 		print('respawning')
 		spawn = owner.current_ship.instance() #get_node("/root/player").current_ship.instance()
 		owner.current_ship_instance.hull = spawn
+		owner.controls.attach_to_ship()
 		if owner.get_node("Camera2D").is_current() == false:
 			owner.get_node('Camera2D').make_current()
 #		globals.player_current_ship = spawn

@@ -1,6 +1,6 @@
 
 extends Panel
-var globals
+#var globals
 var client
 var player
 var ship
@@ -9,7 +9,7 @@ var explanation
 var choice
 
 func _ready():
-	globals = get_node("/root/globals")
+#	globals = get_node("/root/globals")
 	client = preload('res://client.scn')
 	player = get_node("/root/player")
 	explanation = get_node("explanation")
@@ -18,7 +18,10 @@ func _ready():
 
 
 func _on_terran_interceptor_mouse_enter():
-	explanation.set_text('Terran Interceptor: Currently does the same damn thing as every ship you see here')
+	explanation.set_text('Terran Interceptor:\n'\
+						+ 'Size: small \n' \
+						+ 'view is closest to playfield \n' \
+						+ 'equipped with small cannon.')
 
 
 
@@ -28,7 +31,10 @@ func _on_terran_interceptor_mouse_exit():
 
 
 func _on_terran_corvette_mouse_enter():
-	explanation.set_text('Terran Corvette: Currently does the same damn thing as every ship you see here')
+	explanation.set_text('Terran Corvette:\n'\
+						+ 'Size: medium \n' \
+						+ 'view of playfield is 1.5 times larger than small ship \n' \
+						+ 'still uses small cannon so range feels somewhat short.')
 
 
 
@@ -38,7 +44,10 @@ func _on_terran_corvette_mouse_exit():
 
 
 func _on_terran_warship_mouse_enter():
-	explanation.set_text('Terran Warship: Currently does the same damn thing as every ship you see here')
+	explanation.set_text('Terran Warship:\n' \
+						+ 'Size: large \n' \
+						+ 'view of playfield is 2 times that of small ship \n' \
+						+ 'Still uses small cannon, so range feels really short.')
 
 	
 	

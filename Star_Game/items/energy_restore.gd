@@ -7,7 +7,7 @@ var life = 0
 var lifetime = 3000
 
 func _ready():
-	set_scale(get_node("/root/globals").player_scale)
+	set_scale(get_node("/root/player").scale)
 	if use_now == false:
 		get_node("bubble").show()
 	else:

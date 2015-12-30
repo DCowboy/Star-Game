@@ -19,8 +19,8 @@ func _input(event):
 		
 		
 func _process(delta):
-	if player_race != get_node("/root/globals").player_race:
-		player_race = get_node("/root/globals").player_race
+#	if player_race != get_node("/root/player").race:
+#		player_race = get_node("/root/player").race
 	var on_object = get_node("/root/globals").mouse_is_over
 	if on_object == null:
 		cursor_frame = 0

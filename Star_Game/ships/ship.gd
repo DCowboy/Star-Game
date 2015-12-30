@@ -2,9 +2,10 @@
 extends "res://shared/rigid_object.gd"
 
 var globals
+var player
 #const type = 'ship'
 var owner
-var controls
+#var controls
 var size_name
 #var variation
 #var variation_name
@@ -39,7 +40,9 @@ var supply_extensions = {}
 
 
 func _ready():
+	player = get_node("/root/player")
 	globals = get_node("/root/globals")
+
 	
 	set_fixed_process(true)
 	
@@ -47,11 +50,10 @@ func _ready():
 
 
 func _fixed_process(delta):
+	rotate = owner.rotate
 	if thrust == null:
 		thrust = 500 * (status.engineering_get() * ((size + 1.0) / 2))
 		top_speed = 200 + 100 * (size + 1.0) + 15 * status.engineering_get()
-		print(thrust)
-		print(top_speed)
 
 	previous_pos = current_pos
 	current_pos = get_pos()
@@ -132,9 +134,9 @@ func _fixed_process(delta):
 	set_linear_damp(inertial_dampener)
 	
 	
-	globals.player_speed = speed
-	globals.rotate = rotate
-	globals.player_pos = get_pos()
+	owner.speed = speed
+	owner.rotate = rotate
+	owner.set_pos(get_pos())
 	
 	if health <= 0:
 		death()

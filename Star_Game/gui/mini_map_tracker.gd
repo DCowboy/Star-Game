@@ -2,10 +2,11 @@
 extends Area2D
 var shape
 var current_transform
-var player_scale = Vector2(0, 0)
+var owner_scale = Vector2(0, 0)
 var ping_bodies = []
 var ping_areas = []
 var globals
+var owner = null
 
 func _ready():
 	globals = get_node("/root/globals")
@@ -18,13 +19,13 @@ func _ready():
 
 
 func _fixed_process(delta):
-	if player_scale != globals.player_scale:
-		player_scale = globals.player_scale
-		set_shape_transform(0, current_transform.scaled(player_scale))
+	if owner != null and owner_scale != owner.scale:
+		owner_scale = owner.scale
+		set_shape_transform(0, current_transform.scaled(owner_scale))
 #		get_node("/root/globals").mini_map_size = 
 		#follow the player if it's there
-	if globals.player_pos != null:
-		set_pos(globals.player_pos)
+	if owner != null and owner.get_pos() != null:
+		set_pos(owner.get_pos())
 	#attempt to get overlapping bodies and areas
 	#TODO: fix minimap to show areas
 	ping_bodies = get_overlapping_bodies()

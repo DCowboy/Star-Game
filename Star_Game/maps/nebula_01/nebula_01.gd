@@ -8,11 +8,12 @@ var inner_adj
 var pos_adj
 var population
 var globals
+var player
 	
 	
 func _process(delta):
 	#moves background layers to correspond with player position creating a distance illusion
-	var pos = globals.player_pos
+	var pos = player.get_pos()
 	inner.set_pos(-pos / inner_adj + pos_adj)
 	outer.set_pos(-pos / outer_adj + pos_adj)
 	
@@ -22,6 +23,7 @@ func _process(delta):
 	
 func _ready():
 	globals = get_node("/root/globals")
+	player = get_node("/root/player")
 	population = globals.population
 	globals.current_map = self
 	globals.map_name = get_name()

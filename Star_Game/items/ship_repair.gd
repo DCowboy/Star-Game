@@ -10,7 +10,7 @@ var time = 0
 var switch_time = 40
 var anim 
 func _ready():
-	set_scale(get_node("/root/globals").player_scale)
+	set_scale(get_node("/root/player").scale)
 	anim = get_node("body")
 	if use_now == false:
 		get_node("bubble").show()

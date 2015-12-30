@@ -9,16 +9,18 @@ var guage_limiter = 0
 var guage_limit = 5
 var cursor
 var globals
+var player
 
 
 func _ready():
+	player = get_node("/root/player")
 	globals = get_node("/root/globals")
 	map_name = get_node("missions_control/map_and_missions/map_name")
 	map_name.set_text(globals.map_name)
 	speed = get_node("mini_map_control/mini-map_and _speed/speed")
-	status = globals.player_current_ship.status
+	status = player.current_ship_instance.status
 	get_node("status_control/status_bg/status_holder").add_child(status)
-	cargo = globals.player_current_ship.cargo
+	cargo = player.current_ship_instance.cargo
 	get_node("inventory_control/items_bg/cargo_holder").add_child(cargo)
 	cursor = get_node("cursor")
 	set_process(true)
@@ -58,8 +60,8 @@ func _input(event):
 
 func _process(delta):
 	guage_limiter += 1
-	if guage_limiter >= guage_limit and spd != get_node("/root/globals").player_speed:
-		spd = get_node("/root/globals").player_speed
+	if guage_limiter >= guage_limit and spd != player.speed:
+		spd = player.speed
 		if spd > 0:
 			speed.set_text(str(round(spd * 100) / 100))
 		else:

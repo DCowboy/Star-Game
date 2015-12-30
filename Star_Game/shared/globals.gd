@@ -13,14 +13,6 @@ var map_size
 var population = 0
 var terran_base
 
-var player #= {'ship': null, 'status': null, 'cargo': null}
-var player_scale = Vector2(0, 0)
-var rotate
-var player_speed = 0
-var player_pos
-var player_race
-var player_current_ship
-
 var asteroids = {}
 var items = {}
 var explosions = {}
@@ -113,7 +105,7 @@ func rand_pos():
 		randomize()
 		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
 		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
-		if Vector2(player_pos - pos).length() > 500:  
+		if Vector2(get_node("/root/player").get_pos() - pos).length() > 500:  
 			break
 
 	return pos

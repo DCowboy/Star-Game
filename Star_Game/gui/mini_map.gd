@@ -7,28 +7,26 @@ var pings
 var ping_holder
 var radar_bg
 var radar_background 
-var radar_area
+var radar_area = 5
 var blip
 var globals
-#var player
+var player
 
 
 func _ready():
 	blip = preload('res://gui/mini_map_sprites.scn')
 	globals = get_node("/root/globals")
-#	player = get_node("/root/player")
+	player = get_node("/root/player")
 	radar_bg = get_node("Viewport/mini_map_bg")
-	radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
-	radar_area = 10
+#	radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
 	ping_holder = get_node("Viewport/ping_holder")
 	set_process(true)
 
 
 func _process(delta):
-	if radar_area != 10 * globals.player_scale.x:
+	if radar_area != 10 * player.scale.x:
 		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
-		radar_area = 10 * globals.player_scale.x
-		print(radar_area)
+		radar_area = 10 * player.scale.x
 #	#get pings from mini_map_tracker
 	pings = globals.ping_objects
 	pings += globals.ping_areas
@@ -75,17 +73,15 @@ func get_pings():
 				rect_pos.x = 0
 
 			if not ping in get_tree().get_nodes_in_group('object') and 'name' in ping and ping.name != 'laser_shot':
-#				scale.x = 1
-#				scale.y = 1
-				if 'owner' in ping and ping.owner == 'player':
+				if 'owner' in ping and ping.owner.name == 'player':
 					dot.set_pos(Vector2(0, 0))
-					dot.set_rot(globals.rotate)
+					dot.set_rot(player.rotate)
 			else:
 			 	pass
 			
 			dot.set_region_rect(Rect2(rect_pos, Vector2(12, 12)))
 			dot.set_scale(scale)
-			dot.set_pos(((ping.get_pos() - globals.player_pos)) / radar_area)
+			dot.set_pos(((ping.get_pos() - player.get_pos())) / radar_area)
 			ping_holder.add_child(dot)
 
 func free_pings():

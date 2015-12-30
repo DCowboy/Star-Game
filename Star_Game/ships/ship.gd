@@ -52,7 +52,7 @@ func _ready():
 func _fixed_process(delta):
 	rotate = owner.rotate
 	if thrust == null:
-		thrust = 1000 * (status.engineering_get() )#* ((size + 1.0) / 2))
+		thrust = 1000 * status.engineering_get()
 		top_speed = 200 + 100 * (size + 1.0) + 15 * status.engineering_get()
 
 	previous_pos = current_pos

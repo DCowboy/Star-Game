@@ -5,7 +5,7 @@ var material
 var shape
 var rotation_speed
 export var max_rotation = 5
-export var max_acceleration = 5000
+export var max_acceleration = 100000000
 var globals
 
 func death():

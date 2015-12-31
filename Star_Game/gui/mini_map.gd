@@ -28,8 +28,8 @@ func _process(delta):
 		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
 		radar_area = 10 * player.scale.x
 #	#get pings from mini_map_tracker
-	pings = globals.ping_objects
-	pings += globals.ping_areas
+	pings = globals.ping_areas
+	pings += globals.ping_objects
 	#clear pings
 	free_pings()
 	#add pings

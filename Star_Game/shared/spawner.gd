@@ -31,7 +31,7 @@ func spawn(owner, groups):
 	var tail = tracer.instance()
 	var respawn_pos
 	if 'terran' in groups:
-		respawn_pos = globals.terran_base.get_pos()
+		respawn_pos = globals.terran_base.get_global_pos()
 	else:
 		respawn_pos = Vector2(0, 0)
 	if owner.name == 'player':

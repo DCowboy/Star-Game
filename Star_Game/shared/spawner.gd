@@ -10,7 +10,8 @@ func _ready():
 	globals = get_node("/root/globals")
 	pass
 
-func wait(owner, groups):
+func wait(owner, groups, time=0.75):
+	get_node("Timer").set_wait_time(time)
 	print('starting respawn wait')
 	poor_dead_bastard = {'owner': owner, 'groups': groups}
 	if not 'neutral' in poor_dead_bastard.groups:

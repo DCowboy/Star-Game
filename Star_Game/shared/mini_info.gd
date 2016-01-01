@@ -54,7 +54,7 @@ func _process(delta):
 	health = get_parent().health
 	energy = get_parent().energy
 	#only show if belongs to the player or health is less than 100%
-	if get_parent().owner.name == 'player' or health != max_health:
+	if get_parent().owner.name == 'player' or 'station_defense' in get_parent().get_groups() or health != max_health:
 		if bar_bg.get_normal_texture() == null:
 			bar_bg.set_normal_texture(normal_texture)
 			bar_health.show()
@@ -65,7 +65,7 @@ func _process(delta):
 			bar_health.hide()
 
 	#only show energy if belongs to the player
-	if ('owner' in get_parent() and get_parent().owner.name == 'player'):
+	if ('owner' in get_parent() and get_parent().owner.name == 'player') or 'station_defense' in get_parent().get_groups():
 		if bar_bg.is_visible() == false:
 			bar_bg.show()
 		if bar_energy.is_visible() == false:

@@ -24,6 +24,8 @@ func _ready():
 
 
 func _process(delta):
+	#10 is a magic number because I can't get the size of a collision shape
+	#in order to get a ratio between the size of the shape and the size of the background
 	if radar_area != 10 * player.scale.x:
 		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
 		radar_area = 10 * player.scale.x
@@ -47,41 +49,41 @@ func get_pings():
 			var scale = Vector2(.3333, .3333)
 			var rect_pos = Vector2(0, 0)
 			var dot = blip.instance()
-			
-			if ping in get_tree().get_nodes_in_group('resource'):
+			#determines shape and size
+			if 'resource' in ping.get_groups():
 				rect_pos.y = 24
-				scale.x = 1
-				scale.y = 1
-			elif ping in get_tree().get_nodes_in_group('object'):
+				scale.x = 2
+				scale.y = 2
+			elif 'object' in ping.get_groups():
 				rect_pos.y = 12
-				if ping in get_tree().get_nodes_in_group('asteroids'):
+				if 'asteroids' in ping.get_groups():
 					scale *= (ping.size + 1)
 			else:
 				rect_pos.y = 0
-				if ping in get_tree().get_nodes_in_group('ships'):
+				if 'ships' in ping.get_groups():
 					scale *= (ping.size + 1)
-				elif ping in get_tree().get_nodes_in_group('projectiles'):
+				elif 'projectiles' in ping.get_groups():
 					scale /= 2
-				
-			if ping in get_tree().get_nodes_in_group('terran'):
+			#determine's color
+			if 'terran' in ping.get_groups():
 				rect_pos.x = 36
-			elif ping in get_tree().get_nodes_in_group('urthrax'):
+			elif 'urthrax' in ping.get_groups():
 				rect_pos.x = 24
-			elif ping in get_tree().get_nodes_in_group('chentia'):
+			elif 'chentia' in ping.get_groups():
 				rect_pos.x = 12
 			else:
 				rect_pos.x = 0
-
-			if not ping in get_tree().get_nodes_in_group('object') and not ping in get_tree().get_nodes_in_group('projectiles'):
+			#checks if it should rotate the dot image
+			if not 'object' in  ping.get_groups() and not 'projectiles' in ping.get_groups():
 				if 'owner' in ping and ping.owner.name == 'player':
 					dot.set_pos(Vector2(0, 0))
 					dot.set_rot(player.rotate)
 			else:
 			 	pass
-			
+			#sets and adds dot
 			dot.set_region_rect(Rect2(rect_pos, Vector2(12, 12)))
 			dot.set_scale(scale)
-			dot.set_pos(((ping.get_pos() - player.get_pos())) / radar_area)
+			dot.set_pos((ping.get_pos() - player.get_pos()) / radar_area)
 			ping_holder.add_child(dot)
 
 func free_pings():

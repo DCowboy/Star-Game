@@ -2,6 +2,9 @@
 extends Area2D
 
 var name = 'terran_base'
+var engineering = 13
+var weapons = 10
+var core = 8
 var globals
 var in_terran_airspace = []
 var already_known = []

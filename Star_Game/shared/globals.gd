@@ -96,7 +96,6 @@ func add_entity(description, number):
 		else:
 			entity.set_pos(description.pos)
 		current_map.add_child(entity)
-		entity.add_to_group('target', true)
 
 
 func rand_pos():

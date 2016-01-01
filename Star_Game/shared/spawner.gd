@@ -11,17 +11,17 @@ func _ready():
 	pass
 
 func wait(owner, groups, time=0.75):
-	get_node("Timer").set_wait_time(time)
+	get_node("ship_timer").set_wait_time(time)
 	print('starting respawn wait')
 	poor_dead_bastard = {'owner': owner, 'groups': groups}
 	if not 'neutral' in poor_dead_bastard.groups:
-		get_node("Timer").start()
+		get_node("ship_timer").start()
 	
 
 
 func _on_Timer_timeout():
 	print('waiting over')
-	get_node("Timer").stop()
+	get_node("ship_timer").stop()
 	spawn(poor_dead_bastard.owner, poor_dead_bastard.groups)
 		
 

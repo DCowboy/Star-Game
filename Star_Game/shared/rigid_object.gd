@@ -111,6 +111,7 @@ func hit_by(obj, at=null):
 		health -= hit
 		
 	if health <= 0:
+#		print(self.name + ' destroyed by ' + obj.name + '. population: ' + str(get_node("/root/globals").population))
 		health = 0
 	if health < reward:
 		reward -= health

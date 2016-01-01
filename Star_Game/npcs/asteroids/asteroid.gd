@@ -7,6 +7,7 @@ var rotation_speed
 export var max_rotation = 5
 export var max_acceleration = 100000000
 var globals
+var owner
 
 func death():
 	var crumble
@@ -57,6 +58,7 @@ func _fixed_process(delta):
 
 func _ready():
 	globals = get_node("/root/globals")
+	owner = self
 	build_asteroid()
 	rotation_speed = rand_range(-1, 1)
 	set_angular_velocity(rotation_speed)	

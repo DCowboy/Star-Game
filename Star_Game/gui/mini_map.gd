@@ -72,7 +72,7 @@ func get_pings():
 			else:
 				rect_pos.x = 0
 
-			if not ping in get_tree().get_nodes_in_group('object') and (('name' in ping) and not ping.name == 'laser_shot'):
+			if not ping in get_tree().get_nodes_in_group('object') and not ping in get_tree().get_nodes_in_group('projectiles'):
 				if 'owner' in ping and ping.owner.name == 'player':
 					dot.set_pos(Vector2(0, 0))
 					dot.set_rot(player.rotate)

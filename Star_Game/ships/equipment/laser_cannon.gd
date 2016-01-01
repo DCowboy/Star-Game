@@ -43,3 +43,4 @@ func fire(force, acceleration):
 		#reset counter to reuse numbers for unique name
 		if shot_count >= 25:
 			shot_count = 0
+			

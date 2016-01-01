@@ -15,10 +15,11 @@ var margin = 5
 var visibility
 var scale_set = false
 var normal_texture
+var owner
 
 func _ready():
 	normal_texture = load('res://media/circular_hud_bg.tex')
-
+	
 	visibility = get_node("VisibilityNotifier2D")
 	bar_bg = get_node("status_bar_holder/bar_bg")
 	bar_health = get_node("status_bar_holder/bar_bg/bar_health")
@@ -38,6 +39,8 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
+	if owner == null:
+		owner = get_parent().owner
 	#set the scale of the label name to readable depending on the size of the ship
 	if scale_set == false:
 		lbl_name.set_scale(get_node("/root/player").scale)
@@ -51,7 +54,7 @@ func _process(delta):
 	health = get_parent().health
 	energy = get_parent().energy
 	#only show if belongs to the player or health is less than 100%
-	if ('owner' in get_parent() and get_parent().owner.name == 'player') or health != max_health:
+	if get_parent().owner.name == 'player' or health != max_health:
 		if bar_bg.get_normal_texture() == null:
 			bar_bg.set_normal_texture(normal_texture)
 			bar_health.show()

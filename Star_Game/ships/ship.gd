@@ -42,7 +42,7 @@ var supply_extensions = {}
 func _ready():
 	player = get_node("/root/player")
 	globals = get_node("/root/globals")
-
+	
 	
 	set_fixed_process(true)
 	

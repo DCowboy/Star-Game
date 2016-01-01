@@ -95,11 +95,11 @@ func hit_by(obj, at=null):
 	if obj in get_tree().get_nodes_in_group('projectiles'):
 		hit = obj.payload
 		set_applied_force(obj.direction * (obj.acceleration + obj.payload))
-	elif 'material' in obj and 'material' in self:
-		if obj.get_mass() > get_mass():
-			health += (obj.get_mass() + get_mass()) / 2.5
-		if health > max_health:
-			health = max_health
+#	elif 'material' in obj and 'material' in self:
+#		if obj.get_mass() > get_mass():
+#			health += (obj.get_mass() + get_mass()) / 2.5
+#		if health > max_health:
+#			health = max_health
 	else:
 		hit = obj.get_mass()
 	if shape == 'shield':

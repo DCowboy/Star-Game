@@ -27,8 +27,8 @@ func _fixed_process(delta):
 	if exploding:
 		set_linear_velocity(Vector2(0, 0))
 		#setting explosion
-		get_node("Sprite").hide()
-		var explode = get_node("/root/globals").explosions.small_normal.instance()
+		get_node("Sprite").free()
+		var explode = get_node("/root/globals").explosions.large_normal.instance()
 		explode.set_pos(get_pos())
 		call_deferred('replace_by', explode)
 	else:
@@ -39,7 +39,7 @@ func _integrate_forces(state):
 	var count = state.get_contact_count()
 	if count > 0:
 		var collider = state.get_contact_collider_object(0)
-		if collider.get_name() != 'player':
+		if collider.name != 'player':
 			hit_by(collider)
 			collider.hit_by(self, state.get_contact_collider_shape(0))
 			

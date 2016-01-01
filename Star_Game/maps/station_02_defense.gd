@@ -14,7 +14,7 @@ var owner
 var ammo
 var shot_count = 0
 var fire_delay = 0
-var fire_rate = 30
+var fire_rate = 60
 var allies
 
 func _ready():
@@ -46,7 +46,14 @@ func _fixed_process(delta):
 		aim = gun_pos.angle_to_point(target_pos)
 		target_distance = Vector2(target_pos - gun_pos).length()
 	if target_distance <= aim_range:
-		set_rot(aim)
+		var offset = deg2rad(5)
+		if get_rot() < aim - offset:
+			set_rot(aim + offset)
+		elif get_rot() > aim + offset:
+			set_rot(aim - offset)
+		else:
+			set_rot(aim)
+			
 	else:
 		set_rot(get_rot() + 1 * delta)
 

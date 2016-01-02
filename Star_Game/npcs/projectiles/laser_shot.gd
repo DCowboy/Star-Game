@@ -5,14 +5,17 @@ var name = 'laser_shot'
 var direction
 var acceleration
 var shot_acceleration = 250
-var payload = 50
+var origin
+var fire_range
+var payload = 10
+var payload_modifier
 var exploding = false
 
-var life = 0
-var lifetime = 30
+
 var sound
 
 func _ready():
+	payload *= payload_modifier
 	shot_acceleration += acceleration
 	sound = get_node("/root/globals").sound_effects.instance()
 	add_child(sound)
@@ -20,8 +23,7 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
-	life += 1
-	if life > lifetime:
+	if abs(Vector2(get_pos() - origin).length()) >= fire_range:
 		exploding = true
 	if exploding:
 		set_linear_velocity(Vector2(0, 0))

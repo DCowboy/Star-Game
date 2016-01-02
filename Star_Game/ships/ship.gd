@@ -29,6 +29,8 @@ var turn_speed = 5
 var fire = false
 var weapons = {}
 var current_weapon
+var fire_range
+var payload_modifier
 var shields_up = false
 var shield_size
 
@@ -40,9 +42,10 @@ var supply_extensions = {}
 
 
 func _ready():
+	
 	player = get_node("/root/player")
 	globals = get_node("/root/globals")
-	
+	fire_range = 300 * pow(size + 1.0, 2) * player.scale.y
 	
 	set_fixed_process(true)
 	
@@ -53,7 +56,7 @@ func _fixed_process(delta):
 	rotate = owner.rotate
 	if thrust == null:
 		thrust = 1000 * status.engineering_get()
-		top_speed = 200 + 100 * (size + 1.0) + 15 * status.engineering_get()
+		top_speed = 300 * (size + 1.0) + 15 * status.engineering_get()
 
 	previous_pos = current_pos
 	current_pos = get_pos()
@@ -118,7 +121,7 @@ func _fixed_process(delta):
 		inertial_dampener = 0
 		
 	if fire and energy >= .25:
-		current_weapon.fire(get_rot() + deg2rad(90), get_linear_velocity().length())
+		current_weapon.fire()
 		fire = false
 	else:
 		fire = false

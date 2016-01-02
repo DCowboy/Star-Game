@@ -5,6 +5,7 @@ const type = 'cannon'
 const fire_range = 512
 const aim_range = 768
 var name = 'chentia station defense'
+var payload_modifier
 var max_health
 var health
 var max_energy
@@ -22,20 +23,22 @@ var fire_rate = 60
 var allies
 
 func _ready():
-	owner = get_node("/root/globals").terran_base
+	owner = get_node("/root/globals").chentia_base
 	max_health = 50 * owner.core
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
+	payload_modifier = owner.weapons
 	gun_pos = self.get_pos()
 	ammo = preload('res://npcs/projectiles/large_laser_shot.scn')
+	print('fully loaded at: ' + str(get_pos()))
 	set_fixed_process(true)
 	
 	
 func _fixed_process(delta):
 	if energy < max_energy:
 		energy += owner.engineering * pow(delta, 2)
-	allies = get_tree().get_nodes_in_group('terran')
+	allies = get_tree().get_nodes_in_group('chentia')
 	if fire_delay > 0:
 		fire_delay -= 1
 	# cleanup orphan exemptions
@@ -69,7 +72,7 @@ func _fixed_process(delta):
 
 	if target_distance <= fire_range:
 		if fire_delay <= 0 and energy > .5:
-			fire(0, 0)
+			fire(0)
 			energy -= .25
 			fire_delay = fire_rate
 
@@ -86,18 +89,21 @@ func death():
 	
 	
 
-func fire(force, acceleration):
+func fire(acceleration):
 	#create shot and send it off
 	var shot = ammo.instance()
 	#there has got to be a better way to set the position correctly
 	var weapon_size = get_node('Sprite').get_texture().get_size()
 	shot.set_pos(get_global_pos() - Vector2(0, weapon_size.y / 2).rotated(get_rot()))
+	shot.origin = shot.get_pos()
 	shot.set_rot(get_rot())
 	shot.direction = Vector2(cos(get_rot() + deg2rad(90)), -sin(get_rot() + deg2rad(90)))
 	shot.acceleration = acceleration
 	#sets a unique name to later be identified if needed
 	shot.set_name(shot.get_name() + ' ' + str(shot_count))
 	shot.owner = owner
+	shot.fire_range = fire_range
+	shot.payload_modifier = payload_modifier
 	add_to_group('object', true)
 	get_node("/root/globals").current_map.add_child(shot)
 	for object in allies:

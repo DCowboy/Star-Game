@@ -6,7 +6,7 @@ var engineering = 8
 var weapons = 13
 var core = 10
 var globals
-var in_chentia_airspace = []
+var in_airspace = []
 var already_known = []
 var def_equip
 var defender
@@ -26,8 +26,8 @@ func _process(delta):
 		defender.set_pos(get_pos())
 		get_parent().add_child(defender)
 	allies = get_tree().get_nodes_in_group('chentia')
-	in_chentia_airspace = get_overlapping_bodies()
-	for object in in_chentia_airspace:
+	in_airspace = get_overlapping_bodies()
+	for object in in_airspace:
 		if not object in already_known and not 'projectiles' in object.get_groups():
 			if 'projectiles' in object.get_groups() or 'asteroids' in object.get_groups():
 				pass
@@ -44,7 +44,7 @@ func _process(delta):
 	var closest_object
 	var shortest_distance = 1025
 	for object in already_known:
-		if not object in in_chentia_airspace:
+		if not object in in_airspace:
 			already_known.erase(object)
 		elif not object in allies and not 'projectiles' in object.get_groups():
 			var distance = Vector2(object.get_pos() - get_pos()).length()

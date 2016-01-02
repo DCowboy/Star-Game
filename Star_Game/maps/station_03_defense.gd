@@ -15,16 +15,17 @@ var credit = {}
 var impacts = {}
 var owner
 var allies
+var globals
 
 
 func _ready():
-	owner = get_node("/root/globals").terran_base
+	globals = get_node("/root/globals")
+	owner = globals.terran_base
 	max_health = 50 * owner.core
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
 
-	print('fully loaded at: ' + str(get_pos()))
 	set_fixed_process(true)
 
 

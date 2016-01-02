@@ -8,8 +8,12 @@ var fire_delay = 0
 var fire_rate = 15
 var fire_range
 var payload_modifier = 0
+var globals
+var player
 
 func _ready():
+	globals = get_node("/root/globals")
+	player = get_node("/root/player")
 	ammo = preload('res://npcs/projectiles/laser_shot.scn')
 	owner = get_parent().get_parent().get_parent()
 	fire_range = owner.fire_range
@@ -44,9 +48,9 @@ func fire():
 		shot.fire_range = fire_range + owner.get_linear_velocity().length()
 		shot.payload_modifier = payload_modifier
 		add_to_group('object', true)
-		get_node("/root/globals").current_map.add_child(shot)
+		globals.current_map.add_child(shot)
 		PS2D.body_add_collision_exception(shot.get_rid(),owner.get_rid())
-		PS2D.body_add_collision_exception(shot.get_rid(),get_node("/root/globals").terran_base.defender.get_rid())
+		PS2D.body_add_collision_exception(shot.get_rid(), player.home_station.defender.get_rid())
 		shot_count += 1
 		#reset counter to reuse numbers for unique name
 		if shot_count >= 25:

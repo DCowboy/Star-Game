@@ -92,14 +92,9 @@ func hit_by(obj, at=null):
 	elif at == shield_index:
 		shape = 'shield'
 		
-	if obj in get_tree().get_nodes_in_group('projectiles'):
+	if 'projectiles' in obj.get_groups():
 		hit = obj.payload
 		set_applied_force(obj.direction * (obj.acceleration + obj.payload))
-#	elif 'material' in obj and 'material' in self:
-#		if obj.get_mass() > get_mass():
-#			health += (obj.get_mass() + get_mass()) / 2.5
-#		if health > max_health:
-#			health = max_health
 	else:
 		hit = obj.get_mass()
 	if shape == 'shield':
@@ -111,16 +106,13 @@ func hit_by(obj, at=null):
 		health -= hit
 		
 	if health <= 0:
-#		print(self.name + ' destroyed by ' + obj.name + '. population: ' + str(get_node("/root/globals").population))
 		health = 0
 	if health < reward:
 		reward -= health
-		if obj in get_tree().get_nodes_in_group('projectiles'):
+		if 'projectiles' in obj.get_groups():
 			culprit = obj.owner
-#			obj.owner.reward(int(reward))
 		else:
 			culprit = obj
-#			obj.reward(reward)
 	if culprit != null:
 		if not culprit.name in credit:
 			credit[culprit.name] = {'who':culprit, 'gets':reward}

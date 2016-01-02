@@ -46,6 +46,7 @@ func fire():
 		add_to_group('object', true)
 		get_node("/root/globals").current_map.add_child(shot)
 		PS2D.body_add_collision_exception(shot.get_rid(),owner.get_rid())
+		PS2D.body_add_collision_exception(shot.get_rid(),get_node("/root/globals").terran_base.defender.get_rid())
 		shot_count += 1
 		#reset counter to reuse numbers for unique name
 		if shot_count >= 25:

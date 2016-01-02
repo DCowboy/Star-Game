@@ -31,7 +31,6 @@ func _ready():
 	payload_modifier = owner.weapons
 	gun_pos = self.get_pos()
 	ammo = preload('res://npcs/projectiles/large_laser_shot.scn')
-	print('fully loaded at: ' + str(get_pos()))
 	set_fixed_process(true)
 	
 	

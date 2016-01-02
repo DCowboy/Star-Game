@@ -23,8 +23,10 @@ func _process(delta):
 		life = 0
 	var hits = get_overlapping_bodies()
 	if hits.size() > 0:
-		if hits[0] in get_tree().get_nodes_in_group('projectiles'):
+		if 'projectiles' in hits[0].get_groups():
 			queue_free()
+		elif 'station_defense' in hits[0].get_groups():
+			pass 
 		elif use_now == true:
 			owner = hits[0]
 			use_item()

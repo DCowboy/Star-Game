@@ -37,7 +37,7 @@ func _process(delta):
 					contact = 'welcomed'
 				else:
 					contact = 'warned'
-				print(contact + ' ' + object.name)
+				print(self.name + ' ' + contact + ' ' + object.name)
 			already_known.append(object)
 			
 	

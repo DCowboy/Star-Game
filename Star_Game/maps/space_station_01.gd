@@ -8,17 +8,22 @@ var core = 8
 var globals
 var in_terran_airspace = []
 var already_known = []
+var def_equip
 var defender
 var allies
 
 func _ready():
 	globals = get_node("/root/globals")
 	globals.terran_base = self
+	def_equip = preload('res://maps/station_03_defense.scn')
 	set_process(true)
 	
 	
 func _process(delta):
-
+	if defender == null:
+		defender = def_equip.instance()
+		defender.set_pos(get_pos())
+		get_parent().add_child(defender)
 	pass
 #	allies = get_tree().get_nodes_in_group('terran')
 #	in_terran_airspace = get_overlapping_bodies()

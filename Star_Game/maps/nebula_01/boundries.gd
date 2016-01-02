@@ -80,7 +80,7 @@ func _ready():
 	
 #signal calls for objects who enter and leave edge areas
 #------------------------------------------------------------
-func _on_top_left_body_enter( body ):	
+func _on_top_left_body_enter( body ):
 	var name = 'top_left'
 	var offsets = [Vector2(0, map_size.size.height),
 		Vector2(map_size.size.width, map_size.size.height),

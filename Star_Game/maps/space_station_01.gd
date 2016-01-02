@@ -12,6 +12,7 @@ var def_equip
 var defender
 var allies
 
+
 func _ready():
 	globals = get_node("/root/globals")
 	globals.terran_base = self
@@ -39,17 +40,16 @@ func _process(delta):
 					contact = 'warned'
 				print(self.name + ' ' + contact + ' ' + object.name)
 			already_known.append(object)
-#			
-#	
-#	var closest_object
-#	var shortest_distance = 1025
-#	for object in already_known:
-#		if not object in in_terran_airspace:
-#			already_known.erase(object)
-#		elif not object in allies and not 'projectiles' in object.get_groups():
-#			var distance = Vector2(object.get_pos() - get_pos()).length()
-#			if distance < shortest_distance:
-#				shortest_distance = distance
-#				closest_object = object
-#	defender.target = closest_object
+	
+	var closest_object
+	var shortest_distance = 1025
+	for object in already_known:
+		if not object in in_airspace:
+			already_known.erase(object)
+		elif not object in allies and not 'projectiles' in object.get_groups():
+			var distance = Vector2(object.get_pos() - get_pos()).length()
+			if distance < shortest_distance:
+				shortest_distance = distance
+				closest_object = object
+	defender.closest_object = closest_object
 

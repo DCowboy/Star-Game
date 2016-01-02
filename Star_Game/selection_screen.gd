@@ -79,7 +79,8 @@ func _on_terran_warship_pressed():
 
 
 func _on_confirm_pressed():
-	if ship != null:
+	if 'hull' in ship:
+		get_node("explanation").set_text('Need to choose a ship before you can start! Dumbass!')
 		player.ships.append(ship)
 		player.current_ship = ship.hull
 		player.current_ship_instance.status = ship.status
@@ -89,5 +90,4 @@ func _on_confirm_pressed():
 		call_deferred('replace_by', client.instance())
 	else:
 		get_node("explanation").set_text('Need to choose a ship before you can start! Dumbass!')
-
 

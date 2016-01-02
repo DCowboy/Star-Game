@@ -46,10 +46,13 @@ func _fixed_process(delta):
 			exemptions.erase(object)
 	#check for additons to exemptions
 	for object in allies:
-		var id = object.get_rid()
-		if object and not object in exemptions:
-			PS2D.body_add_collision_exception(id, get_rid())
-			exemptions.append(object)
+		if object == null:
+			allies.erase(object)
+		elif not object in exemptions and not 'item' in object.get_groups() and not 'resource' in object.get_groups():
+				var obj_id = object.get_rid()
+				var self_id = get_rid()
+				PS2D.body_add_collision_exception(obj_id, self_id)
+				exemptions.append(object)
 
 	var target_pos = Vector2(0, 0)
 	var target_distance = 1025

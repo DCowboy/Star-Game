@@ -2,6 +2,8 @@
 extends RigidBody2D
 
 const type = 'shield'
+const shield_range = 512
+const warning_range = 576
 var name = 'urthrax station defense'
 var max_health
 var health
@@ -9,12 +11,14 @@ var max_energy
 var energy
 var exemptions = []
 var shield_strength
+var shield_alpha = 0
 var shape_hit
 var shield_index
 var credit = {}
 var impacts = {}
 var owner
 var allies
+var closest_object
 var globals
 
 
@@ -25,7 +29,7 @@ func _ready():
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
-
+	get_node("shield").get_material().set_shader_param("ratio", shield_alpha)
 	set_fixed_process(true)
 
 
@@ -41,11 +45,32 @@ func _fixed_process(delta):
 			exemptions.erase(object)
 	#check for additons to exemptions
 	for object in allies:
-		var id = object.get_rid()
-		if object and not object in exemptions:
-			PS2D.body_add_collision_exception(id, get_rid())
-			exemptions.append(object)
+		if object == null:
+			allies.erase(object)
+		elif not object in exemptions and not 'item' in object.get_groups() and not 'resource' in object.get_groups():
+				var obj_id = object.get_rid()
+				var self_id = get_rid()
+				PS2D.body_add_collision_exception(obj_id, self_id)
+				exemptions.append(object)
+				
+	var closest_pos = Vector2(0, 0)
+	var closest_distance = 1025
 	
+	if closest_object:
+		closest_pos = closest_object.get_pos()
+		closest_distance = Vector2(closest_pos - get_pos()).length()
+	elif shield_alpha > 0:
+		shield_alpha -= 1 - delta
+		
+	if closest_distance <= warning_range:
+		shield_alpha = abs(warning_range - Vector2(closest_pos - get_pos()).length())
+	else:
+		shield_alpha -= 1 - delta
+	
+		
+	var ratio = shield_alpha / (warning_range - shield_range)
+	get_node("shield").get_material().set_shader_param("ratio", ratio)
+		
 
 func _integrate_forces(state):
 	var count = state.get_contact_count()

@@ -106,10 +106,11 @@ func rand_pos():
 		randomize()
 		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
 		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
-		if Vector2(terran_base.get_global_pos() - pos).length() > 1000 and \
-			Vector2(chentia_base.get_global_pos() - pos).length() > 1000 and \
-			Vector2(urthrax_base.get_global_pos() - pos).length() > 1000:  
-			break
+#		if Vector2(terran_base.get_global_pos() - pos).length() > 500 and \
+#			Vector2(chentia_base.get_global_pos() - pos).length() > 500 and \
+#			Vector2(urthrax_base.get_global_pos() - pos).length() > 500:  
+#			break
+		break
 
 	return pos
 

@@ -1,26 +1,39 @@
-#displays minimap
-extends Node
+#need to fix
+extends Node2D
 
 var main_viewport
 var texture
-var ping_objects
-var ping_areas
+var pings
+var ping_holder
+var radar_bg
+var radar_background 
+var radar_area = 5
+var blip
+var globals
+var player
 
 
 func _ready():
-	#sets minimap to a size based upon the viewport size
-	main_viewport = get_node("/root/globals").main_viewport
-	get_node("Viewport").set_rect(Rect2(Vector2(0, 0), Vector2(main_viewport.size.width, main_viewport.size.width) / 4))
-	get_node("Viewport/mini_map_bg").set_scale(get_node("/root/globals").square_scale)
-	get_node("display").set_size(get_node("Viewport/mini_map_bg").get_texture().get_size())
-	get_node("display").set_pos(Vector2(main_viewport.size.width * .75, 0))
-
+	blip = preload('res://gui/mini_map_sprites.scn')
+	globals = get_node("/root/globals")
+	player = get_node("/root/player")
+	radar_bg = get_node("Viewport/mini_map_bg")
+#	radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
+	ping_holder = get_node("Viewport/ping_holder")
 	set_process(true)
 
 
 func _process(delta):
-	#get pings from mini_map_tracker
-	ping_objects = get_node("/root/globals").ping_objects
+	#10 is a magic number because I can't get the size of a collision shape
+	#in order to get a ratio between the size of the shape and the size of the background
+	if radar_area != 10 * player.scale.x:
+		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
+		radar_area = 10 * player.scale.x
+#	#get pings from mini_map_tracker
+	pings = globals.ping_areas
+	pings += globals.ping_objects
+	#clear pings
+	free_pings()
 	#add pings
 	get_pings()
 	#capture picture from viewport
@@ -30,26 +43,51 @@ func _process(delta):
 	
 	
 func get_pings():
-	#deletes earlier ping sprites
-	if get_node("Viewport/ping_holder").get_child_count() != 0:
-		for child in range(0, get_node("Viewport/ping_holder").get_child_count()):
-			get_node("Viewport/ping_holder").get_child(child).queue_free()
-		
 	#adds a spite for each ping
-	for ping in ping_objects:
-		var dot = get_node("/root/globals").mini_map_icons.instance()
-		dot.set_scale(Vector2(.5, .5))
-		dot.set_pos(((ping.get_pos() + Vector2(0, 100) - get_node("/root/globals").player_pos)) / 12)
-		if ping in get_tree().get_nodes_in_group('friendly'):
-			dot.set_region_rect(Rect2(8, 0, 8, 8))
-		if ping in get_tree().get_nodes_in_group('target'):
-			dot.set_region_rect(Rect2(16, 0, 8, 8))
-		else:
-			if ping.name != 'laser_shot':
-				dot.set_region_rect(Rect2(0, 0, 8, 8))
-				dot.set_scale(Vector2(1,1))
-				if ping.name == 'Player':
+	for ping in pings:
+		if ping != null:
+			var scale = Vector2(.3333, .3333)
+			var rect_pos = Vector2(0, 0)
+			var dot = blip.instance()
+			#determines shape and size
+			if 'resource' in ping.get_groups():
+				rect_pos.y = 24
+				scale.x = 2
+				scale.y = 2
+			elif 'object' in ping.get_groups():
+				rect_pos.y = 12
+				if 'asteroids' in ping.get_groups():
+					scale *= (ping.size + 1)
+			else:
+				rect_pos.y = 0
+				if 'ships' in ping.get_groups():
+					scale *= (ping.size + 1)
+				elif 'projectiles' in ping.get_groups():
+					scale /= 2
+			#determine's color
+			if 'terran' in ping.get_groups():
+				rect_pos.x = 36
+			elif 'urthrax' in ping.get_groups():
+				rect_pos.x = 24
+			elif 'chentia' in ping.get_groups():
+				rect_pos.x = 12
+			else:
+				rect_pos.x = 0
+			#checks if it should rotate the dot image
+			if not 'object' in  ping.get_groups() and not 'projectiles' in ping.get_groups():
+				if 'owner' in ping and ping.owner.name == 'player':
 					dot.set_pos(Vector2(0, 0))
-					dot.set_rot(get_node("/root/globals").rotate)
-		get_node("Viewport/ping_holder").add_child(dot)
-	
+					dot.set_rot(player.rotate)
+			else:
+			 	pass
+			#sets and adds dot
+			dot.set_region_rect(Rect2(rect_pos, Vector2(12, 12)))
+			dot.set_scale(scale)
+			dot.set_pos((ping.get_pos() - player.get_pos()) / radar_area)
+			ping_holder.add_child(dot)
+
+func free_pings():
+	#deletes earlier ping sprites
+	if ping_holder.get_child_count() != 0:
+		for child in range(0, ping_holder.get_child_count()):
+			ping_holder.get_child(child).queue_free()

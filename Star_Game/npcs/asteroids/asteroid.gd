@@ -1,42 +1,48 @@
 
 extends "res://shared/rigid_object.gd"
 
-var size
 var material
 var shape
 var rotation_speed
 export var max_rotation = 5
-export var max_acceleration = 5000
+export var max_acceleration = 100000000
+var globals
+var owner
 
 func death():
 	var crumble
+	var number = 0
 	var pos = get_pos()
 	var description = {}
 	if size == 0:
-		crumble = get_node("/root/globals").explosions.small_rock.instance()
+		crumble = globals.explosions.small_rock.instance()
 	elif size == 1:
-		crumble = get_node("/root/globals").explosions.med_rock.instance()
+		crumble = globals.explosions.med_rock.instance()
 		description['type'] = 'small_roid'
 	else:
-		crumble = get_node("/root/globals").explosions.large_rock.instance()
+		crumble = globals.explosions.large_rock.instance()
 		description['type'] = 'med_roid'
 		
 	if size != 0:
-		var number = int(rand_range(1, 4)) 
+		number = int(rand_range(0, 4)) 
 		description['material'] = material
 		description['size'] = size - 1
 		description['shape'] = int(rand_range(0, 3))
 		for n in range(number):
-			pos.x += rand_range(-get_child(0).get_texture().get_size().width * .4, get_child(0).get_texture().get_size().width * .4)
-			pos.y += rand_range(-get_child(0).get_texture().get_size().height * .4, get_child(0).get_texture().get_size().height * .4 )
+			var this_image = get_node('Sprite').get_texture().get_size()
+			pos.x += rand_range(-this_image.x * .4, this_image.x * .4)
+			pos.y += rand_range(-this_image.y * .4, this_image.y * .4 )
 			description['pos'] = pos
-			get_node("/root/globals").add_entity(description, 1)
+			globals.add_entity(description, 1)
 	for child in range(get_child_count() -1):
 		get_child(child).free()
 	crumble.set_pos(get_pos())
 	call_deferred('replace_by', crumble)
+	globals.population -= 1
+	get_node("/root/rewards").reward(self, number)
 
 func _fixed_process(delta):
+	
 	if abs(get_angular_velocity()) > max_rotation:
 		set_angular_damp(1)
 	else:
@@ -51,8 +57,9 @@ func _fixed_process(delta):
 
 
 func _ready():
+	globals = get_node("/root/globals")
+	owner = self
 	build_asteroid()
-	race = 'neutral'
 	rotation_speed = rand_range(-1, 1)
 	set_angular_velocity(rotation_speed)	
 	var initial_velocity = Vector2(0, 0)
@@ -68,11 +75,11 @@ func build_asteroid():
 	var unit = get_child(0).get_texture().get_size() / 3
 	var region_pos = Vector2(0, 0)
 	var health_base
-	if size == 0:
+	if self.size == 0:
 		size_name = 'small'
-	elif size == 1:
+	elif self.size == 1:
 		size_name = 'medium'
-	elif size == 2:
+	elif self.size == 2:
 		size_name = 'large'
 	else:
 		print('something is broken with size')
@@ -92,7 +99,7 @@ func build_asteroid():
 	else: 
 		print('something is broken with material')
 	name = size_name + " " + material_name + " asteroid"
-	get_node("mini_info").lbl_name.set_text(name)
+	get_node("mini_info").lbl_name.get_child(0).set_text(name)
 		
 	if shape in range(0, 3):
 		region_pos.y = unit.y * shape
@@ -103,6 +110,7 @@ func build_asteroid():
 	health = max_health
 	max_energy = 0.0
 	energy = max_energy
+	globals.population += 1
 
 	#signal if the collider leaves the body so it doesn't keep hitting
 func _on_large_asteroid_body_exit( body ):

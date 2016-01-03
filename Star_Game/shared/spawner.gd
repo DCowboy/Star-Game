@@ -45,8 +45,8 @@ func spawn(owner, groups):
 #		spawn.controls = load('res://player/player_control.gd').new()
 #		spawn.owner = get_node("/root/player")
 	randomize()
-	respawn_pos.x += int(rand_range(-1,1) * 250)
-	respawn_pos.y += int(rand_range(-1, 1) * 250)
+	respawn_pos.x += int(rand_range(-1,1) * 225)
+	respawn_pos.y += int(rand_range(-1, 1) * 225)
 	spawn.owner = owner
 	tail.owner = owner
 	spawn.set_pos(respawn_pos)

@@ -15,4 +15,5 @@ func _ready():
 	globals.full_populate()
 	var gui = preload('res://gui/gui.scn').instance()
 	add_child(gui)
+	move_child(get_node("cursor"), get_child_count() - 1)
 	pass

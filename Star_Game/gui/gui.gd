@@ -7,7 +7,6 @@ var speed
 var spd = 0
 var guage_limiter = 0
 var guage_limit = 5
-var cursor
 var globals
 var player
 
@@ -22,7 +21,6 @@ func _ready():
 	get_node("status_control/status_bg/status_holder").add_child(status)
 	cargo = player.current_ship_instance.cargo
 	get_node("inventory_control/items_bg/cargo_holder").add_child(cargo)
-	cursor = get_node("cursor")
 	set_process(true)
 	
 	set_process_input(true)

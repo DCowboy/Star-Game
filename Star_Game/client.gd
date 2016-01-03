@@ -3,6 +3,8 @@ extends Node2D
 
 var globals
 var player
+var gui
+var cursor
 
 func _ready():
 	globals = get_node("/root/globals")
@@ -11,9 +13,14 @@ func _ready():
 	add_child(map)
 	move_child(map, 0)
 	get_node("/root/spawner").spawn(player, ['terran', 'ships', 'creation', 'entity'])
-#	globals.player_pos = get_child(1).get_pos()
 	globals.full_populate()
-	var gui = preload('res://gui/gui.scn').instance()
+	gui = preload('res://gui/gui.scn').instance()
 	add_child(gui)
-	move_child(get_node("cursor"), get_child_count() - 1)
-	pass
+	cursor = preload('res://gui/cursor.scn').instance()
+	add_child(cursor)
+	set_process(true)
+	
+func _process(delta):
+	var last_place = globals.current_map.get_child_count() - 1
+	if cursor.get_position_in_parent() != last_place:
+		move_child(cursor, last_place)

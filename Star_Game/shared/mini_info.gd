@@ -123,20 +123,3 @@ func _on_VisibilityNotifier2D_enter_screen():
 func _on_VisibilityNotifier2D_exit_screen():
 	self.hide()
 	get_parent().hide()
-
-
-func _on_bar_bg_mouse_enter():
-	get_node("/root/globals").mouse_is_over = get_parent()
-	lbl_name.show()
-	pass # replace with function body
-
-
-func _on_bar_bg_mouse_exit():
-	get_node("/root/globals").mouse_is_over = null
-	lbl_name.hide()
-	
-	
-func _exit_tree():
-	get_node("/root/globals").mouse_is_over = null
-	
-	pass # replace with function body

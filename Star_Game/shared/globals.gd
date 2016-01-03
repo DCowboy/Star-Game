@@ -19,7 +19,8 @@ var asteroids = {}
 var items = {}
 var explosions = {}
 var sound_effects
-var mouse_is_over = null
+var mouse_pos = Vector2(0, 0)
+var cursor_frame = 0
 
 var mini_map_size = Vector2(0, 0)
 var ping_objects

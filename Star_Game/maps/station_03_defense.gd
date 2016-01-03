@@ -11,6 +11,7 @@ var max_energy
 var energy
 var exemptions = []
 var shield_strength
+var shield
 var shield_alpha = 0
 var shape_hit
 var shield_index
@@ -29,13 +30,15 @@ func _ready():
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
-	get_node("shield").get_material().set_shader_param("ratio", shield_alpha)
+	shield = get_node("shield")
+	shield.set_material(shield.get_material().duplicate(true))
+	shield.get_material().set_shader_param("ratio", shield_alpha)
 	set_fixed_process(true)
 
 
 func _fixed_process(delta):
 	set_rot(get_rot() + 1 * delta)
-	get_node("shield").set_rot(-get_rot())
+	shield.set_rot(-get_rot())
 	if energy < max_energy:
 		energy += owner.engineering * pow(delta, 2)
 	allies = get_tree().get_nodes_in_group('terran')
@@ -69,7 +72,9 @@ func _fixed_process(delta):
 	
 		
 	var ratio = shield_alpha / (warning_range - shield_range)
-	get_node("shield").get_material().set_shader_param("ratio", ratio)
+	if ratio > 1:
+		ratio = 1
+	shield.get_material().set_shader_param("ratio", ratio)
 		
 
 func _integrate_forces(state):

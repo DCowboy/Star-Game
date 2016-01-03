@@ -24,7 +24,7 @@ func _process(delta):
 	if defender == null:
 		defender = def_equip.instance()
 		defender.set_pos(get_pos())
-#		get_parent().add_child(defender)
+		get_parent().add_child(defender)
 
 	allies = get_tree().get_nodes_in_group('urthrax')
 	in_airspace = get_overlapping_bodies()

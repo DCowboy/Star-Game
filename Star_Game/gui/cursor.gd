@@ -1,9 +1,8 @@
-#need to fix
+#need a better way to do mouseover identity color
 extends Sprite
 
 var on_object
-var cursor_frame
-var player_race
+var cursor_frame = 0
 
 func _ready():
 	cursor_frame = get_frame()
@@ -19,13 +18,14 @@ func _input(event):
 		
 		
 func _process(delta):
-#	if player_race != get_node("/root/player").race:
-#		player_race = get_node("/root/player").race
 	var on_object = get_node("/root/globals").mouse_is_over
-	if on_object == null:
+	if on_object:
+		if get_node("/root/player").race in on_object.get_groups() or 'item' in on_object.get_groups():
+			cursor_frame = 1
+		elif 'neutral' in on_object.get_groups() or not get_node("/root/player").race in on_object.get_groups():
+			cursor_frame = 2
+		else:
+			cursor_frame = 0
+	else:
 		cursor_frame = 0
-	elif not on_object in get_tree().get_nodes_in_group('terran') or not on_object in get_tree().get_nodes_in_group('item'):
-		cursor_frame = 2
-	elif on_object.type == 'ship' and on_object.race == player_race:
-		cursor_frame = 1
 	set_frame(cursor_frame)

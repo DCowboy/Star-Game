@@ -99,18 +99,11 @@ func add_entity(description, number):
 
 
 func rand_pos():
-	#get a random position not too close to the player
+	#get a random position
 	var broken = false
 	var pos = Vector2(0, 0)
-	while not broken:
-		randomize()
-		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
-		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
-#		if Vector2(terran_base.get_global_pos() - pos).length() > 500 and \
-#			Vector2(chentia_base.get_global_pos() - pos).length() > 500 and \
-#			Vector2(urthrax_base.get_global_pos() - pos).length() > 500:  
-#			break
-		break
-
+	randomize()
+	pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
+	pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
 	return pos
 

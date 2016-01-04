@@ -74,7 +74,7 @@ func _fixed_process(delta):
 			else:
 				sgn = 1
 		elif rot - turn_amount > rotate:
-			if rot - rotate> deg2rad(180 - turn_amount):
+			if rot - rotate > deg2rad(180 - turn_amount ):
 				sgn = 1
 			else:
 				sgn = -1

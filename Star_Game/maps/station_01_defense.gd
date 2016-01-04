@@ -69,7 +69,6 @@ func _fixed_process(delta):
 			set_rot(aim - offset)
 		else:
 			set_rot(aim)
-			print(closest_object.get_name())
 			
 	else:
 		set_rot(get_rot() + 1 * delta)
@@ -103,7 +102,8 @@ func fire():
 		aim = gun_pos.angle_to_point(next_closest_object.get_pos())
 		offset = deg2rad(next_closest_object.get_linear_velocity().length())
 	else:
-		aim = get_rot() + deg2rad(180)
+		randomize()
+		aim = get_rot() + deg2rad(rand_range(0, 360))
 		offset = 0
 	if get_rot() < aim - offset:
 		set_rot(aim + offset)

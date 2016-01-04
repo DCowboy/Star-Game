@@ -3,7 +3,7 @@ extends RigidBody2D
 
 const type = 'shield'
 const shield_range = 512
-const warning_range = 576
+const warning_range = 768
 var name = 'urthrax station defense'
 var max_health
 var health
@@ -41,7 +41,7 @@ func _fixed_process(delta):
 	shield.set_rot(-get_rot())
 	if energy < max_energy:
 		energy += owner.engineering * pow(delta, 2)
-	allies = get_tree().get_nodes_in_group('terran')
+	allies = get_tree().get_nodes_in_group('urthrax')
 	# cleanup orphan exemptions
 	for object in exemptions:
 		if object == null:

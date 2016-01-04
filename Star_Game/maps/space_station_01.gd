@@ -16,7 +16,7 @@ var allies
 func _ready():
 	globals = get_node("/root/globals")
 	globals.terran_base = self
-	def_equip = preload('res://maps/station_03_defense.scn')
+	def_equip = preload('res://maps/station_01_defense.scn')
 	set_process(true)
 	
 	
@@ -42,14 +42,20 @@ func _process(delta):
 			already_known.append(object)
 	
 	var closest_object
+	var next_closest_object
 	var shortest_distance = 1025
+	var next_shortest_distance = 1026
 	for object in already_known:
 		if not object in in_airspace:
 			already_known.erase(object)
 		elif not object in allies and not 'projectiles' in object.get_groups():
 			var distance = Vector2(object.get_pos() - get_pos()).length()
 			if distance < shortest_distance:
+				if shortest_distance < next_shortest_distance:
+					next_shortest_distance = shortest_distance
+					next_closest_object = closest_object
 				shortest_distance = distance
 				closest_object = object
 	defender.closest_object = closest_object
+	defender.next_closest_object = next_closest_object
 

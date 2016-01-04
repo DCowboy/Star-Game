@@ -45,8 +45,10 @@ func _process(delta):
 func get_pings():
 	#adds a spite for each ping
 	for ping in pings:
-		if ping != null:
-			var scale = Vector2(.3333, .3333)
+		if ping == null:
+			pings.erase(ping)
+		else:
+			var scale = Vector2(.25, .25)
 			var rect_pos = Vector2(0, 0)
 			var dot = blip.instance()
 			#determines shape and size
@@ -74,7 +76,7 @@ func get_pings():
 			else:
 				rect_pos.x = 0
 			#checks if it should rotate the dot image
-			if not 'object' in  ping.get_groups() and not 'projectiles' in ping.get_groups():
+			if 'entity' in ping.get_groups() and not 'object' in  ping.get_groups() and not 'projectiles' in ping.get_groups():
 				if 'owner' in ping and ping.owner.name == 'player':
 					dot.set_pos(Vector2(0, 0))
 					dot.set_rot(player.rotate)

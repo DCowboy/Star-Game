@@ -35,10 +35,10 @@ func _process(delta):
 	on_object = get_overlapping_bodies()
 	on_object += get_overlapping_areas()
 	if on_object.size() > 0:
-		var top_object = on_object[0]
+		var top_object = on_object[on_object.size() - 1]
 		if player.race in top_object.get_groups() or 'item' in top_object.get_groups():
 			cursor_frame = 1
-		elif not player.race in top_object.get_groups():
+		elif not player.race in top_object.get_groups() and not 'resource' in top_object.get_groups():
 			cursor_frame = 2
 		else:
 			cursor_frame = 0

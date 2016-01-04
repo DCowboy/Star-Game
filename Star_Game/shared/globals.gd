@@ -19,7 +19,6 @@ var asteroids = {}
 var items = {}
 var explosions = {}
 var sound_effects
-var mouse_pos = Vector2(0, 0)
 var cursor_frame = 0
 
 var mini_map_size = Vector2(0, 0)
@@ -100,11 +99,24 @@ func add_entity(description, number):
 
 
 func rand_pos():
-	#get a random position
-	var broken = false
+	#get a random position that won't kill any one on arrival
+	var base_positions = [chentia_base.get_pos(), terran_base.get_pos(), urthrax_base.get_pos()]
+	var ship_positions = []
 	var pos = Vector2(0, 0)
-	randomize()
-	pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
-	pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
+	var valid = false
+	for ship in get_tree().get_nodes_in_group('ships'):
+		ship_positions.append(ship.get_pos())
+	while not valid:
+		randomize()
+		pos.x = rand_range(-map_size.size.width * .4, map_size.size.width * .4)
+		pos.y = rand_range(-map_size.size.height * .4, map_size.size.height * .4)
+		valid = true
+		for base_pos in base_positions:
+			if Vector2(pos - base_pos).length() < 500:
+				valid = false
+		for ship_pos in ship_positions:
+			if Vector2(pos - ship_pos).length() < 250:
+				valid = false
+				
 	return pos
 

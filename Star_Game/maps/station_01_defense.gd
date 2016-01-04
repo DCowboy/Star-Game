@@ -5,7 +5,9 @@ const type = 'cannon'
 const fire_range = 512
 const aim_range = 768
 var name = 'terran station defense'
-var payload_modifier
+var effect
+var fire_delay = 0
+var fire_rate = 45
 var max_health
 var health
 var max_energy
@@ -17,21 +19,19 @@ var next_closest_object
 var aim
 
 var owner
-var ammo
-var shot_count = 0
-var fire_delay = 0
-var fire_rate = 60
 var allies
+var globals
 
 func _ready():
-	owner = get_node("/root/globals").terran_base
+	globals = get_node("/root/globals")
+	owner = globals.terran_base
 	max_health = 50 * owner.core
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
 #	payload_modifier = owner.weapons
 	gun_pos = self.get_pos()
-#	ammo = preload('res://npcs/projectiles/large_laser_shot.scn')
+	effect = preload('res://shared/large_warp.scn')
 	set_fixed_process(true)
 	
 	
@@ -94,6 +94,9 @@ func death():
 	
 
 func fire():
+	var taker = effect.instance()
+	taker.set_pos(closest_object.get_pos())
+	globals.current_map.add_child(taker)
 	closest_object.hide()
 	var offset
 	if next_closest_object:
@@ -112,6 +115,9 @@ func fire():
 	var direction = Vector2(cos(aim + deg2rad(90)), -sin(aim + deg2rad(90)))
 	var force = closest_object.get_linear_velocity().length()
 	closest_object.set_pos(get_pos() + Vector2(direction.normalized() * fire_range))
+	var sender = effect.instance()
+	sender.set_pos(closest_object.get_pos())
+	globals.current_map.add_child(sender)
 	closest_object.apply_impulse(Vector2(0, 0), direction * ((force * closest_object.get_mass()) * 2))
 	closest_object.show()
 	

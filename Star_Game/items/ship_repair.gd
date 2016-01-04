@@ -1,6 +1,7 @@
 
 extends Area2D
 
+const name = 'ship_repair'
 var usable = true
 var use_now = true
 var owner = null

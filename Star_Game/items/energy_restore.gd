@@ -1,6 +1,7 @@
 
 extends Area2D
 
+const name = 'energy_restore'
 var use_now = true
 var owner = null
 var life = 0

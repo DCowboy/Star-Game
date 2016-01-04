@@ -45,7 +45,7 @@ func _process(delta):
 func get_pings():
 	#adds a spite for each ping
 	for ping in pings:
-		if ping == null:
+		if ping == null or ping.name == 'cursor':
 			pings.erase(ping)
 		else:
 			var scale = Vector2(.25, .25)

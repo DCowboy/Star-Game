@@ -1,6 +1,7 @@
 #need a better way to do mouseover identity color
 extends Area2D
 
+const name = 'cursor'
 var mouse_position = Vector2(0, 0)
 var cursor_position = Vector2(0, 0)
 var on_object
@@ -45,4 +46,3 @@ func _process(delta):
 	else:
 		cursor_frame = 0
 	globals.cursor_frame = cursor_frame
-	get_node("Sprite").set_frame(cursor_frame)

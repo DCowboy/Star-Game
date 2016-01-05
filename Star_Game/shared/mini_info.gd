@@ -122,4 +122,5 @@ func _on_VisibilityNotifier2D_enter_screen():
 
 func _on_VisibilityNotifier2D_exit_screen():
 	self.hide()
-	get_parent().hide()
+	if not 'station_defense'in get_parent().get_groups():
+		get_parent().hide()

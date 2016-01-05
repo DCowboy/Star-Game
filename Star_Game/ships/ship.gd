@@ -2,13 +2,8 @@
 extends "res://shared/rigid_object.gd"
 
 var globals
-var player
-#const type = 'ship'
 var owner
-#var controls
-var size_name
-#var variation
-#var variation_name
+
 var status
 var cargo
 var rotate = 0
@@ -42,10 +37,7 @@ var supply_extensions = {}
 
 
 func _ready():
-	
-	player = get_node("/root/player")
 	globals = get_node("/root/globals")
-#	fire_range = 300 * pow(size + 1.0, 2) * player.scale.y
 	
 	set_fixed_process(true)
 	
@@ -161,8 +153,8 @@ func death():
 	explode.set_pos(get_pos())
 	
 	for child in get_children():
-		if child.get_name() != 'Camera2D':
-			child.free()
+#		if child.get_name() != 'Camera2D':
+		child.free()
 	call_deferred('replace_by', explode)
 	globals.population -= 1
 	get_node("/root/rewards").reward(self)

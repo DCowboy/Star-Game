@@ -6,6 +6,7 @@ var name
 #var type
 var condition = 'normal'
 var size = 0
+var size_name
 var max_health = 1
 var health = 1 setget change_health
 var max_energy = 1
@@ -15,6 +16,19 @@ var shape_hit
 var shield_index
 var credit = {}
 var impacts = {}
+
+
+func _ready():
+	if size == 0:
+		size_name = 'small'
+	elif size == 1:
+		size_name = 'medium'
+	elif size == 2:
+		size_name = 'large'
+	else:
+		print('something screwy with size in ' + name)
+	
+	set_process(true)
 
 
 func change_health(action, value):
@@ -48,10 +62,8 @@ func change_energy(action, value):
 		if value >= 0 and value >= max_energy:
 			energy = value
 
-func _ready():
-	health = max_health
-	energy = max_energy
-	set_process(true)
+
+	
 	
 	
 func _process(delta):

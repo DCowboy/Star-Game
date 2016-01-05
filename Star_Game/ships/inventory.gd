@@ -7,7 +7,7 @@ var used = 0
 
 func _ready():
 	display = get_parent().get_parent()
-	max_slots = get_child_count()
+	max_slots = get_child_count() - 1
 	display.get_node("max_space").set_text(str(max_slots))
 	display.get_node("used").set_text(str(currently_used.size()))
 	set_process(true)
@@ -31,7 +31,7 @@ func add_item(item):
 	for slot in get_children():
 		if slot.get_child_count() == 0:
 			item.set_pos(Vector2(0, 0))
-			item.set_transform(Matrix32(Vector2(.5,-0), Vector2(0, .5), get_pos()))
+#			item.set_transform(Matrix32(Vector2(.5,-0), Vector2(0, .5), get_pos()))
 			item.owner = get_node("/root/player").current_ship_instance.hull
 			slot.add_child(item)
 			currently_used[item] = 1

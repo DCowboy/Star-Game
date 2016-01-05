@@ -26,9 +26,9 @@ func _ready():
 func _process(delta):
 	#10 is a magic number because I can't get the size of a collision shape
 	#in order to get a ratio between the size of the shape and the size of the background
-	if radar_area != 10 * player.scale.x:
+	if radar_area != 12 * player.scale.x:
 		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
-		radar_area = 10 * player.scale.x
+		radar_area = 12 * player.scale.x
 #	#get pings from mini_map_tracker
 	pings = globals.ping_areas
 	pings += globals.ping_objects
@@ -45,10 +45,10 @@ func _process(delta):
 func get_pings():
 	#adds a spite for each ping
 	for ping in pings:
-		if ping == null or ping.name == 'cursor':
+		if ping == null or ('name' in ping and ping.name == 'cursor'):
 			pings.erase(ping)
 		else:
-			var scale = Vector2(.25, .25)
+			var scale = Vector2(.34, .34)
 			var rect_pos = Vector2(0, 0)
 			var dot = blip.instance()
 			#determines shape and size

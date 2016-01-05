@@ -3,7 +3,7 @@ extends RigidBody2D
 
 const type = 'shield'
 const shield_range = 512
-const warning_range = 768
+const warning_range = 1024
 var name = 'urthrax station defense'
 var max_health
 var health

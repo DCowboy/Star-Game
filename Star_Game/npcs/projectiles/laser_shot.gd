@@ -7,15 +7,13 @@ var acceleration
 var shot_acceleration = 250
 var origin
 var fire_range
-var payload = 10
-var payload_modifier
+var payload 
 var exploding = false
 
 
 var sound
 
 func _ready():
-	payload *= payload_modifier
 	shot_acceleration += acceleration
 	sound = get_node("/root/globals").sound_effects.instance()
 	add_child(sound)

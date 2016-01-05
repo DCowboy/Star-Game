@@ -45,7 +45,7 @@ func _ready():
 	
 	player = get_node("/root/player")
 	globals = get_node("/root/globals")
-	fire_range = 300 * pow(size + 1.0, 2) * player.scale.y
+#	fire_range = 300 * pow(size + 1.0, 2) * player.scale.y
 	
 	set_fixed_process(true)
 	
@@ -55,8 +55,9 @@ func _ready():
 func _fixed_process(delta):
 	rotate = owner.rotate
 	if thrust == null:
-		thrust = 1000 * status.engineering_get()
-		top_speed = 300 * (size + 1.0) + 15 * status.engineering_get()
+		thrust = 750 * status.get_engineering()
+		status.set_thrust(thrust)
+		top_speed = 200 * (size + 1.0) + 15 * status.get_engineering()
 
 	previous_pos = current_pos
 	current_pos = get_pos()

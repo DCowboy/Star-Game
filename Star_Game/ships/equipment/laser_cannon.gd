@@ -7,7 +7,7 @@ var shot_count = 0
 var fire_delay = 0
 var fire_rate = 15
 var fire_range
-var payload_modifier = 0
+var payload = 10
 var globals
 var player
 
@@ -16,8 +16,8 @@ func _ready():
 	player = get_node("/root/player")
 	ammo = preload('res://npcs/projectiles/laser_shot.scn')
 	owner = get_parent().get_parent().get_parent()
-	fire_range = owner.fire_range
-	payload_modifier = owner.payload_modifier
+	fire_range = 500
+	payload *= owner.payload_modifier
 	set_process(true)
 
 
@@ -46,7 +46,7 @@ func fire():
 		shot.set_name(shot.get_name() + ' ' + str(shot_count))
 		shot.owner = owner
 		shot.fire_range = fire_range + owner.get_linear_velocity().length()
-		shot.payload_modifier = payload_modifier
+		shot.payload = payload
 		add_to_group('object', true)
 		globals.current_map.add_child(shot)
 		PS2D.body_add_collision_exception(shot.get_rid(),owner.get_rid())

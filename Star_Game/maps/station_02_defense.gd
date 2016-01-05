@@ -5,7 +5,7 @@ const type = 'cannon'
 const fire_range = 512
 const aim_range = 768
 var name = 'chentia station defense'
-var payload_modifier
+var payload = 20
 var max_health
 var health
 var max_energy
@@ -28,7 +28,7 @@ func _ready():
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
-	payload_modifier = owner.weapons
+	payload *= owner.weapons
 	gun_pos = self.get_pos()
 	ammo = preload('res://npcs/projectiles/large_laser_shot.scn')
 	set_fixed_process(true)
@@ -105,7 +105,7 @@ func fire(acceleration):
 	shot.set_name(shot.get_name() + ' ' + str(shot_count))
 	shot.owner = owner
 	shot.fire_range = fire_range
-	shot.payload_modifier = payload_modifier
+	shot.payload = payload
 	add_to_group('object', true)
 	get_node("/root/globals").current_map.add_child(shot)
 	for object in allies:

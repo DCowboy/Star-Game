@@ -54,8 +54,8 @@ func get_pings():
 			#determines shape and size
 			if 'resource' in ping.get_groups():
 				rect_pos.y = 24
-				scale.x = 4
-				scale.y = 4
+				scale.x = 4 / player.scale.x
+				scale.y = 4 / player.scale.y
 			elif 'object' in ping.get_groups():
 				rect_pos.y = 12
 				if 'asteroids' in ping.get_groups():

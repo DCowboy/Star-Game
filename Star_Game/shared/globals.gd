@@ -20,6 +20,7 @@ var items = {}
 var explosions = {}
 var sound_effects
 var cursor_frame = 0
+var comm
 
 var mini_map_size = Vector2(0, 0)
 var ping_objects

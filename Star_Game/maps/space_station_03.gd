@@ -2,6 +2,7 @@
 extends Area2D
 
 var name = 'urthrax_base'
+var race = 'Urthrax'
 var engineering = 13
 var weapons = 10
 var core = 8
@@ -28,26 +29,40 @@ func _process(delta):
 		defender.set_pos(get_pos())
 		get_parent().add_child(defender)
 		
-	allies = get_tree().get_nodes_in_group('urthrax')
+	allies = get_tree().get_nodes_in_group(str(race).to_lower())
 	in_airspace = get_overlapping_bodies()
 	for object in in_airspace:
+		var sender = '[color=#00ff00][b]' + name + ': [/b][/color]'
+		var message
+		var is_player = false
 		var contact = ''
 		if object == self or 'station_defense' in object.get_groups():
 			pass
 		elif object in allies or ('owner' in object and object.owner in allies):
 			if not object in visitors:
 				if not 'projectiles' in object.get_groups():
-					contact = 'welcomed'
+					print(object.name + ' is player type? ' + str('player_type' in object.owner.get_groups()))
+					if 'player_type' in object.owner.get_groups():
+						is_player = true
+						message = 'You are now in ' + race + ' airspace. Welcome Home!'
+						
+					contact = 'welcome'
 				visitors.append(object)
 		else:
 			if not object in threats:
 				if not 'asteroids' in object.get_groups():
-					contact = 'warned'
+					if 'player_type' in object.owner.get_groups():
+						is_player = true
+						message = 'You are now in ' + race + ' airspace. Leave now if you value your life!'
+					contact = 'warning'
 				threats.append(object)
 		
 		if contact != '':
-			print(name + ' ' + contact + ' ' + object.name)
-	
+			if is_player:
+				get_node("/root/globals").comm.message(sender + message)
+			else:
+				print(name + ' ' + contact + ' ' + object.name)
+				
 	var closest_object
 	var shortest_distance = 1025
 	for object in threats:

@@ -21,6 +21,7 @@ func _ready():
 	get_node("core_control/core/status_holder").add_child(status)
 	cargo = player.current_ship_instance.cargo
 	get_node("cargo_control/cargo_bg/cargo_holder").add_child(cargo)
+	get_node("comm_control/comm_bg/comm/large_panel").hide()
 	set_process(true)
 	
 	set_process_input(true)
@@ -52,8 +53,10 @@ func _input(event):
 		var window_pos = get_node("comm_control").get_pos()
 		if window_pos.y >= 0:
 			get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))
+			get_node("comm_control/comm_bg/comm/large_panel").show()
 		else:
 			get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y + 256))
+			get_node("comm_control/comm_bg/comm/large_panel").hide()
 
 
 func _process(delta):
@@ -97,8 +100,10 @@ func _on_cargo_hold_button_toggled( pressed ):
 	var window_pos = get_node("comm_control").get_pos()
 	if window_pos.y >= 0:
 		get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))
+		get_node("comm_control/comm_bg/comm/large_panel").show()
 	else:
 		get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y + 256))
+		get_node("comm_control/comm_bg/comm/large_panel").hide()
 	
 
 

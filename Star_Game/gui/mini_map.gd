@@ -54,8 +54,8 @@ func get_pings():
 			#determines shape and size
 			if 'resource' in ping.get_groups():
 				rect_pos.y = 24
-				scale.x = 2
-				scale.y = 2
+				scale.x = 4
+				scale.y = 4
 			elif 'object' in ping.get_groups():
 				rect_pos.y = 12
 				if 'asteroids' in ping.get_groups():
@@ -63,7 +63,7 @@ func get_pings():
 			else:
 				rect_pos.y = 0
 				if 'ships' in ping.get_groups():
-					scale *= (ping.size + 1)
+					scale *= (ping.size + 1) + 1 / (ping.size + 1)
 				elif 'projectiles' in ping.get_groups():
 					scale /= 2
 			#determine's color

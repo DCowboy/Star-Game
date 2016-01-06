@@ -37,6 +37,7 @@ func _process(delta):
 		elif object in allies or ('owner' in object and object.owner in allies):
 			if not object in visitors:
 				if not 'projectiles' in object.get_groups():
+					print(object.name + ' is player type? ' + str('player_type' in object.owner.get_groups()))
 					contact = 'welcomed'
 				visitors.append(object)
 		else:

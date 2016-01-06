@@ -30,6 +30,7 @@ func _process(delta):
 		get_parent().add_child(defender)
 		
 	allies = get_tree().get_nodes_in_group(str(race).to_lower())
+	in_airspace = []
 	in_airspace = get_overlapping_bodies()
 	for object in in_airspace:
 		var sender = '[color=#0000ff][b]' + name + ': [/b][/color]'
@@ -80,4 +81,8 @@ func _process(delta):
 				closest_object = object
 	defender.closest_object = closest_object
 	defender.next_closest_object = next_closest_object
-
+	
+	#cleans up visitors
+	for object in visitors:
+		if not object in get_overlapping_bodies():
+			visitors.erase(object)

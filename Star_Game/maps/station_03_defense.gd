@@ -73,6 +73,8 @@ func _fixed_process(delta):
 		
 	var ratio = shield_alpha / (warning_range - shield_range)
 	if ratio > 1:
+		if self.is_hidden():
+			show()
 		ratio = 1
 	shield.get_material().set_shader_param("ratio", ratio)
 		

@@ -56,7 +56,7 @@ func _fixed_process(delta):
 
 	var target_pos = Vector2(0, 0)
 	var target_distance = 1025
-	if target:
+	if target != null:
 		target_pos = target.get_pos()
 		aim = gun_pos.angle_to_point(target_pos)
 		target_distance = Vector2(target_pos - gun_pos).length()
@@ -77,6 +77,7 @@ func _fixed_process(delta):
 			fire(0)
 			energy -= .25
 			fire_delay = fire_rate
+		target = null
 
 
 

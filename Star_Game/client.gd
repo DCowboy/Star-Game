@@ -21,6 +21,5 @@ func _ready():
 	set_process(true)
 	
 func _process(delta):
-	var last_place = globals.current_map.get_child_count() - 1
-	if cursor.get_position_in_parent() != last_place:
-		move_child(cursor, last_place)
+	pass
+

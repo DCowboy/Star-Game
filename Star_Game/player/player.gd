@@ -16,7 +16,6 @@ var rotate
 func _ready():
 	globals = get_node("/root/globals")
 	name = 'player'
-	race = 'terran'
 	controls = preload('res://player/player_control.gd').new()
 	add_child(controls)
 	set_process(true)

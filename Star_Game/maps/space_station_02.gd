@@ -26,10 +26,19 @@ func _process(delta):
 		defender.set_pos(get_pos())
 		get_parent().add_child(defender)
 	allies = get_tree().get_nodes_in_group('chentia')
+
 	in_airspace = get_overlapping_bodies()
 	for object in in_airspace:
-		if not object in already_known and not 'projectiles' in object.get_groups():
-			if 'projectiles' in object.get_groups() or 'asteroids' in object.get_groups():
+		if not object in already_known:
+			if object== self:
+				pass
+			elif 'projectiles' in object.get_groups():
+#				print(object.owner.name)
+				if object.owner == self or object.owner in allies:
+					allies.append(object)
+				else:
+					pass
+			elif 'asteroids' in object.get_groups():
 				pass
 			else:
 				var contact = ''
@@ -44,9 +53,11 @@ func _process(delta):
 	var closest_object
 	var shortest_distance = 1025
 	for object in already_known:
+		if 'projectiles' in object.get_groups():
+			print(object.owner.name + ' in allies: ' + str(object in allies))
 		if not object in in_airspace:
 			already_known.erase(object)
-		elif not object in allies and not 'projectiles' in object.get_groups():
+		elif not object in allies:
 			var distance = Vector2(object.get_pos() - get_pos()).length()
 			if distance < shortest_distance:
 				shortest_distance = distance

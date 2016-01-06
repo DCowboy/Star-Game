@@ -29,7 +29,7 @@ func _process(delta):
 	allies = get_tree().get_nodes_in_group('terran')
 	in_airspace = get_overlapping_bodies()
 	for object in in_airspace:
-		if not object in already_known and not 'projectiles' in object.get_groups():
+		if not object in already_known or ('projectiles' in object.get_groups() and not object.owner in allies):
 			if 'projectiles' in object.get_groups() or 'asteroids' in object.get_groups():
 				pass
 			else:
@@ -48,7 +48,7 @@ func _process(delta):
 	for object in already_known:
 		if not object in in_airspace:
 			already_known.erase(object)
-		elif not object in allies and not 'projectiles' in object.get_groups():
+		elif not object in allies:
 			var distance = Vector2(object.get_pos() - get_pos()).length()
 			if distance < shortest_distance:
 				if shortest_distance < next_shortest_distance:

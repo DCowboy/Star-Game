@@ -32,8 +32,10 @@ func spawn(owner, groups):
 	var respawn_pos
 	if 'terran' in groups:
 		respawn_pos = globals.terran_base.get_global_pos()
-	else:
-		respawn_pos = Vector2(0, 0)
+	elif 'chentia' in groups:
+		respawn_pos = globals.chentia_base.get_global_pos()
+	elif 'urthrax' in groups:
+		respawn_pos = globals.urthrax_base.get_global_pos()
 	if owner.name == 'player':
 		print('respawning')
 		spawn = owner.current_ship.instance() #get_node("/root/player").current_ship.instance()

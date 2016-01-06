@@ -42,7 +42,6 @@ func _process(delta):
 		elif object in allies or ('owner' in object and object.owner in allies):
 			if not object in visitors:
 				if not 'projectiles' in object.get_groups():
-					print(object.name + ' is player type? ' + str('player_type' in object.owner.get_groups()))
 					if 'player_type' in object.owner.get_groups():
 						is_player = true
 						message = 'You are now in ' + race + ' airspace. Welcome Home!'
@@ -54,15 +53,15 @@ func _process(delta):
 				if not 'asteroids' in object.get_groups():
 					if 'player_type' in object.owner.get_groups():
 						is_player = true
-						message = 'You are now in ' + race + ' airspace. Leave now if you value your life!'
+						message = 'You are now in ' + race + ' airspace. Leave now! Access to station or planet denied.'
 					contact = 'warning'
 				threats.append(object)
 		
 		if contact != '':
 			if is_player:
 				get_node("/root/globals").comm.message(sender + message)
-			else:
-				print(name + ' ' + contact + ' ' + object.name)
+			
+			print(name + ' ' + contact + ' ' + object.name)
 				
 	var closest_object
 	var shortest_distance = 1025

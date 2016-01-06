@@ -42,7 +42,6 @@ func _process(delta):
 		elif object in allies or ('owner' in object and object.owner in allies):
 			if not object in visitors:
 				if not 'projectiles' in object.get_groups():
-					print(object.name + ' is player type? ' + str('player_type' in object.owner.get_groups()))
 					if 'player_type' in object.owner.get_groups():
 						is_player = true
 						message = 'You are now in ' + race + ' airspace. Welcome Home!'
@@ -54,7 +53,7 @@ func _process(delta):
 				if not 'asteroids' in object.get_groups():
 					if 'player_type' in object.owner.get_groups():
 						is_player = true
-						message = 'You are now in ' + race + ' airspace. Leave now if you value your life!'
+						message = 'You are now in ' + race + ' airspace. Leave now. Your entry will not be tolerated!'
 					contact = 'warning'
 				threats.append(object)
 		

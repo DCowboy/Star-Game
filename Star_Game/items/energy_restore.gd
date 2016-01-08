@@ -37,7 +37,7 @@ func _process(delta):
 				get_parent().remove_child(self)
 				hits[0].cargo.add_item(self)
 			else:
-				print('no space available!')
+				pass
 
 
 func use_item():

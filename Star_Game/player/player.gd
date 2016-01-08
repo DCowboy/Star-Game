@@ -11,13 +11,11 @@ var current_ship_instance = {'hull': null, 'status': null, 'cargo': null}
 var controls
 var scale = Vector2(1, 1)
 var speed = 0
-var rotate
+var rotate = 0
 
 func _ready():
 	globals = get_node("/root/globals")
 	name = 'player'
-	controls = preload('res://player/player_control.gd').new()
-	add_child(controls)
 	set_process(true)
 	
 
@@ -32,3 +30,8 @@ func _process(delta):
 	if current_ship_instance.hull != null:
 		if get_node("Camera2D").get_zoom() != scale:
 			get_node("Camera2D").set_zoom(scale)
+
+
+func add_controls(new_controls):
+	controls = new_controls
+	add_child(controls)

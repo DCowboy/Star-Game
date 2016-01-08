@@ -13,8 +13,6 @@ func _ready():
 	size = 1
 	previous_pos = get_pos()
 	current_pos = get_pos()
-	if 'scale' in owner:
-		owner.scale = Vector2(2, 2)
 	burners.append(get_node('hull/burner_left'))
 	burners.append(get_node('hull/burner_center'))
 	burners.append(get_node('hull/burner_right'))
@@ -24,6 +22,7 @@ func _ready():
 	#setting up status and cargo
 	status = owner.current_ship_instance.status
 	cargo = owner.current_ship_instance.cargo
+	cargo.of_ship = self
 	status.ship_of = self
 	status.set_core(core)
 	max_health = core * 50

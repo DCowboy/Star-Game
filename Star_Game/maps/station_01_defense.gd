@@ -118,7 +118,8 @@ func fire():
 	var sender = effect.instance()
 	sender.set_pos(closest_object.get_pos())
 	globals.current_map.add_child(sender)
-	PS2D.body_remove_collision_exception(closest_object.get_rid(), closest_object.owner.get_rid())
+	if 'projectiles' in closest_object.get_groups():
+		PS2D.body_remove_collision_exception(closest_object.get_rid(), closest_object.owner.get_rid())
 	closest_object.apply_impulse(Vector2(0, 0), direction * ((force * closest_object.get_mass()) * 2))
 	closest_object.show()
 	

@@ -16,14 +16,12 @@ var is_shielding = false
 var main_target = null
 var main_target_location = Vector2(0, 0)
 var secondary_target = null
-var mode = 'scouting'
+var mode = 'scout'
 var needs = {}
-var objectives = {}
+var directives = {}
 var current_action = null
 var next_action = null
-var health_ratio
-var energy_ratio
-
+var think_speed = 0
 
 func _ready():
 	globals = get_node("/root/globals")
@@ -33,32 +31,31 @@ func _ready():
 
 
 func _process(delta):
+	think_speed += 1
 	#gather information
 	check_needs()
+	check_directives()
 	#make choices
 	make_choices()
 	
 	#act
 	
 	
-func check_objectives():
-	
-	pass
 
 
 func check_needs():
-	health_ratio = ship.health / ship.max_health
-	energy_ratio = ship.energy / ship.max_energy
-	check_priority('health')
-	check_priority('energy')
+	var health_ratio = ship.health / ship.max_health
+	var energy_ratio = ship.energy / ship.max_energy
+	check_priority(health_ratio, 'health')
+	check_priority(energy_ratio, 'energy')
 	
 	
-func check_priority(need):
-	if need < .25:
+func check_priority(check, need):
+	if check < .25:
 		needs[need] = 1
-	elif need < .5:
+	elif check < .5:
 		needs[need] = 2
-	elif health_ratio < .75:
+	elif check < .75:
 		needs[need] = 3
 	else:
 		if need in needs:

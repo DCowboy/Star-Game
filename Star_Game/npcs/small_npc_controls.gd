@@ -3,12 +3,12 @@ extends Node2D
 
 var globals
 var name
+var aim = Vector2(0, 0) #pseudo mouse cursor position
 var rotate = 0
 var ship = null
-var closest_area = null
-var closest_object = null
-var direction
-var aim
+var closest_thing = null
+var moving_direction 
+var state = 'start'
 var is_turning = false
 var is_thrusting = false
 var is_braking = false
@@ -18,10 +18,10 @@ var main_target_location = Vector2(0, 0)
 var secondary_target = null
 var mode = 'scout'
 var needs = {}
-var directives = {}
 var current_action = null
 var next_action = null
-var think_speed = 0
+var thinking = 0
+var think_speed = 30
 
 func _ready():
 	globals = get_node("/root/globals")
@@ -31,16 +31,27 @@ func _ready():
 
 
 func _process(delta):
-	think_speed += 1
+	moving_direction = ship.get_rot()
+	thinking += 1
 	#gather information
 	check_needs()
-	check_directives()
 	#make choices
 	make_choices()
 	
 	#act
-	
-	
+	if thinking >= think_speed * 2:
+		globals.comm.message(state)
+		thinking = 0
+	if state == 'move':
+		move()
+	elif state == 'turn':
+		turn()
+	elif state == 'brake':
+		decelerate()
+	elif state == 'shoot':
+		fire()
+
+
 
 
 func check_needs():
@@ -63,47 +74,78 @@ func check_priority(check, need):
 	
 
 func make_choices():
-	
+	if not 'health' in needs:
+		if state == 'start' or thinking >= think_speed:
+			randomize()
+			aim.x = rand_range(-1, 1)
+			randomize()
+			aim.y = rand_range(-1, 1)
+			state = 'turn'
+		else:
+			state = 'move'
+
+	else:
+		aim = get_parent().home_station.get_pos()
+		if Vector2(ship.get_pos() - get_parent().home_station.get_pos()).length() > 250:
+			state = 'turn'
+		else:
+			if state == 'move':
+				state = 'brake'
+			else:
+				state = ''
 	pass
 
 
-func search_for_nearest(place_or_item, in_range):
-	var areas = globals.ping_areas
+func search_for_nearest(entity, type, in_range):
+	var type_saught
+	if type == 'resource' or type == 'item':
+		type_saught = globals.ping_areas
+	elif type == 'ship' or type == 'asteroid':
+		type_saught = globals.ping_objects
 	
-	var closest_area_distance = 1025
-	for area in areas:
-		if place_or_item in area.get_groups():
-			var area_distance = Vector2(area.get_pos() - ship.get_pos()).length()
-			if area_distance < closest_area_distance and area_distance <= in_range:
-				closest_area_distance = area_distance
-				closest_area = area
-
-func search_for_closest(thing, in_range):
-	var objects = globals.ping_objects
-	
-	var closest_object_distance = 1025
-	for object in objects:
-		if thing in object.get_groups():
-			var object_distance = Vector2(object.get_pos() - ship.get_pos()).length()
-			if object_distance < closest_object_distance and object_distance <= in_range:
-				closest_object_distance = object_distance
-				closest_object = object
+	var nearest_thing_distance = 1025
+	for thing in type_saught:
+		if entity in thing.get_groups():
+			var thing_distance = Vector2(thing.get_pos() - ship.get_pos()).length()
+			if thing_distance < nearest_thing_distance and thing_distance <= in_range:
+				nearest_thing_distance = thing_distance
+				closest_thing = thing
 
 
-func rotate(angle):
-	rotate = angle
-	print('rotate = ' + str(rotate))
-	
+func move():
+	if  ship.speed < ship.top_speed:
+		accelerate()
+
+
+
+
+func turn():
+	if thinking >= think_speed:
+		globals.comm.message(str(moving_direction) + ' - ' + str(rotate))
+	rotate()
+	if ship.speed >= 100:
+		state = 'brake'
+
+
+#!-----FUNCTIONS TO PASS TO SHIP-----!
+func rotate():
+	rotate = ship.get_pos().angle_to_point(aim)
 	get_parent().rotate = rotate
 
 
 func accelerate():
 	if not ship.shields_up:
 		ship.engage = true
+		ship.brake = false
+		
+		
 
 
 func decelerate():
-	ship.brake = true
+	ship.engage = false
+	if ship.speed > .01:
+		ship.brake = true
+		
 
 
 func fire():

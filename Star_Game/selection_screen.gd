@@ -1,6 +1,6 @@
 
 extends Panel
-#var globals
+var globals
 var client
 var player
 var ship
@@ -12,7 +12,7 @@ var explanation
 var choice
 
 func _ready():
-#	globals = get_node("/root/globals")
+	globals = get_node("/root/globals")
 	client = preload('res://client.scn')
 	player = get_node("/root/player")
 	explanation = get_node("explanation")
@@ -23,6 +23,7 @@ func _ready():
 func _on_confirm_pressed():
 	if 'hull' in ship:
 		if movie_mode:
+			globals.movie_mode = true
 			player.add_controls(preload('res://npcs/small_npc_controls.gd').new())
 		else:
 			player.add_controls(preload('res://player/player_control.gd').new())

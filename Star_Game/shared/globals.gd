@@ -5,6 +5,7 @@ var main_viewport
 var basis_viewport
 var true_scale
 var square_scale
+var movie_mode = false
 
 var maps = {}
 var current_map

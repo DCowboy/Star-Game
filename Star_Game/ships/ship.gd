@@ -84,7 +84,7 @@ func _fixed_process(delta):
 				angular_velocity = 0
 			set_angular_velocity(angular_velocity)
 		set_rot(rot +  sgn * turn_amount)
-		
+		owner.rotate = get_rot()
 		
 
 		
@@ -131,7 +131,7 @@ func _fixed_process(delta):
 	
 	
 	owner.speed = speed
-	owner.rotate = rotate
+	owner.rotate = get_rot()
 	owner.set_pos(get_pos())
 	
 	if health <= 0:

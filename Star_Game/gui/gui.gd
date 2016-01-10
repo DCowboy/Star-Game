@@ -28,28 +28,28 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action("missions") and event.is_pressed():
+	if event.is_action("status") and event.is_pressed():
 		var window_pos = get_node("core_control").get_pos()
 		if window_pos.y >= 135:
 			get_node("core_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))
 		else:
 			get_node("core_control").set_pos(Vector2(window_pos.x, window_pos.y + 256))
 			
-	if event.is_action("status") and event.is_pressed():
+	if event.is_action("cargo") and event.is_pressed():
 		var window_pos = get_node("cargo_control").get_pos()
 		if window_pos.y >= 0:
 			get_node("cargo_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))
 		else:
 			get_node("cargo_control").set_pos(Vector2(window_pos.x, window_pos.y + 256))
 	
-	if event.is_action("radar") and event.is_pressed():
+	if event.is_action("tactical") and event.is_pressed():
 		var window_pos = get_node("tactical_control").get_pos()
 		if window_pos.y >= 135:
 			get_node("tactical_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))
 		else:
 			get_node("tactical_control").set_pos(Vector2(window_pos.x, window_pos.y + 256))
 	
-	if event.is_action("cargo") and event.is_pressed():
+	if event.is_action("comm") and event.is_pressed():
 		var window_pos = get_node("comm_control").get_pos()
 		if window_pos.y >= 0:
 			get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))

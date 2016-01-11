@@ -26,6 +26,9 @@ var weapons = {}
 var current_weapon
 var fire_range
 var payload_modifier
+var energy_collection_rate = .001
+var self_repair_rate = .001
+
 var shields_up = false
 var shield_size
 
@@ -131,11 +134,20 @@ func _fixed_process(delta):
 	
 	
 	owner.speed = speed
-	owner.rotate = get_rot()
+	owner.rotate = rotate
 	owner.set_pos(get_pos())
 	
 	if health <= 0:
 		death()
+
+	#slowly regenerate energy "from neutrino collectors"
+	var regen_multiplier = 1
+	if owner.home_station != null and Vector2(get_pos() - owner.home_station.get_pos()).length() < 250:
+		regen_multiplier = 100
+	if energy < max_energy:
+		energy += energy_collection_rate * status.get_engineering() * regen_multiplier
+	if health < max_health:
+		health += self_repair_rate * status.get_core() * regen_multiplier
 
 
 func engines_engage():

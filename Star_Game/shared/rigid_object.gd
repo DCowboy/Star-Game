@@ -27,8 +27,6 @@ func _ready():
 		size_name = 'large'
 	else:
 		print('something screwy with size in ' + name)
-	
-	set_process(true)
 
 
 func change_health(action, value):
@@ -61,15 +59,6 @@ func change_energy(action, value):
 	elif action == 'set':
 		if value >= 0 and value >= max_energy:
 			energy = value
-
-
-	
-	
-	
-func _process(delta):
-	#slowly regenerate energy "from neutrino collectors"
-	if max_energy > 0 and energy < max_energy:
-		energy += .0001
 
 
 func _integrate_forces(state):

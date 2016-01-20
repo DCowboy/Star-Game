@@ -24,8 +24,7 @@ var cursor_frame = 0
 var comm
 
 var mini_map_size = Vector2(0, 0)
-var ping_objects
-var ping_areas
+
 
 func _ready():
 

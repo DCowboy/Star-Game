@@ -9,13 +9,13 @@ var radar_bg
 var radar_background 
 var radar_area = 5
 var blip
-var globals
+#var globals
 var player
 
 
 func _ready():
 	blip = preload('res://gui/mini_map_sprites.scn')
-	globals = get_node("/root/globals")
+#	globals = get_node("/root/globals")
 	player = get_node("/root/player")
 	radar_bg = get_node("Viewport/mini_map_bg")
 #	radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
@@ -30,8 +30,8 @@ func _process(delta):
 		radar_background = radar_bg.get_texture().get_size() * radar_bg.get_transform().get_scale()
 		radar_area = 12 * player.scale.x
 #	#get pings from mini_map_tracker
-	pings = globals.ping_areas
-	pings += globals.ping_objects
+	pings = player.ping_areas
+	pings += player.ping_objects
 	#clear pings
 	free_pings()
 	#add pings

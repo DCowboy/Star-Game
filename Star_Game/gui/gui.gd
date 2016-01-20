@@ -101,9 +101,12 @@ func _on_cargo_hold_button_toggled( pressed ):
 	if window_pos.y >= 0:
 		get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y - 256))
 		get_node("comm_control/comm_bg/comm/large_panel").show()
+		get_node("comm_control/comm_bg/comm/small_panel").hide()
+		
 	else:
 		get_node("comm_control").set_pos(Vector2(window_pos.x, window_pos.y + 256))
 		get_node("comm_control/comm_bg/comm/large_panel").hide()
+		get_node("comm_control/comm_bg/comm/small_panel").show()
 	
 
 

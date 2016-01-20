@@ -31,8 +31,8 @@ func _fixed_process(delta):
 	ping_bodies = get_overlapping_bodies()
 	ping_areas = get_overlapping_areas()
 #	pings += get_overlapping_areas()
-	globals.ping_objects = ping_bodies
-	globals.ping_areas = ping_areas
+	owner.ping_objects = ping_bodies
+	owner.ping_areas = ping_areas
 	
 
 func _screen_size_changed():

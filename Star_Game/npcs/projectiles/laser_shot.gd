@@ -7,6 +7,7 @@ var acceleration
 var shot_acceleration = 250
 var origin
 var fire_range
+var traveled
 var payload 
 var exploding = false
 
@@ -21,7 +22,8 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
-	if abs(Vector2(get_pos() - origin).length()) >= fire_range:
+	traveled = Vector2(get_pos() - origin).length()
+	if traveled >= fire_range:
 		exploding = true
 	if exploding:
 		set_linear_velocity(Vector2(0, 0))

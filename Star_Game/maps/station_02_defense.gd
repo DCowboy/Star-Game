@@ -5,7 +5,7 @@ const type = 'cannon'
 const fire_range = 512
 const aim_range = 768
 var name = 'chentia station defense'
-var payload = 20
+var payload = 50
 var max_health
 var health
 var max_energy
@@ -19,7 +19,8 @@ var owner
 var ammo
 var shot_count = 0
 var fire_delay = 0
-var fire_rate = 60
+var fire_rate = 30
+
 var allies
 
 func _ready():

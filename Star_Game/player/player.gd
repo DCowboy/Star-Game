@@ -12,6 +12,8 @@ var controls
 var scale = Vector2(1, 1)
 var speed = 0
 var rotate = 0
+var ping_objects
+var ping_areas
 
 func _ready():
 	globals = get_node("/root/globals")

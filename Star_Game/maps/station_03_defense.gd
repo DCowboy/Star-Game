@@ -30,6 +30,7 @@ func _ready():
 	health = max_health
 	max_energy = 50 * owner.engineering
 	energy = max_energy
+	
 	shield = get_node("shield")
 	shield.set_material(shield.get_material().duplicate(true))
 	shield.get_material().set_shader_param("ratio", shield_alpha)

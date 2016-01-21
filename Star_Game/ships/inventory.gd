@@ -50,11 +50,10 @@ func add_item(item):
 		slot.update()
 	
 	
-func move_item(item, pos, from):
+func move_item(item, pos):
 	item.get_parent().remove_child(item)
 	pos.add_child(item)
 	pos.move_child(item, 0)
-	slide_items(from)
 	
 	
 func switch_item(pos1, pos2):
@@ -67,7 +66,7 @@ func switch_item(pos1, pos2):
 	slot1.add_child(item2)
 	slot1.move_child(item2, 0)
 	slot2.add_child(item1)
-	slot2.move_child(item2, 0)
+	slot2.move_child(item1, 0)
 	display.get_node('message').set_text('Last switched contents of slot ' + str(pos1 + 1) + ' and slot ' + str(pos2 + 1))
 	
 	
@@ -104,11 +103,13 @@ func on_button_pressed(button):
 	elif item_highlighted == true and slot_clicked.get_child(0) == slot_clicked.get_node('highlight'):
 		var item = get_child(highlighted_item).get_child(0)
 		display.get_node('message').set_text('moved ' + item.name + ' from slot ' + str(highlighted_item + 1) + ' to slot ' + str(button + 1))
-		move_item(item, slot_clicked, highlighted_item)
 		item_highlighted = false
+		get_child(highlighted_item).get_node('highlight').hide()
+		move_item(item, slot_clicked)
 	elif item_highlighted == true and slot_clicked.get_child(0) != slot_clicked.get_node('highlight'):
+		item_highlighted = false
+		get_child(highlighted_item).get_node('highlight').hide()
 		switch_item(highlighted_item, button)
-		
 	else:
 		display.get_node('message').set_text('If you wish to move an item here, click the \n item you wish to move first.')
 

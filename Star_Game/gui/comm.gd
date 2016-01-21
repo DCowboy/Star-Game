@@ -25,3 +25,15 @@ func message(text, time=-1):
 #		prefix = "<"+format.time(time)+">  "
 	small_chat.append_bbcode(prefix+text)
 	large_chat.append_bbcode(prefix+text)
+
+
+func _on_comm_input_text_entered( text ):
+	pass # replace with function body
+
+
+func _on_comm_input_focus_enter():
+	pass # replace with function body
+
+
+func _on_comm_input_focus_exit():
+	pass # replace with function body

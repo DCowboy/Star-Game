@@ -57,10 +57,3 @@ func use_item():
 	owner.change_health('add', 25)
 	queue_free()
 	
-
-func _on_bubble_toggled( pressed ):
-	if str(get_parent().get_name()).find('slot') != -1:
-		get_parent().get_parent().currently_used.erase(self)
-		use_item()
-	else:
-		pass

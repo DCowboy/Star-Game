@@ -88,7 +88,6 @@ func use_item(item):
 
 func on_button_pressed(button):
 	var slot_clicked = get_child(button)
-	#need to think about and implement determination between empty and not empty as well as highlighted or not.
 	if item_highlighted == false and slot_clicked.get_child(0) != slot_clicked.get_node('highlight'):
 		slot_clicked.get_node('highlight').show()
 		highlighted_item = button

@@ -1,31 +1,32 @@
 
-
-sizes = {'small': {'base': 3,
+ships = {}
+sizes = {'small': {'base_stat': 3, 
                    'vessel+': 1, 'vessel-': -0,
-                   'race+': 1, 'race-': -1},
-         'medium': {'base': 5,
+                   'race+': 1, 'race-': -2},
+         'medium': {'base_stat': 6, 
                     'vessel+': 2, 'vessel-': -1,
-                    'race+': 2, 'race-': -0},
-         'large': {'base': 8,
+                    'race+': 2, 'race-': -1},
+         'large': {'base_stat': 9,
                    'vessel+': 3, 'vessel-': -2,
-                   'race+': 3, 'race-': 1}}
+                   'race+': 3, 'race-': 0}}
 
-variations = {'defensive': {'tactical': '=', 'core': '+', 'engineering': '-'},
-              'supply': {'tactical': '-', 'core': '=', 'engineering': '+'},
-              'assault': {'tactical': '+', 'core': '-', 'engineering': '='}}
+variations = {'combat': {'tactical': '+', 'operations': '=', 'engineering': '-'},
+              'supply': {'tactical': '-', 'operations': '+', 'engineering': '='},
+              'scout': {'tactical': '=', 'operations': '-', 'engineering': '+'}}
 
-races = {'Chentia': {'tactical': '+', 'core': '=', 'engineering': '-'},
-         'Urthrax': {'tactical': '-', 'core': '+', 'engineering': '='},
-         'Terran': {'tactical': '=', 'core': '-', 'engineering': '+'}}
+races = {'Chentia': {'tactical': '+', 'operations': '-', 'engineering': '='},
+         'Urthrax': {'tactical': '=', 'operations': '+', 'engineering': '-'},
+         'Terran': {'tactical': '-', 'operations': '=', 'engineering': '+'}}
 
-def stat_mod(size, race, variation):
-    stats = {'tactical': sizes[size]['base'],
-             'core': sizes[size]['base'],
-             'engineering': sizes[size]['base']}
-    print(' ')
-    print('stats: ' + size + ' ' + race + ' ' + variation)
-    for stat, value in stats.items():
-        print(stat + ' old value: ' + str(value))
+def set_stats(size, race, variation):
+    stats = {'tactical': sizes[size]['base_stat'],
+             'operations': sizes[size]['base_stat'],
+             'engineering': sizes[size]['base_stat']}
+    total = 0
+#    print(' ')
+#    print('stats: ' + size + ' ' + race + ' ' + variation)
+    for stat in sorted(stats):
+#        print(stat + ' old value: ' + str(stats[stat]))
         if variations[variation][stat] == '+':
             stats[stat] += sizes[size]['vessel+']
         elif variations[variation][stat] == '-':
@@ -35,175 +36,249 @@ def stat_mod(size, race, variation):
             stats[stat] += sizes[size]['race+']
         elif races[race][stat] == '-':
             stats[stat] += sizes[size]['race-']
-        print(stat + ' new value: ' + str(stats[stat]))
         
+        total += stats[stat]
+#        print(stat + ' new value: ' + str(stats[stat]))
         
+    stats['total'] = total   
     return stats
 
-def get_upgrade_slots(size, stats):
-    upgrades = {}
+def set_upgrade_slots(size, stats):
+    upgrades = {'tactical': 0,
+                'operations': 0,
+                'engineering': 0}
     total = 0
-    for stat, value in stats.items():
+
+        
+    for stat in sorted(upgrades):
+        slots = upgrades[stat]
         if size == 'small':
-            if stats[stat] <= 2:
-                upgrades[stat] = 0
-            elif stats[stat] <= 3:
-                upgrades[stat] = 1
-                total += 1
-            elif stats[stat] <= 5:
-                upgrades[stat] = 2
-                total += 2
+            if stats[stat] < 2:
+                slots += 0
+            elif stats[stat] < 4:
+                slots += 1
+            elif stats[stat] < 5:
+                slots += 2
             else:
-                upgrades[stat] = 3
-                total += 3
+                slots += 3
         elif size == 'medium':
-            if stats[stat] <= 1:
-                upgrades[stat] = 0
-            elif stats[stat] <= 3:
-                upgrades[stat] = 1
-                total += 1
-            elif stats[stat] <= 4:
-                upgrades[stat] = 2
-                total += 2
-            elif stats[stat] <=6:
-                upgrades[stat] = 3
-                total += 3
+            if stats[stat] < 5:
+                slots += 0
+            elif stats[stat] < 6:
+                slots += 1
+            elif stats[stat] < 8:
+                slots += 2
+            elif stats[stat] < 9:
+                slots += 3
             else:
-                upgrades[stat] = 4
-                total += 4
+                slots += 4
         elif size == 'large':
-            if stats[stat] <= 3:
-                upgrades[stat] = 2
-                total += 2
-            elif stats[stat] <= 7:
-                upgrades[stat] = 3
-                total += 3
-            elif stats[stat] <= 9:
-                upgrades[stat] = 4
-                total += 4
+            if stats[stat] < 9:
+                slots += 2
+            elif stats[stat] < 11:
+                slots += 3
+            elif stats[stat] < 14:
+                slots += 4
             else:
-                upgrades[stat] = 5
-                total += 5
+                slots += 5
+
+            
+
+        upgrades[stat] = slots  
+        total += upgrades[stat]
+    
     upgrades['total'] = total
     return upgrades
 
-def get_equip_slots(sz, var, stats):
-    equips = {'weapons': 0, 'defense': 0, 'supply': 0}
+def set_equip_slots(size, variation, stats):
+    equips = {'armaments': {'slots': 3, 'draw': 0},
+              'navigation': {'slots': 3, 'draw': 0},
+              'supply': {'slots': 3, 'draw': 0}}
     main = None
     secondary = None
     tertiary = None
     total = 0
-    for equip, value in equips.items():
-        if equip == 'weapons':
-            main = stats['tactical']
-            secondary = stats['engineering']
-            tertiary = stats['core']
-        elif equip == 'defense':
-            main = stats['core']
-            secondary = stats['tactical']
+    for equip in sorted(equips):
+        slots = equips[equip]['slots']
+        base = None
+        limits =(2, 4)
+        if size == 'small':
+            slots -= 1
+
+        elif size == 'large':
+            slots += 1
+            
+        if equip == 'armaments':
+            base = 'tactical'
+            main = stats[base]
+            secondary = stats['operations']
             tertiary = stats['engineering']
+            if variation == 'combat':
+                slots += 1
+            elif variation == 'supply':
+                slots -= 1
+                
+        elif equip == 'navigation':
+            base = 'engineering'
+            main = stats[base]
+            secondary = stats['tactical']
+            tertiary = stats['operations']
+            if variation == 'combat':
+                slots -= 1
+            elif variation == 'scout':
+                slots += 1
+                
         elif equip == 'supply':
-            main = stats['engineering']
-            secondary = stats['core']
+            base = 'operations'
+            main = stats[base]
+            secondary = stats['engineering']
             tertiary = stats['tactical']
-        check1 = int((main + (2*secondary/3) + (tertiary/3)) / 3)
-        check2 = round((main + (2*secondary/3) + (tertiary/3)))
-        check3 = round(main + (secondary/2) + (tertiary/4))
-        check4 = main + secondary
-        print(str(check1) + ' -> ' + str(check2) + ' -> ' + str(check3) + ' -> ' + str(check4))
-        
-         
-        slots = '' #int(((main) + ( (3-size) * secondary / (3)) + (size * tertiary / (3))) / 2)
-        if sz == 'small':
-            slots = int((main + secondary) / 2)
-        elif sz == 'medium':
-            slots = int((main + secondary) / 3)
-        elif sz == 'large':
-            slots = int((main + secondary) / 5)
-        print('equip_slot: ' + equip + ' ' + str(slots) + '| main: ' + str(main)
-              + ' secondary: ' + str(secondary) + ' tertiary: ' +str(tertiary))
-        equips[equip] = slots
-        total += slots
+            if variation == 'supply':
+                slots += 1
+            elif variation == 'scout':
+                slots -= 1
+                
+        check = round((main + (2*secondary/3) + (tertiary/3)))
+##        check2 = round(main + (secondary/2) + (tertiary/4))
+        equips[equip]['draw'] = round(check / 3)
+        equips[equip]['slots'] = round(slots)
+        total += equips[equip]['slots']
+
     equips['total'] = total
     return equips
 
 
-def print_stats():
+def build_ships():
+    for size in sorted(sizes):
 
-    pass
+        for race in sorted(races):
+
+            for variation in sorted(variations):
+                kind = size + race + variation
+                stats = set_stats(size, race, variation)
+                upgrades = set_upgrade_slots(size, stats)
+                equips = set_equip_slots(size, variation, stats)
+                data = {'size': size, 'race': race, 'variation': variation,
+                        'stats': stats, 'upgrade_slots': upgrades,
+                        'equip_slots': equips}
+
+                ships[kind] = data
+
+
+def print_stats():
+    print('STATS')
+    print('| ship                   | tac | ops | eng | tot |')
+    for ship in sorted(ships):
+        name = ships[ship]['size'] + ' ' + ships[ship]['race'] + ' ' + ships[ship]['variation']          
+        tact = ships[ship]['stats']['tactical']
+        core = ships[ship]['stats']['operations']
+        engg = ships[ship]['stats']['engineering']
+        tots = ships[ship]['stats']['total']
+
+        print('|------------------------|-----+-----+-----|-----|')
+        print('| {0:22} | {1:3} | {2:3} | {3:3} | {4:3} |'.format(name, tact, core, engg, tots))
     
 
 def print_upgrades():
+    print('UPGRADES')
+    print('| ship                   | tac | ops | eng | tot |')
+    for ship in sorted(ships):
+        name = ships[ship]['size'] + ' ' + ships[ship]['race'] + ' ' + ships[ship]['variation']          
+        tact = ships[ship]['upgrade_slots']['tactical']
+        core = ships[ship]['upgrade_slots']['operations']
+        engg = ships[ship]['upgrade_slots']['engineering']
+        tots = ships[ship]['upgrade_slots']['total']
+
+        print('|------------------------|-----+-----+-----|-----|')
+        print('| {0:22} | {1:3} | {2:3} | {3:3} | {4:3} |'.format(name, tact, core, engg, tots))
 
     pass
 
 
 def print_equipment():
+    print('EQUIPMENT')
+    print('| ship                   | arm + drw | nav + drw | sup + drw | tot + drt |')
+    for ship in sorted(ships):
+        name = ships[ship]['size'] + ' ' + ships[ship]['race'] + ' ' + ships[ship]['variation']          
+        arms = ships[ship]['equip_slots']['armaments']['slots']
+        adrw = ships[ship]['equip_slots']['armaments']['draw']
+        defn = ships[ship]['equip_slots']['navigation']['slots']
+        ddrw = ships[ship]['equip_slots']['navigation']['draw']
+        supp = ships[ship]['equip_slots']['supply']['slots']
+        sdrw = ships[ship]['equip_slots']['supply']['draw']
+        tots = ships[ship]['equip_slots']['total']
+        dtot = adrw + ddrw + sdrw
+
+        print('|------------------------|-----+-----+-----+-----+-----+-----|-----+-----|')
+        print('| {0:22} | {1:3} | {2:3} | {3:3} | {4:3} | {5:3} | {6:3} | {7:3} | {8:3} |'.format(name, arms, adrw, defn, ddrw, supp, sdrw, tots, dtot))
 
     pass
 
 
 def print_totals():
+    print('TOTALS')
+    print('| ship                   | stt | upt | eqt | uet |')
+    for ship in sorted(ships):
+        name = ships[ship]['size'] + ' ' + ships[ship]['race'] + ' ' + ships[ship]['variation']          
+        stot = ships[ship]['stats']['total']
+        utot = ships[ship]['upgrade_slots']['total']
+        etot = ships[ship]['equip_slots']['total']
+        tots = utot + etot
+
+        print('|------------------------|-----+-----+-----|-----|')
+        print('| {0:22} | {1:3} | {2:3} | {3:3} | {4:3} |'.format(name, stot, utot, etot, tots))
 
     pass
 
 
 def main():
-    ships = {}
-    for size, value in sizes.items():
-        sz = size
-        for race, value in races.items():
-            rce =race
-            for variation, value in variations.items():
-                var = variation
-                stats = stat_mod(sz, rce, var)
-                upgrades = get_upgrade_slots(sz, stats)
-                equips = get_equip_slots(sz, var, stats)
-                kind = str(sz + rce + var)
-                data = {'size': sz, 'race': rce, 'variation': var,
-                        'stats': stats, 'upgrade_slots': upgrades,
-                        'equip_slots': equips}
-                
-                ships[kind] = data
-
-    print('ship     | tact | core | engg | tupg | cupg | eupg | utot | weap | defn | supp | etot | ttot')
+    build_ships()
+    print_stats()
+    print('')
+    print_upgrades()
+    print('')
+    print_equipment()
+    print('')
+    print_totals()
     
-    for ship in sorted(ships):
-        name = ''
-        if ships[ship]['size'] == 'small':
-            name += 'S-'
-        elif ships[ship]['size'] == 'medium':
-            name += 'M-'
-        elif ships[ship]['size'] == 'large':
-            name += 'L-'       
-        if ships[ship]['race'] == 'Chentia':
-            name += 'C-'
-        elif ships[ship]['race'] == 'Urthrax':
-            name += 'U-'
-        elif ships[ship]['race'] == 'Terran':
-            name += 'T-'
-        if ships[ship]['variation'] == 'defensive':
-            name += 'defv'
-        elif ships[ship]['variation'] == 'supply':
-            name += 'supp'
-        elif ships[ship]['variation'] == 'assault':
-            name += 'aslt'            
-        tact = ships[ship]['stats']['tactical']
-        tupg = ships[ship]['upgrade_slots']['tactical']
-        core = ships[ship]['stats']['core']
-        cupg = ships[ship]['upgrade_slots']['core']
-        engg = ships[ship]['stats']['engineering']
-        eupg = ships[ship]['upgrade_slots']['engineering']
-        utot = ships[ship]['upgrade_slots']['total']
-        weap = ships[ship]['equip_slots']['weapons']
-        defn = ships[ship]['equip_slots']['defense']
-        supp = ships[ship]['equip_slots']['supply']
-        etot = ships[ship]['equip_slots']['total']
-        ttot = utot + etot
-        print('---------+------+------+------+------+------+------+------+------+------+------+------+-----')
-        print('{0:1} | {1:4} | {2:4} | {3:4} | {4:4} | {5:4} | {6:4} | {7:4} | {8:4} | {9:4} | {10:4} | {11:4} | {12:4}'.format(name, tact, core, engg, tupg, cupg,
-                                            eupg, utot, weap, defn, supp, etot,
-                                            ttot))
+##    print('| ship    | tac | ops | eng | tup | oup | eup | utt | arm | nav | sup | ett | tot |')
+##    
+##    for ship in sorted(ships):
+##        name = ''
+##        if ships[ship]['size'] == 'small':
+##            name += 'S-'
+##        elif ships[ship]['size'] == 'medium':
+##            name += 'M-'
+##        elif ships[ship]['size'] == 'large':
+##            name += 'L-'       
+##        if ships[ship]['race'] == 'Chentia':
+##            name += 'C-'
+##        elif ships[ship]['race'] == 'Urthrax':
+##            name += 'U-'
+##        elif ships[ship]['race'] == 'Terran':
+##            name += 'T-'
+##        if ships[ship]['variation'] == 'combat':
+##            name += 'cbt'
+##        elif ships[ship]['variation'] == 'supply':
+##            name += 'sup'
+##        elif ships[ship]['variation'] == 'scout':
+##            name += 'sct'            
+##        tact = ships[ship]['stats']['tactical']
+##        tupg = ships[ship]['upgrade_slots']['tactical']
+##        core = ships[ship]['stats']['operations']
+##        cupg = ships[ship]['upgrade_slots']['operations']
+##        engg = ships[ship]['stats']['engineering']
+##        eupg = ships[ship]['upgrade_slots']['engineering']
+##        utot = ships[ship]['upgrade_slots']['total']
+##        arms = ships[ship]['equip_slots']['armaments']['slots']
+##        defn = ships[ship]['equip_slots']['navigation']['slots']
+##        supp = ships[ship]['equip_slots']['supply']['slots']
+##        etot = ships[ship]['equip_slots']['total']
+##        ttot = utot + etot
+##        print('|---------|-----+-----+-----|-----+-----+-----|-----|-----+-----+-----|-----|-----|')
+##        print('| {0:1} | {1:3} | {2:3} | {3:3} | {4:3} | {5:3} | {6:3} | {7:3} | {8:3} | {9:3} | {10:3} | {11:3} | {12:3} |'.format(name, tact, core, engg, tupg, cupg,
+##                                            eupg, utot, arms, defn, supp, etot,
+##                                            ttot))
 
         
 

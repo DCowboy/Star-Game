@@ -92,8 +92,8 @@ func _fixed_process(delta):
 
 		
 	if engage and energy > .01:
-		force_direction.x = cos(get_rot() + deg2rad(90))
-		force_direction.y = -sin(get_rot() + deg2rad(90))
+		force_direction.x = -(sin(get_rot()))
+		force_direction.y = -(cos(get_rot()))
 		force_direction = force_direction.normalized()
 
 		if speed <= top_speed  or force_direction.dot(facing_direction) <= 0:

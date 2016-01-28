@@ -101,7 +101,7 @@ func fire(acceleration):
 	shot.set_pos(get_global_pos() - Vector2(0, weapon_size.y / 2).rotated(get_rot()))
 	shot.origin = shot.get_pos()
 	shot.set_rot(get_rot())
-	shot.direction = Vector2(cos(get_rot() + deg2rad(90)), -sin(get_rot() + deg2rad(90)))
+	shot.direction = -Vector2(sin(get_rot()), cos(get_rot()))
 	shot.acceleration = acceleration
 	#sets a unique name to later be identified if needed
 	shot.set_name(shot.get_name() + ' ' + str(shot_count))

@@ -137,7 +137,7 @@ def set_equip_slots(size, variation, stats):
                 slots += 1
             elif variation == 'scout':
                 slots -= 1
-                
+
         check = round((main + (2*secondary/3) + (tertiary/3)))
 ##        check2 = round(main + (secondary/2) + (tertiary/4))
         equips[equip]['draw'] = round(check / 3)
@@ -145,6 +145,7 @@ def set_equip_slots(size, variation, stats):
         total += equips[equip]['slots']
 
     equips['total'] = total
+    equips['formula'] = 'round((main + (2*secondary/3) + (tertiary/3)) / 3)'
     return equips
 
 
@@ -209,9 +210,10 @@ def print_equipment():
         tots = ships[ship]['equip_slots']['total']
         dtot = adrw + ddrw + sdrw
 
-        print('|------------------------|-----+-----+-----+-----+-----+-----|-----+-----|')
+        print('|------------------------|-----+-----|-----+-----|-----+-----|-----+-----|')
         print('| {0:22} | {1:3} | {2:3} | {3:3} | {4:3} | {5:3} | {6:3} | {7:3} | {8:3} |'.format(name, arms, adrw, defn, ddrw, supp, sdrw, tots, dtot))
 
+    print('draw formula: ' + str(ships[ship]['equip_slots']['formula']))
     pass
 
 
@@ -225,7 +227,7 @@ def print_totals():
         etot = ships[ship]['equip_slots']['total']
         tots = utot + etot
 
-        print('|------------------------|-----+-----+-----|-----|')
+        print('|------------------------|-----|-----+-----|-----|')
         print('| {0:22} | {1:3} | {2:3} | {3:3} | {4:3} |'.format(name, stot, utot, etot, tots))
 
     pass

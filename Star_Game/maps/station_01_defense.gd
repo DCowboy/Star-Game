@@ -3,7 +3,7 @@ extends RigidBody2D
 
 const type = 'cannon'
 const fire_range = 512
-const aim_range = 768
+const aim_range = 1024
 var name = 'terran station defense'
 var effect
 var fire_delay = 0
@@ -112,7 +112,7 @@ func fire():
 	else:
 		set_rot(aim)
 	closest_object.set_rot(aim)
-	var direction = Vector2(cos(aim + deg2rad(90)), -sin(aim + deg2rad(90)))
+	var direction = -Vector2(sin(aim), cos(aim))
 	var force = closest_object.get_linear_velocity().length()
 	closest_object.set_pos(get_pos() + Vector2(direction.normalized() * fire_range))
 	var sender = effect.instance()

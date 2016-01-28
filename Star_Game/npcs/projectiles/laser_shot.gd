@@ -5,9 +5,9 @@ var name = 'laser_shot'
 var direction
 var acceleration
 var shot_acceleration = 250
-var origin
-var fire_range
-var traveled
+#var origin
+var fire_range 
+var traveled = 0
 var payload 
 var exploding = false
 
@@ -22,7 +22,7 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
-	traveled = Vector2(get_pos() - origin).length()
+	traveled += 1
 	if traveled >= fire_range:
 		exploding = true
 	if exploding:

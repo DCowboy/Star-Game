@@ -4,7 +4,7 @@ var owner
 var name = 'laser_shot'
 var direction
 var acceleration
-var shot_acceleration = 250
+var shot_acceleration = 500
 var origin
 var fire_range
 var payload

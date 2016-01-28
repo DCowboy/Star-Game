@@ -16,7 +16,7 @@ func _ready():
 	player = get_node("/root/player")
 	ammo = preload('res://npcs/projectiles/laser_shot.scn')
 	owner = get_parent().get_parent().get_parent()
-	fire_range = 500
+	fire_range = 60
 	payload *= owner.payload_modifier
 	set_process(true)
 
@@ -38,14 +38,14 @@ func fire():
 		#there has got to be a better way to set the position correctly
 		var weapon_size = get_node('Sprite').get_texture().get_size()
 		shot.set_pos(get_global_pos() - Vector2(0, weapon_size.y / 2).rotated(owner.get_rot()))
-		shot.origin = shot.get_pos()
+#		shot.origin = shot.get_pos()
 		shot.set_rot(owner.get_rot())
-		shot.direction = Vector2(cos(owner.get_rot() + deg2rad(90)), -sin(owner.get_rot() + deg2rad(90)))
+		shot.direction = -Vector2(sin(owner.get_rot()), cos(owner.get_rot()))
 		shot.acceleration = owner.get_linear_velocity().length()
 		#sets a unique name to later be identified if needed
 		shot.set_name(shot.get_name() + ' ' + str(shot_count))
 		shot.owner = owner
-		shot.fire_range = fire_range + owner.get_linear_velocity().length()
+		shot.fire_range = fire_range #+ owner.get_linear_velocity().length()
 		shot.payload = payload
 		add_to_group('object', true)
 		globals.current_map.add_child(shot)

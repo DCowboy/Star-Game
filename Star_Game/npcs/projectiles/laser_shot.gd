@@ -35,6 +35,7 @@ func _fixed_process(delta):
 	else:
 		if get_linear_velocity().length() <= shot_acceleration:
 			apply_impulse(Vector2(0, 0), direction * shot_acceleration)
+			
 
 func _integrate_forces(state):
 	var count = state.get_contact_count()

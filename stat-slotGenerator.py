@@ -53,35 +53,38 @@ def set_upgrade_slots(size, stats):
     for stat in sorted(upgrades):
         slots = upgrades[stat]
         if size == 'small':
-            if stats[stat] < 2:
-                slots += 0
-            elif stats[stat] < 4:
-                slots += 1
-            elif stats[stat] < 5:
-                slots += 2
-            else:
-                slots += 3
+##            if stats[stat] < 2:
+##                slots += 0
+##            elif stats[stat] < 4:
+##                slots += 1
+##            elif stats[stat] < 5:
+##                slots += 2
+##            else:
+##                slots += 3
+            slots += round(stats[stat] / 1.7 -.5, 0)
         elif size == 'medium':
-            if stats[stat] < 5:
-                slots += 0
-            elif stats[stat] < 6:
-                slots += 1
-            elif stats[stat] < 8:
-                slots += 2
-            elif stats[stat] < 9:
-                slots += 3
-            else:
-                slots += 4
+##            if stats[stat] < 5:
+##                slots += 0
+##            elif stats[stat] < 6:
+##                slots += 1
+##            elif stats[stat] < 8:
+##                slots += 2
+##            elif stats[stat] < 9:
+##                slots += 3
+##            else:
+##                slots += 4
+            slots += round(stats[stat] / 2.5 -.5, 0)
         elif size == 'large':
-            if stats[stat] < 9:
-                slots += 2
-            elif stats[stat] < 11:
-                slots += 3
-            elif stats[stat] < 14:
-                slots += 4
-            else:
-                slots += 5
-
+##            if stats[stat] < 9:
+##                slots += 2
+##            elif stats[stat] < 11:
+##                slots += 3
+##            elif stats[stat] < 14:
+##                slots += 4
+##            else:
+##                slots += 5
+            slots += round(stats[stat] / 3 -.5, 0)
+        
             
 
         upgrades[stat] = slots  
